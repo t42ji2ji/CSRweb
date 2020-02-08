@@ -1,16 +1,17 @@
 <template lang="pug">
   .question
     .adjust
-      h3 {{fileName}}
-      .quote(v-for="(question, index) in fileData.questions")
-        Table(:hover="false", :data="item.data", :type="item.type", v-for="(item, index) in question.q", :key="index" :id="'table'+index", :class="{'tableOdd':index%2 != 1}")
-      .btn(v-if="isUploadPage") send
+      h3(ref="input1111") {{fileName}}
+      .quote(v-for="(question, questionIndex) in fileData.questions")
+        Table(:hover="false", :data="item.data", :type="item.type", v-for="(item, index) in question.q", :key="index" :id="'table'+index", :class="{'tableOdd':index%2 != 1}", :tag="fileName + questionIndex + index")
+      .btn(v-if="isUploadPage", @click="testF") send
+
 </template>
 
 <script>
 import Table from "../../components/Table";
 import questionField from "../../assets/questionData/hr";
-import questionFieldnew from "../../assets/questionData/hrnew";
+import { mapState } from "vuex";
 
 export default {
   props: {
@@ -37,6 +38,20 @@ export default {
   components: {
     Table
   },
+  methods: {
+    testF() {
+      var vm = this;
+      // eslint-disable-next-line no-unused-vars
+      this.InputTitle.hr.forEach((value, index) => {
+        console.log(vm.$refs[value][0].form.parentId);
+      });
+    }
+  },
+  computed: {
+    ...mapState({
+      InputTitle: "InputTitle"
+    })
+  },
   mounted() {},
   data() {
     return {
@@ -46,8 +61,7 @@ export default {
         ["Female", "1", "normal"]
       ],
       test: "input",
-      questionsnew: questionFieldnew.excelData,
-      questions: questionField.data.questions,
+      questions: questionField.excelData,
       questionField: [
         ["Directors", "2", "bold"],
         ["", "1", "normal"],
@@ -61,7 +75,6 @@ export default {
 <style lang="scss" scoped>
 .question {
   width: 100%;
-
   .adjust {
     width: 100%;
     display: flex;
@@ -75,8 +88,8 @@ export default {
 }
 
 .btn {
-  margin-top: 20px;
   border: 1px solid #42b983;
+  margin-bottom: 40px;
   width: 100px;
   padding: 5px 20px;
   color: #42b983;

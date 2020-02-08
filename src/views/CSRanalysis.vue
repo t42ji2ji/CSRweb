@@ -3,7 +3,6 @@
     h2 CSR 資訊分析
     h4 CSR Information Analysis
     //- h3 {{fileTotal}}
-      //- bar-chart(v-for="data in fileTotal[0]", :chart-data="fillChartData", :options="options")
     .flobatbtnGroup
       .floatbtn(@click="handleUpload") +
       .btnInfo 上傳檔案

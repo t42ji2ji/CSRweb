@@ -9,23 +9,26 @@
   #nav
     .tab
       router-link(to='/') 
-        font-awesome-icon(icon="file-alt") 
+        font-awesome-icon(icon="tasks") 
         span  CSR資訊管理
       router-link(to='/about')
+        font-awesome-icon(icon="file-excel") 
+        span  CSR資訊分析
+      router-link(to='/Management')
         font-awesome-icon(icon="user") 
-        span  CSR資訊分析
-      router-link(to='/account')
-        font-awesome-icon(icon="user-secret") 
-        span  CSR資訊分析
+        span  表單管理
+      router-link(to='/login')
+        font-awesome-icon(icon="user") 
+        span  登入
     .logo()
   router-view
 
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import HR from "./components/questions/HR";
-import HRdata from "./assets/questionData/hrnew";
+import { mapActions } from 'vuex';
+import HR from './components/questions/HR';
+import HRdata from './assets/questionData/hrnew';
 
 export default {
   components: {
@@ -38,11 +41,6 @@ export default {
     FileData() {
       return this.$store.state.FileData;
     }
-    // ...mapState[
-    //   {
-    //     FileData: 'FileData'
-    //   }
-    // ]
   },
   data() {
     return {
@@ -51,7 +49,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      openBlackBg: "isShowBlackBg"
+      openBlackBg: 'isShowBlackBg'
     }),
     OpenTable() {
       this.openBlackBg();
@@ -92,7 +90,7 @@ $green: #42b983;
 }
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -176,7 +174,7 @@ $green: #42b983;
     background-position: 0 center;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url("https://www.google.com.tw/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png");
+    background-image: url('https://www.google.com.tw/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png');
   }
 }
 </style>

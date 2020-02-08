@@ -13,7 +13,7 @@ function exportExcel(json, name) {
   for (const key1 in json) {
     if (json.hasOwnProperty(key1)) {
       const element = json[key1];
-      var rowDataArray = new Array();
+      var rowDataArray = [];
       for (const key2 in element) {
         if (element.hasOwnProperty(key2)) {
           const element2 = element[key2];
@@ -125,10 +125,8 @@ function getLength(obj) {
 
   var count = 0;
   for (var i in obj) {
-
     if (obj.hasOwnProperty(i)) {
       count++;
-
     }
   }
 

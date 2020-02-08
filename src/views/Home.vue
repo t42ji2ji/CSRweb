@@ -1,22 +1,32 @@
 <template lang="pug">
-  .home
+  .home(v-if="isLogin")
     h2 CSR 資訊管理
     h4 CSR Information Management
-    .tablegroup
+    .tablegroup()
       Table(:data="csrTitle", :hover="isTitle" )
-      Table(v-for="(item,index) in csrData", :data="item", :key="index", @click.native="OpenTable")
+      Table(v-for="(item,index) in csrData", :data="item", :key="index", @click.native="OpenTable(index)")
+  .home(v-else="!isLogin")
+    .loginDirect
+      h1 請先登入
+      router-link(to='/login')
+        .btn 前往登入 
+
 </template>
 
 <script>
 import Table from '../components/Table.vue';
 import { mapActions } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   name: 'home',
   components: {
     Table
   },
-
+  mounted() {
+    console.log('mounted');
+    console.log(this.isLogin);
+  },
   data() {
     return {
       isTitle: false,
@@ -27,33 +37,57 @@ export default {
       ],
       csrData: [
         [
-          ['HR', '1', 'normal'],
+          ['HR', '1', 'bold'],
           ['必填表單', '2', 'normal'],
           ['2019/01/01', '1', 'normal']
         ],
         [
-          ['HR', '1', 'normal'],
+          ['ENG & MAIN', '1', 'bold'],
+          ['必填表單', '2', 'normal'],
+          ['2019/01/01', '1', 'normal']
+        ],
+        [
+          ['Cum Ser', '1', 'bold'],
+          ['必填表單', '2', 'normal'],
+          ['2019/01/01', '1', 'normal']
+        ],
+        [
+          ['Pub Rel', '1', 'bold'],
           ['必填表單', '2', 'normal'],
           ['2019/01/01', '1', 'normal']
         ]
       ]
     };
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      isLogin: 'isLogin'
+    })
+  },
   methods: {
     ...mapActions({
       openBlackBg: 'isShowBlackBg',
       ChangeFileData: 'ChangeFileData'
     }),
-    OpenTable() {
+    OpenTable(index) {
       this.openBlackBg();
-      this.ChangeFileData(this.mapData('HR'));
+      // console.log(this.csrData[index][0][0]);
+      this.ChangeFileData(this.mapData(this.csrData[index][0][0]));
     },
     mapData(str) {
       var data = null;
       switch (str) {
         case 'HR':
-          data = require('../assets/questionData/hrnew');
+          data = require('../assets/questionData/hr');
+          break;
+        case 'ENG & MAIN':
+          data = require('../assets/questionData/eng&main');
+          break;
+        case 'Cum Ser':
+          data = require('../assets/questionData/cumser');
+          break;
+        case 'Pub Rel':
+          data = require('../assets/questionData/pubrel');
           break;
         default:
           break;
@@ -65,6 +99,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.loginDirect {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex-direction: column;
+}
+
 .home {
   flex: 5;
   height: 100%;
