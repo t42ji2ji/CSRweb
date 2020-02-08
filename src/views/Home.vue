@@ -5,23 +5,21 @@
     .tablegroup()
       Table(:data="csrTitle", :hover="isTitle" )
       Table(v-for="(item,index) in csrData", :data="item", :key="index", @click.native="OpenTable(index)")
-  .home(v-else="!isLogin")
-    .loginDirect
-      h1 請先登入
-      router-link(to='/login')
-        .btn 前往登入 
+  GotoLogin(v-else="isLogin")
 
 </template>
 
 <script>
 import Table from '../components/Table.vue';
+import GotoLogin from '../components/GotoLogin.vue';
 import { mapActions } from 'vuex';
 import { mapState } from 'vuex';
 
 export default {
   name: 'home',
   components: {
-    Table
+    Table,
+    GotoLogin
   },
   mounted() {
     console.log('mounted');

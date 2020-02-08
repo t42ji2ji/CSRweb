@@ -10,16 +10,16 @@
     .tab
       router-link(to='/') 
         font-awesome-icon(icon="tasks") 
-        span  CSR資訊管理
+        span   CSR資訊管理
       router-link(to='/about')
         font-awesome-icon(icon="file-excel") 
-        span  CSR資訊分析
+        span   CSR資訊分析
       router-link(to='/Management')
-        font-awesome-icon(icon="user") 
-        span  表單管理
+        font-awesome-icon(icon="marker") 
+        span   表單管理
       router-link(to='/login')
         font-awesome-icon(icon="user") 
-        span  登入
+        span   登入
     .logo()
   router-view
 

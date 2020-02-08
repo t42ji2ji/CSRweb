@@ -11,13 +11,14 @@ import {
   faFileAlt,
   faChartBar,
   faFileExcel,
-  faTasks
+  faTasks,
+  faMarker
 } from '@fortawesome/free-solid-svg-icons';
 import {
   FontAwesomeIcon
 } from '@fortawesome/vue-fontawesome';
 
-library.add(faUserSecret, faUser, faFileAlt, faChartBar, faFileExcel, faTasks);
+library.add(faUserSecret, faUser, faFileAlt, faChartBar, faFileExcel, faTasks, faMarker);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

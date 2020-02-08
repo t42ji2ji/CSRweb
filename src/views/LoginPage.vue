@@ -43,7 +43,7 @@ export default {
     },
     async Logout() {
       axios.defaults.headers.common[
-        'Auth-Token'
+        'Authorization'
       ] = `Bearer ${this.userData.token}`;
       try {
         const response = await axios.post(
