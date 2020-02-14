@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import HR from './components/questions/HR';
-import HRdata from './assets/questionData/hrnew';
+import { mapActions } from "vuex";
+import HR from "./components/questions/HR";
+import HRdata from "./assets/questionData/hrnew";
 
 export default {
   components: {
@@ -42,6 +42,14 @@ export default {
       return this.$store.state.FileData;
     }
   },
+  mounted() {
+    var vm = this;
+    document.addEventListener("keyup", e => {
+      if (e.code === "Escape") {
+        vm.openBlackBg();
+      }
+    });
+  },
   data() {
     return {
       fileData: HRdata.excelData
@@ -49,7 +57,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      openBlackBg: 'isShowBlackBg'
+      openBlackBg: "isShowBlackBg"
     }),
     OpenTable() {
       this.openBlackBg();
@@ -90,7 +98,7 @@ $green: #42b983;
 }
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -100,6 +108,23 @@ $green: #42b983;
   height: 100vh;
   width: 100vw;
   position: relative;
+}
+
+.btn {
+  border: 1px solid #42b983;
+  margin-top: 40px;
+  width: 100px;
+  padding: 5px 20px;
+  color: #42b983;
+  cursor: pointer;
+  align-self: center;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  &:hover {
+    color: white;
+    background-color: #42b983;
+  }
 }
 
 .cover {
@@ -174,7 +199,7 @@ $green: #42b983;
     background-position: 0 center;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url('https://www.google.com.tw/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png');
+    background-image: url("https://www.google.com.tw/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png");
   }
 }
 </style>

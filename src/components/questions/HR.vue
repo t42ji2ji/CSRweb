@@ -4,14 +4,14 @@
       h3(ref="input1111") {{fileName}}
       .quote(v-for="(question, questionIndex) in fileData.questions")
         Table(:hover="false", :data="item.data", :type="item.type", v-for="(item, index) in question.q", :key="index" :id="'table'+index", :class="{'tableOdd':index%2 != 1}", :tag="fileName + questionIndex + index")
-      .btn(v-if="isUploadPage", @click="testF") send
+      .btn(v-if="isUploadPage", @click="submit") send
 
 </template>
 
 <script>
-import Table from "../../components/Table";
-import questionField from "../../assets/questionData/hr";
-import { mapState } from "vuex";
+import Table from '../../components/Table';
+import questionField from '../../assets/questionData/hr';
+import { mapState } from 'vuex';
 
 export default {
   props: {
@@ -24,7 +24,7 @@ export default {
     fileName: {
       required: true,
       type: String,
-      default: "asdas"
+      default: 'asdas'
     },
     isUploadPage: {
       type: Boolean,
@@ -39,7 +39,7 @@ export default {
     Table
   },
   methods: {
-    testF() {
+    submit() {
       var vm = this;
       // eslint-disable-next-line no-unused-vars
       this.InputTitle.hr.forEach((value, index) => {
@@ -49,23 +49,23 @@ export default {
   },
   computed: {
     ...mapState({
-      InputTitle: "InputTitle"
+      InputTitle: 'InputTitle'
     })
   },
   mounted() {},
   data() {
     return {
       questionTitle: [
-        ["Staff Head Count", "2", "bold"],
-        ["Male", "1", "normal"],
-        ["Female", "1", "normal"]
+        ['Staff Head Count', '2', 'bold'],
+        ['Male', '1', 'normal'],
+        ['Female', '1', 'normal']
       ],
-      test: "input",
+      test: 'input',
       questions: questionField.excelData,
       questionField: [
-        ["Directors", "2", "bold"],
-        ["", "1", "normal"],
-        ["", "1", "normal"]
+        ['Directors', '2', 'bold'],
+        ['', '1', 'normal'],
+        ['', '1', 'normal']
       ]
     };
   }
