@@ -14,9 +14,14 @@ export default new Vuex.Store({
     },
     UploadData: {},
     userData: {},
-    isLogin: false
+    isLogin: false,
+    nowForm: '',
+    formOption: ['hr', 'ENG&MAIN', 'CumSer', 'PubRel']
   },
   mutations: {
+    nowFormState(state, payload) {
+      state.nowForm = state.formOption[payload];
+    },
     loginState(state) {
       state.isLogin = !state.isLogin;
     },
@@ -31,9 +36,15 @@ export default new Vuex.Store({
     },
     insertUploadData(state, payload) {
       state.UploadData[payload[0]] = payload[1];
+    },
+    clearUploadData(state) {
+      state.UploadData = {};
     }
   },
   actions: {
+    changeFormState(context, index) {
+      context.commit('nowFormState', index);
+    },
     chnageLoginState(context) {
       context.commit('loginState');
     },
@@ -45,6 +56,7 @@ export default new Vuex.Store({
     },
     isShowBlackBg(context) {
       context.commit('revertBlackBg');
+      context.commit('clearUploadData');
     },
     ChangeFileData(context, data) {
       console.log("store");

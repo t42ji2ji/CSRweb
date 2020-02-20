@@ -13,23 +13,44 @@
     h4 管理員等級 {{userData.level}}
     Alert(@alertReturnVale="handleAlert",:msg="alertMsg", :isShow="alertShow", :showcancel="showcancel")
     .funcArea
-      .testfiled 註冊帳號：
-        input(v-model="reg_account")
-      .testfiled 會員姓名：
+
+      .testfiled 
+        span 會員姓名：
         input(v-model="reg_username")
-      .testfiled 註冊密碼：
+      .testfiled 
+        span 帳號：
+        input(v-model="reg_account")
+      .testfiled 
+        span 密碼：
         input(v-model="reg_password" type="password")
-      .testfiled 密碼確認：
+      .testfiled 
+        span 密碼確認：
         input(v-model="reg_password_confirm" type="password")
-      .testfiled 帳號權限：
+      .testfiled 
+        span 帳號權限：
         select(v-model="reg_premision")
           option(disabled value="") 選擇權限
           option(value="0") 一般會員
           option(value="1") 管理員
+      .testfiled 表單權限：
+        input(type="checkbox" v-model="formVisible" value="hr" id="hr_checkbox")
+        label(for="hr_checkbox") hr
+
+        input(type="checkbox" v-model="formVisible" value="ENG&MAIN" id="ENG&MAIN_checkbox")
+        label(for="ENG&MAIN_checkbox") ENG & MAIN
+
+        input(type="checkbox" v-model="formVisible" value="CumSer" id="CumSer_checkbox")
+        label(for="CumSer_checkbox") Cum Ser
+
+        input(type="checkbox" v-model="formVisible" value="PubRel" id="PubRel_checkbox")
+        label(for="PubRel_checkbox") Pub Rel
+
+      .alertText(v-show="isRegError") {{LoggMessage}}
       .btn(@click="alertSet('register')") 註冊 
     .funcArea
       .testfiled 刪除帳號名稱：
         input(v-model="del_username")
+      .alertText(v-show="isDelError") {{LoggMessage}}
       .btn(@click="alertSet('delete')") 刪除
     .btn.alignLeft(@click="Logout") 登出
 
@@ -51,6 +72,8 @@ export default {
       username: "ahkui",
       password: "ahkui",
       isLogError: false,
+      isRegError: false,
+      isDelError: false,
       LoggMessage: "",
       reg_username: "",
       reg_password: "",
@@ -61,14 +84,31 @@ export default {
       alertMsg: "",
       alertShow: false,
       alertState: "",
-      showcancel: true
+      showcancel: true,
+      formVisible: []
     };
+  },
+  watch: {
+    formVisible(value) {
+      console.log(value);
+    }
   },
   computed: {
     ...mapState({
       isLogin: "isLogin",
       userData: "userData"
     }),
+    alertLevel() {
+      switch (this.userData.level) {
+        case "0":
+          return "一般會員";
+        case "1":
+          return "管理員";
+        case "2":
+          return "超級管理員";
+      }
+      return "";
+    },
     alertAlt() {
       var validate;
       var validateMsg = "";
@@ -136,53 +176,69 @@ export default {
       this.LoggMessage = msg;
     },
     alertSet(state) {
+      this.clearState();
       this.alertShow = true;
       this.alertState = state;
       this.alertMsg = this.alertAlt.msg;
     },
     async registerAccount() {
+      this.isRegError = false;
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${this.userData.token}`;
       try {
+        console.log(`username: ${this.reg_username},
+            password: ${this.reg_password},
+            "password-confirm": ${this.reg_password_confirm},
+            realname: ${this.reg_username},
+            level: ${this.reg_premision}`);
         const response = await axios.post(
-          "http://csrweb.ahkui.com/api/admin/user/new",
+          "https://csrweb.ahkui.com/api/admin/user/new",
           {
             username: this.reg_username,
             password: this.reg_password,
             "password-confirm": this.reg_password_confirm,
             realname: this.reg_username,
-            level: this.reg_premision
+            level: this.reg_premision,
+            formVisible: this.formVisible
           }
         );
         console.log(response);
         if (response.data.status) {
-          this.chnageLoginState();
-          this.editUserdata(response.data);
+          this.isRegError = true;
+          this.notLoggin("註冊成功");
+          this.clearInput();
         } else {
-          this.notLoggin("註冊失敗");
+          this.isRegError = true;
+          this.notLoggin(response.data.message);
         }
       } catch (error) {
         console.error(error);
       }
     },
     async deleteAccount() {
+      this.isDelError = false;
+
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${this.userData.token}`;
       try {
-        const response = await axios.post(
-          `http://csrweb.ahkui.com/api/admin/user/${this.userData.username}`
+        const response = await axios.delete(
+          `https://csrweb.ahkui.com/api/admin/user/${this.del_username}`
         );
         console.log(response);
         if (response.data.status) {
-          this.chnageLoginState();
-          this.editUserdata(response.data);
+          this.isDelError = true;
+          this.notLoggin("成功刪除 " + this.del_username);
+          this.clearInput();
         } else {
-          this.notLoggin("登出失敗");
+          this.isDelError = true;
+          this.notLoggin(response.data.message);
         }
       } catch (error) {
         console.error(error);
+        this.isDelError = true;
+        this.notLoggin("找不到帳號 " + this.del_username);
       }
     },
     async Logout() {
@@ -197,6 +253,7 @@ export default {
         if (response.data.status) {
           this.chnageLoginState();
           this.editUserdata(response.data);
+          this.clearState();
         } else {
           this.notLoggin("登出失敗");
         }
@@ -225,6 +282,20 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    clearState() {
+      this.isRegError = false;
+      this.isDelError = false;
+      this.isLogError = false;
+    },
+    clearInput() {
+      this.reg_username = "";
+      this.reg_password = "";
+      this.reg_premision = "";
+      this.reg_password_confirm = "";
+      this.reg_account = "";
+      this.del_username = "";
+      this.alertMsg = "";
     }
   }
 };
@@ -273,9 +344,19 @@ export default {
 }
 .testfiled {
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
   border-radius: 5px;
   font-weight: bold;
+  span {
+    flex: 1;
+  }
+  select {
+    flex: 2;
+  }
   input {
+    flex: 2;
+
     border-radius: 5px;
 
     outline: none;

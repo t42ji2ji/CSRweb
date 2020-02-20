@@ -22,13 +22,13 @@
     
 </template>
 <script>
-import Excel from '../assets/assetsJs/excel';
-import HR from '../components/questions/HR';
-import Table from '../components/Table';
+import Excel from "../assets/assetsJs/excel";
+import HR from "../components/questions/HR";
+import Table from "../components/Table";
 
-import ExtractExcel from '../assets/assetsJs/extract';
-import BarChart from '../components/chart/BarChart';
-import chroma from 'chroma-js';
+import ExtractExcel from "../assets/assetsJs/extract";
+import BarChart from "../components/chart/BarChart";
+import chroma from "chroma-js";
 
 export default {
   components: {
@@ -41,9 +41,9 @@ export default {
       isChart: false,
       data: [],
       fileData: {},
-      fileName: '',
+      fileName: "",
       fileTotal: [],
-      d: 'wwasds',
+      d: "wwasds",
       datacollection: {},
       options: {
         responsive: true,
@@ -69,8 +69,8 @@ export default {
   computed: {
     questions() {
       var chromacolor = chroma
-        .scale(['#8DDF5E', '#306377'])
-        .mode('hcl')
+        .scale(["#8DDF5E", "#306377"])
+        .mode("hcl")
         .colors(ExtractExcel.tt[0][0].length);
       var dataset = ExtractExcel.tt[0][0].map((value, index) => {
         return {
@@ -80,7 +80,7 @@ export default {
         };
       });
       var chartData = {
-        labels: ['Male', 'Female'],
+        labels: ["Male", "Female"],
         datasets: dataset
       };
       return chartData;
@@ -92,15 +92,15 @@ export default {
       Excel.importExcel((data, dataRef, filename) => {
         this.data = data;
         this.fileData = ExtractExcel.extractData(data);
+        console.log(this.fileData);
         this.fileTotal = ExtractExcel.calcTotal(data);
         this.fileName = filename.name;
-        console.log(this.fileTotal);
       });
     },
     fillChartData(data, nowIndex) {
       var chromacolor = chroma
-        .scale(['#8DDF5E', '#306377'])
-        .mode('hcl')
+        .scale(["#8DDF5E", "#306377"])
+        .mode("hcl")
         .colors(data.length);
       var dataset = data.map((value, index) => {
         return {
@@ -110,7 +110,7 @@ export default {
         };
       });
       var chartData = {
-        labels: ['Male', 'Female'],
+        labels: ["Male", "Female"],
         datasets: dataset
       };
       return chartData;
@@ -120,13 +120,13 @@ export default {
         labels: [this.getRandomInt(), this.getRandomInt()],
         datasets: [
           {
-            label: 'Data One',
-            backgroundColor: '#f87979',
+            label: "Data One",
+            backgroundColor: "#f87979",
             data: [this.getRandomInt(), this.getRandomInt()]
           },
           {
-            label: 'Data One',
-            backgroundColor: '#343432',
+            label: "Data One",
+            backgroundColor: "#343432",
             data: [this.getRandomInt(), this.getRandomInt()]
           }
         ]

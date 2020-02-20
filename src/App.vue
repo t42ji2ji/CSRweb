@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import HR from "./components/questions/HR";
 import HRdata from "./assets/questionData/hrnew";
 
@@ -35,6 +35,9 @@ export default {
     HR
   },
   computed: {
+    ...mapState({
+      blackBg: "blackBg"
+    }),
     blackBg() {
       return this.$store.state.blackBg;
     },
@@ -45,7 +48,8 @@ export default {
   mounted() {
     var vm = this;
     document.addEventListener("keyup", e => {
-      if (e.code === "Escape") {
+      if (e.code === "Escape" && vm.blackBg) {
+        console.log(vm.blackBg);
         vm.openBlackBg();
       }
     });
@@ -201,5 +205,9 @@ $green: #42b983;
     background-repeat: no-repeat;
     background-image: url("https://www.google.com.tw/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png");
   }
+}
+
+.redinput {
+  border: 1px solid rgba(255, 0, 0, 0.431);
 }
 </style>

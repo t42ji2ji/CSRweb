@@ -4,88 +4,122 @@
     h4 CSR Information Management
     .tablegroup()
       Table(:data="csrTitle", :hover="isTitle" )
-      Table(v-for="(item,index) in csrData", :data="item", :key="index", @click.native="OpenTable(index)")
+      Table(v-for="(item,index) in csrData", :id="index",:data="item", :key="index", @click.native="OpenTable(index)")
+    .btn(@click="testUpload") Upload
+        
   GotoLogin(v-else="isLogin")
 
 </template>
 
 <script>
-import Table from '../components/Table.vue';
-import GotoLogin from '../components/GotoLogin.vue';
-import { mapActions } from 'vuex';
-import { mapState } from 'vuex';
+import Table from "../components/Table.vue";
+import GotoLogin from "../components/GotoLogin.vue";
+import { mapActions } from "vuex";
+import { mapState } from "vuex";
+import axios from "axios";
 
 export default {
-  name: 'home',
+  name: "home",
   components: {
     Table,
     GotoLogin
   },
   mounted() {
-    console.log('mounted');
+    console.log("mounted");
     console.log(this.isLogin);
   },
   data() {
     return {
       isTitle: false,
       csrTitle: [
-        ['表單標題', '1', 'bold'],
-        ['表單描述', '2', 'normal'],
-        ['建立日期', '1', 'normal']
+        ["表單標題", "1", "bold"],
+        ["表單描述", "2", "normal"],
+        ["建立日期", "1", "normal"]
       ],
       csrData: [
         [
-          ['HR', '1', 'bold'],
-          ['必填表單', '2', 'normal'],
-          ['2019/01/01', '1', 'normal']
+          ["HR", "1", "bold"],
+          ["必填表單", "2", "normal"],
+          ["2019/01/01", "1", "normal"]
         ],
         [
-          ['ENG & MAIN', '1', 'bold'],
-          ['必填表單', '2', 'normal'],
-          ['2019/01/01', '1', 'normal']
+          ["ENG & MAIN", "1", "bold"],
+          ["必填表單", "2", "normal"],
+          ["2019/01/01", "1", "normal"]
         ],
         [
-          ['Cum Ser', '1', 'bold'],
-          ['必填表單', '2', 'normal'],
-          ['2019/01/01', '1', 'normal']
+          ["Cum Ser", "1", "bold"],
+          ["必填表單", "2", "normal"],
+          ["2019/01/01", "1", "normal"]
         ],
         [
-          ['Pub Rel', '1', 'bold'],
-          ['必填表單', '2', 'normal'],
-          ['2019/01/01', '1', 'normal']
+          ["Pub Rel", "1", "bold"],
+          ["必填表單", "2", "normal"],
+          ["2019/01/01", "1", "normal"]
         ]
       ]
     };
   },
   computed: {
     ...mapState({
-      isLogin: 'isLogin'
+      isLogin: "isLogin",
+      userData: "userData",
+      nowForm: "nowForm"
     })
   },
   methods: {
     ...mapActions({
-      openBlackBg: 'isShowBlackBg',
-      ChangeFileData: 'ChangeFileData'
+      openBlackBg: "isShowBlackBg",
+      ChangeFileData: "ChangeFileData",
+      changeFormState: "changeFormState"
     }),
+    async testUpload() {
+      console.log("upload");
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${this.userData.token}`;
+      try {
+        const response = await axios.post(
+          `https://csrweb.ahkui.com/api/form/hr`,
+          {
+            data: {
+              test: "123hr"
+            }
+          }
+        );
+        console.log(response);
+        // if (response.data.status) {
+        //   this.chnageLoginState();
+        //   this.editUserdata(response.data);
+        //   this.clearState();
+        // } else {
+        //   this.notLoggin("登出失敗");
+        // }
+      } catch (error) {
+        console.error(error);
+      }
+    },
     OpenTable(index) {
       this.openBlackBg();
+      console.log(index);
+      this.changeFormState(index);
       // console.log(this.csrData[index][0][0]);
       this.ChangeFileData(this.mapData(this.csrData[index][0][0]));
     },
     mapData(str) {
       var data = null;
       switch (str) {
-        case 'HR':
-          data = require('../assets/questionData/hr');
+        case "HR":
+          data = require("../assets/questionData/hr");
           break;
-        case 'ENG & MAIN':
-          data = require('../assets/questionData/eng&main');
+        case "ENG & MAIN":
+          data = require("../assets/questionData/eng&main");
           break;
-        case 'Cum Ser':
-          data = require('../assets/questionData/cumser');
+        case "Cum Ser":
+          data = require("../assets/questionData/cumser");
           break;
-        case 'Pub Rel':
-          data = require('../assets/questionData/pubrel');
+        case "Pub Rel":
+          data = require("../assets/questionData/pubrel");
           break;
         default:
           break;

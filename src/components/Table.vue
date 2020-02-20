@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   name: "Table",
   props: {
@@ -55,12 +55,21 @@ export default {
   },
   watch: {
     form: {
+      // eslint-disable-next-line no-unused-vars
       handler(newval, oldval) {
-        console.log(newval.parentId, oldval);
-        console.log(this.tag);
         this.addUploadData([this.tag, newval.parentId]);
       },
       deep: true
+    },
+    blackBg: {
+      // eslint-disable-next-line no-unused-vars
+      handler(newval, oldval) {
+        this.form.parentId = [];
+        var inputTag = document.querySelectorAll("input");
+        inputTag.forEach(value => {
+          value.value = "";
+        });
+      }
     }
   },
   mounted() {},
@@ -70,6 +79,7 @@ export default {
     })
   },
   computed: {
+    ...mapState({ blackBg: "blackBg" }),
     inputArray() {
       return this.data.slice(1).map(item => {
         return item;
