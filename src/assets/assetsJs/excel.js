@@ -122,14 +122,12 @@ function testRead(file, callback) {
  * @return: map的长度
  */
 function getLength(obj) {
-
   var count = 0;
   for (var i in obj) {
     if (obj.hasOwnProperty(i)) {
       count++;
     }
   }
-
   return count;
 }
 export default {

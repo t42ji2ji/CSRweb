@@ -9,22 +9,25 @@
     .QuestionWraper(v-if="Object.keys(fileData).length > 0")
       .btn(@click="()=> {this.isChart = !this.isChart}")
         font-awesome-icon(icon="chart-bar")
-        span   切換表格/統計
+        span  表格/統計圖
 
       HR(:fileData="fileData", :fileName="fileName",v-show="!isChart")
       //- .chartAdjust
       //-   bar-chart(:chart-data="fillChartData()", :options="options")
-      .chartWrapper
-        .questionChart(v-for="(data, index) in fileTotal[0]",v-if="isChart")
-          Table(:hover="false", :data="fileTotal[3][index]", type="title")
-          .chartAdjust
-            bar-chart(:chart-data="fillChartData(data,index)", :options="options")
+       
+      Anaylsis(:fileTotal="fileTotal", :fileTotalText="fileTotalText",v-if="isChart", :fileName="fileFormName")
+      //- .chartWrapper
+      //-   .questionChart(v-for="(data, index) in fileTotal[0]",v-if="isChart")
+      //-     Table(:hover="false", :data="fileTotal[3][index]", type="title")
+      //-     .chartAdjust
+      //-       bar-chart(:chart-data="fillChartData(data,index)", :options="options")
     
 </template>
 <script>
 import Excel from "../assets/assetsJs/excel";
 import HR from "../components/questions/HR";
 import Table from "../components/Table";
+import Anaylsis from "../components/questions/Anaylsis";
 
 import ExtractExcel from "../assets/assetsJs/extract";
 import BarChart from "../components/chart/BarChart";
@@ -34,7 +37,8 @@ export default {
   components: {
     HR,
     BarChart,
-    Table
+    Table,
+    Anaylsis
   },
   data() {
     return {
@@ -67,23 +71,31 @@ export default {
     this.fillData();
   },
   computed: {
-    questions() {
-      var chromacolor = chroma
-        .scale(["#8DDF5E", "#306377"])
-        .mode("hcl")
-        .colors(ExtractExcel.tt[0][0].length);
-      var dataset = ExtractExcel.tt[0][0].map((value, index) => {
-        return {
-          label: value,
-          backgroundColor: chromacolor[index],
-          data: ExtractExcel.tt[1][0][index]
-        };
+    fileTotalText() {
+      var output = this.fileData.questions.map(val => {
+        var x = val.q.map(val => {
+          if (val.type == "textview") {
+            return val.data;
+          }
+        });
+        if (x != undefined) return x;
       });
-      var chartData = {
-        labels: ["Male", "Female"],
-        datasets: dataset
-      };
-      return chartData;
+      return output;
+    },
+    fileFormName() {
+      var firstq = this.fileData.questions[0].q[0].data[0][0];
+      switch (firstq) {
+        case "Staff Head Count":
+          return "Hr";
+        case "Satisfaction rate":
+          return "Cum Ser";
+        case "Engergy consumption":
+          return "ENG & MAIN";
+        case "Donations":
+          return "Pub Rel";
+        default:
+          return "";
+      }
     }
   },
   methods: {
@@ -92,9 +104,9 @@ export default {
       Excel.importExcel((data, dataRef, filename) => {
         this.data = data;
         this.fileData = ExtractExcel.extractData(data);
-        console.log(this.fileData);
         this.fileTotal = ExtractExcel.calcTotal(data);
         this.fileName = filename.name;
+        console.log(this.fileFormName);
       });
     },
     fillChartData(data, nowIndex) {
@@ -157,10 +169,6 @@ export default {
     margin-bottom: 2rem;
   }
 }
-.chartAdjust {
-  margin-top: 10px;
-  width: 500px;
-}
 .QuestionWraper {
   padding: 50px 25px;
   background: white;
@@ -210,10 +218,11 @@ export default {
   cursor: pointer;
   padding: 2px 12px;
   margin: 10px;
+  white-space: nowrap;
 }
 
 .chartWrapper {
-  width: 700px;
+  width: 800px;
 }
 
 .questionChart {

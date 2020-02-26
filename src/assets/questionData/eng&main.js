@@ -567,18 +567,18 @@ const getUploadJson = function (data) {
             ]
           },
           {
-            type: "normal",
+            type: "textview",
             data: [
               ['1. Creating a Renewable Future - Installation of Solar Panel', '2', 'bold'],
-              [data['Eng & Main61'][0], '2', 'bold'],
+              [data['Eng & Main61'][0], '2', 'normal'],
 
             ]
           },
           {
-            type: "normal",
+            type: "textview",
             data: [
               ['2. Waste Management', '2', 'bold'],
-              [data['Eng & Main62'][0], '2', 'bold'],
+              [data['Eng & Main62'][0], '2', 'normal'],
 
             ]
           },
@@ -597,7 +597,7 @@ const getUploadJson = function (data) {
             ]
           },
           {
-            type: "normal",
+            type: "textview",
             data: [
               ['ans.', '2', 'bold'],
               [data['Eng & Main71'][0], '2', 'normal'],

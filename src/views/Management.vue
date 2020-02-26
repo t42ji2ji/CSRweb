@@ -3,7 +3,7 @@
     h2 表單管理
     h4 Management
     .tabgroup
-      .tab(@click ="changeTab('hr', $event)") Hr
+      .tab.tabClick(@click ="changeTab('hr', $event)") Hr
       .tab(@click ="changeTab('ENG&MAIN', $event)") ENG&MAIN
       .tab(@click ="changeTab('CumSer', $event)") CumSer
       .tab(@click ="changeTab('PubRel', $event)") PubRel
@@ -17,8 +17,17 @@
         ["last update", "3", "bold"]
       ], :hover="false")
       Table(v-for="(item,index) in nowData", :key="index", :data="item" @click.native="OpenTable(index)")
-    .QuestionWraper
-      HR(:fileData="fileData", fileName="fileName",v-show="true")
+    transition(name="bounce")
+      .QuestionWindow(v-if="openWindow")
+        .cover(@click="()=>{this.openWindow = !this.openWindow}")
+        .QuestionWraper(v-if="this.fileData.hasOwnProperty('questions') ?  true : false ")
+          .btn(@click="()=> {this.isChart = !this.isChart}")
+              font-awesome-icon(icon="chart-bar")
+              span  表格/統計圖
+          HR(:fileData="fileData", :fileName="fileName",v-show="!isChart")
+          Anaylsis(:fileTotal="fileTotal", :fileTotalText="fileTotalText",v-if="isChart", :fileName="fileName")
+        .noData(v-else="this.fileData.hasOwnProperty('questions') ?  true : false ")
+          h3 沒有資料
 
   GotoLogin(v-else="isLogin")
 </template>
@@ -30,12 +39,15 @@ import Table from "../components/Table";
 import axios from "axios";
 import dayjs from "dayjs";
 import HR from "../components/questions/HR";
+import ExtractExcel from "../assets/assetsJs/extract";
+import Anaylsis from "../components/questions/Anaylsis";
 
 export default {
   components: {
     GotoLogin,
     Table,
-    HR
+    HR,
+    Anaylsis
   },
   // eslint-disable-next-line no-unused-vars
   beforeRouteEnter(to, from, next) {
@@ -44,13 +56,16 @@ export default {
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${vm.userData.token}`;
-        vm.geFilledFormData();
+        vm.geFilledFormData("hr");
       }
     });
   },
+  mounted() {},
   data() {
     return {
-      fileData: null,
+      isChart: false,
+      openWindow: false,
+      fileData: {},
       responseData: null,
       fileName: "",
       hrData: [],
@@ -92,24 +107,39 @@ export default {
     ...mapState({
       isLogin: "isLogin",
       userData: "userData"
-    })
+    }),
+    fileTotal() {
+      return ExtractExcel.calcTotal(this.fileData, true);
+    },
+    fileTotalText() {
+      var output = this.fileData.questions.map(val => {
+        var x = val.q.map(val => {
+          if (val.type == "textview") {
+            return val.data;
+          }
+        });
+        if (x != undefined) return x;
+      });
+      return output;
+    }
   },
+
   methods: {
     ...mapActions({
       openBlackBg: "isShowBlackBg",
       ChangeFileData: "ChangeFileData"
     }),
+
     OpenTable(index) {
       // this.openBlackBg();
       this.fileData = this.responseData[index].data;
-
+      this.openWindow = true;
       // console.log(index);
       // this.changeFormState(index);
       // // console.log(this.csrData[index][0][0]);
       // this.ChangeFileData(this.fileData);
     },
     altToNowData(payload) {
-      this.nowData = [];
       this.nowData = payload.map((value, index) => {
         return [
           [index, "1", "normal"],
@@ -128,6 +158,8 @@ export default {
       event.target.classList.add("tabClick");
     },
     async geFilledFormData(formname) {
+      this.nowData = [];
+
       this.isDelError = false;
       try {
         const response = await axios.get(
@@ -137,7 +169,6 @@ export default {
           this.responseData = response.data.data;
           switch (formname) {
             case "hr":
-              console.log(response.data);
               this.fileName = "Hr";
               this.hrData = response.data.data;
               this.altToNowData(this.hrData);
@@ -153,7 +184,7 @@ export default {
               this.altToNowData(this.cumserData);
               break;
             case "PubRel":
-              this.fileName = "PubRel";
+              this.fileName = "Pub Rel";
               this.puberlData = response.data.data;
               this.altToNowData(this.puberlData);
               break;
@@ -168,7 +199,6 @@ export default {
     openTable(index) {
       this.openBlackBg();
       this.ChangeFileData(this.mapData(this.csrData[index][0][0]));
-      console.log(index);
     },
     mapData(str) {
       var data = null;
@@ -197,10 +227,11 @@ export default {
 <style lang="scss" scoped>
 .Management {
   flex: 5;
-  height: 100vh;
+  height: 100%;
   padding: 30px;
   text-align: left;
   position: relative;
+  overflow-y: scroll;
 
   h2 {
     margin: 0;
@@ -242,13 +273,33 @@ export default {
 
 .QuestionWraper {
   padding: 50px 25px;
-
   background: white;
   position: relative;
-  height: 60%;
+  height: 80%;
+  width: 80%;
   overflow-y: scroll;
   display: flex;
   align-items: center;
   flex-direction: column;
+  .btn {
+    margin: 10px;
+    white-space: nowrap;
+  }
+}
+.QuestionWindow {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  .cover {
+    background-color: rgba(0, 0, 0, 0.541);
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
 }
 </style>

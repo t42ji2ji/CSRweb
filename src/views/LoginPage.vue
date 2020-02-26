@@ -5,7 +5,7 @@
     .testfiled 帳號：
       input(v-model="username")
     .testfiled 密碼：
-      input(v-model="password")
+      input(v-model="password", type="password")
     .alertText(v-show="isLogError") {{LoggMessage}}
     .btn(@click="Loggin") 登入
   .Login.alignLeft(v-else="isLogin")
@@ -13,13 +13,13 @@
     h4 管理員等級 {{userData.level}}
     Alert(@alertReturnVale="handleAlert",:msg="alertMsg", :isShow="alertShow", :showcancel="showcancel")
     .funcArea
-
+      h2 註冊帳號
       .testfiled 
         span 會員姓名：
-        input(v-model="reg_username")
+        input(v-model="reg_realname" )
       .testfiled 
         span 帳號：
-        input(v-model="reg_account")
+        input(v-model="reg_username")
       .testfiled 
         span 密碼：
         input(v-model="reg_password" type="password")
@@ -48,6 +48,7 @@
       .alertText(v-show="isRegError") {{LoggMessage}}
       .btn(@click="alertSet('register')") 註冊 
     .funcArea
+      h2 刪除帳號
       .testfiled 刪除帳號名稱：
         input(v-model="del_username")
       .alertText(v-show="isDelError") {{LoggMessage}}
@@ -69,8 +70,8 @@ export default {
   },
   data() {
     return {
-      username: "ahkui",
-      password: "ahkui",
+      username: "",
+      password: "",
       isLogError: false,
       isRegError: false,
       isDelError: false,
@@ -79,7 +80,7 @@ export default {
       reg_password: "",
       reg_premision: "",
       reg_password_confirm: "",
-      reg_account: "",
+      reg_realname: "",
       del_username: "",
       alertMsg: "",
       alertShow: false,
@@ -87,11 +88,6 @@ export default {
       showcancel: true,
       formVisible: []
     };
-  },
-  watch: {
-    formVisible(value) {
-      console.log(value);
-    }
   },
   computed: {
     ...mapState({
@@ -119,7 +115,7 @@ export default {
             this.reg_username == "" ||
             this.reg_password == "" ||
             this.reg_premision == "" ||
-            this.reg_account == ""
+            this.reg_realname == ""
           ) {
             validate = false;
             validateMsg = "不可留空";
@@ -157,11 +153,9 @@ export default {
       if (payload) {
         switch (this.alertState) {
           case "register":
-            console.log("reg");
             this.registerAccount();
             break;
           case "delete":
-            console.log("del");
             this.deleteAccount();
             break;
           default:
@@ -187,18 +181,13 @@ export default {
         "Authorization"
       ] = `Bearer ${this.userData.token}`;
       try {
-        console.log(`username: ${this.reg_username},
-            password: ${this.reg_password},
-            "password-confirm": ${this.reg_password_confirm},
-            realname: ${this.reg_username},
-            level: ${this.reg_premision}`);
         const response = await axios.post(
           "https://csrweb.ahkui.com/api/admin/user/new",
           {
             username: this.reg_username,
             password: this.reg_password,
             "password-confirm": this.reg_password_confirm,
-            realname: this.reg_username,
+            realname: this.reg_realname,
             level: this.reg_premision,
             formVisible: this.formVisible
           }
@@ -249,7 +238,6 @@ export default {
         const response = await axios.post(
           "https://csrweb.ahkui.com/api/user/logout"
         );
-        console.log(response);
         if (response.data.status) {
           this.chnageLoginState();
           this.editUserdata(response.data);
@@ -293,7 +281,7 @@ export default {
       this.reg_password = "";
       this.reg_premision = "";
       this.reg_password_confirm = "";
-      this.reg_account = "";
+      this.reg_realname = "";
       this.del_username = "";
       this.alertMsg = "";
     }
@@ -341,6 +329,9 @@ export default {
   background-color: #fff;
   padding: 20px;
   margin-bottom: 20px;
+  h2 {
+    margin-bottom: 10px;
+  }
 }
 .testfiled {
   margin-bottom: 10px;

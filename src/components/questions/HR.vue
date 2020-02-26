@@ -48,7 +48,7 @@ export default {
       // eslint-disable-next-line no-unused-vars
       this.isFormNull();
       if (!this.altJson(this.nowForm).status) {
-        console.log("hasnull");
+        console.error("hasnull");
         return;
       } else {
         this.isError = false;
@@ -58,7 +58,6 @@ export default {
       this.uploadJson(this.altJson(this.nowForm));
     },
     async uploadJson(data) {
-      console.log("upload");
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${this.userData.token}`;
@@ -69,7 +68,6 @@ export default {
             data: data.uploadExcel
           }
         );
-        console.log(response);
         if (response.data.status) {
           this.isError = true;
           this.errorMsg = "Upload Success";

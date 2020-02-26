@@ -15,7 +15,6 @@ const extractData = function (data) {
   };
   var nextQuestion = false;
 
-
   data.forEach((value, index_question) => {
     var q_item = [];
 
@@ -105,8 +104,11 @@ var testdata = [
  * @param {*} exceldata
  * @returns excel total Array
  */
-const calcTotal = function (exceldata) {
-  const data = extractData(exceldata);
+const calcTotal = function (exceldata, isDone = false) {
+  var data = exceldata;
+  if (!isDone) {
+    data = extractData(exceldata);
+  }
   var alltotal = [];
   var totals = [];
   var totals_stack = [];
@@ -134,7 +136,7 @@ const calcTotal = function (exceldata) {
           total_one_question = total_one_q;
         } else {
           total_one_question = total_one_q.map((value, index) => {
-            return value + total_one_question[index];
+            return parseFloat(value) + parseFloat(total_one_question[index]);
           });
         }
       }

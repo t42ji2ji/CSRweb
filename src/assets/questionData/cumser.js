@@ -103,6 +103,27 @@ const excelData = {
       q: [{
           type: "title",
           data: [
+            ['Meetings with customers', '2', 'bold'],
+            ['', '2', 'bold'],
+          ]
+        },
+        {
+          type: "input",
+          data: [
+            ['-', '2', 'bold'],
+            ['', '2', 'normal'],
+          ]
+        }, {
+          type: "dash",
+          data: []
+        },
+      ],
+      s: []
+    },
+    {
+      q: [{
+          type: "title",
+          data: [
             ['Product/service accreditation', '2', 'bold'],
           ]
         },
@@ -136,15 +157,17 @@ const excelData = {
           ]
         },
         {
-          type: "",
+          type: "text",
           data: [
             ['Residential Properties (Firsthand Sales) Ordinance', '2', 'bold'],
+            ['', '2', 'bold'],
           ]
         },
         {
-          type: "",
+          type: "text",
           data: [
             ['Personal Data (Privacy) Ordinance', '2', 'bold'],
+            ['', '2', 'bold'],
           ]
         },
         {
@@ -158,17 +181,21 @@ const excelData = {
 };
 
 var value = {
-  "Cum Ser01": ["8"],
-  "Cum Ser02": ["8"],
-  "Cum Ser03": ["8"],
-  "Cum Ser04": ["8"],
-  "Cum Ser11": ["8"],
-  "Cum Ser12": ["8"],
-  "Cum Ser13": ["8"],
-  "Cum Ser21": ["8"],
+  "Cum Ser01": ["99"],
+  "Cum Ser02": ["9"],
+  "Cum Ser03": ["9"],
+  "Cum Ser04": ["9"],
+  "Cum Ser11": ["9"],
+  "Cum Ser12": ["9"],
+  "Cum Ser13": ["99"],
+  "Cum Ser21": ["9"],
   "Cum Ser31": ["8"],
-  "Cum Ser32": ["8"]
-}
+  "Cum Ser41": ["8"],
+  "Cum Ser42": ["8"],
+  "Cum Ser51": ["8"],
+  "Cum Ser52": ["8"]
+};
+
 
 const getUploadJson = function (data) {
   var status = true;
@@ -307,21 +334,42 @@ const getUploadJson = function (data) {
         q: [{
             type: "title",
             data: [
+              ['Meetings with customers', '2', 'bold'],
+              ['', '2', 'bold'],
+            ]
+          },
+          {
+            type: "normal",
+            data: [
+              ['-', '2', 'bold'],
+              [data['Cum Ser31'][0], '2', 'normal'],
+            ]
+          }, {
+            type: "dash",
+            data: []
+          },
+        ],
+        s: []
+      },
+      {
+        q: [{
+            type: "title",
+            data: [
               ['Product/service accreditation', '2', 'bold'],
             ]
           },
           {
-            type: "normal",
+            type: "textview",
             data: [
               ['2014-present', '2', 'bold'],
-              [data['Cum Ser31'][0], '2', 'normal'],
+              [data['Cum Ser41'][0], '2', 'normal'],
             ]
           },
           {
-            type: "normal",
+            type: "textview",
             data: [
               ['2018', '2', 'bold'],
-              [data['Cum Ser32'][0], '2', 'normal'],
+              [data['Cum Ser42'][0], '2', 'normal'],
             ]
           },
 
@@ -340,15 +388,17 @@ const getUploadJson = function (data) {
             ]
           },
           {
-            type: "",
+            type: "textview",
             data: [
               ['Residential Properties (Firsthand Sales) Ordinance', '2', 'bold'],
+              [data['Cum Ser51'][0], '2', 'bold'],
             ]
           },
           {
-            type: "",
+            type: "textview",
             data: [
               ['Personal Data (Privacy) Ordinance', '2', 'bold'],
+              [data['Cum Ser52'][0], '2', 'bold'],
             ]
           },
           {

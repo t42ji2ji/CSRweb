@@ -4,8 +4,7 @@
     h4 CSR Information Management
     .tablegroup()
       Table(:data="csrTitle", :hover="isTitle" )
-      Table(v-for="(item,index) in csrData", :id="index",:data="item", :key="index", @click.native="OpenTable(index)")
-    .btn(@click="testUpload") Upload
+      Table(v-for="(item,index) in csrData", :id="index",:data="item", :key="index", @click.native="OpenTable(index)", v-if="mapFormAuth[index]")
         
   GotoLogin(v-else="isLogin")
 
@@ -24,10 +23,7 @@ export default {
     Table,
     GotoLogin
   },
-  mounted() {
-    console.log("mounted");
-    console.log(this.isLogin);
-  },
+  mounted() {},
   data() {
     return {
       isTitle: false,
@@ -65,7 +61,21 @@ export default {
       isLogin: "isLogin",
       userData: "userData",
       nowForm: "nowForm"
-    })
+    }),
+    mapFormAuth() {
+      if (this.userData.level > 0) {
+        return [true, true, true, true];
+      }
+      const compareTable = ["hr", "ENG&MAIN", "CumSer", "PubRel"];
+      var output = compareTable.map(val => {
+        if (this.userData.formVisible.includes(val)) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      return output;
+    }
   },
   methods: {
     ...mapActions({

@@ -59,8 +59,6 @@ export default new Vuex.Store({
       context.commit('clearUploadData');
     },
     ChangeFileData(context, data) {
-      console.log("store");
-      console.log(data);
       context.commit('insertFileData', data);
     }
   },

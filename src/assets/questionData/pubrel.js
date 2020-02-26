@@ -88,7 +88,7 @@ const excelData = {
         {
           type: "input",
           data: [
-            ['Personal time', '2', 'bold'],
+            ['Personal time(hours)', '2', 'bold'],
             ['', '2', 'normal'],
           ]
         },
@@ -128,24 +128,24 @@ const excelData = {
           ]
         },
         {
-          type: "",
+          type: "text",
           data: [
             ['Award', '2', 'bold'],
-            ['Issuing bodies', '2', 'bold'],
+            ['', '2', 'bold'],
           ]
         },
         {
-          type: "",
+          type: "text",
           data: [
             ['2nd F&B Occupational Safety and Health Award Program ', '2 ', 'bold '],
-            ['Macau Labour Affairs\nBureau', '2', 'bold'],
+            ['', '2', 'bold'],
           ]
         },
         {
-          type: "",
+          type: "text",
           data: [
             ['Award for implementing paid paternity leave for male employees', '2', 'bold'],
-            ['The Women’s General Association of Macau', '2', 'bold'],
+            ['', '2', 'bold'],
           ]
         },
         {
@@ -163,15 +163,17 @@ const excelData = {
           ]
         },
         {
-          type: "",
+          type: "text",
           data: [
             ['Social Welfare Department', '2', 'bold'],
+            ['', '2', 'bold'],
           ]
         },
         {
-          type: "",
+          type: "text",
           data: [
             ['Local community organisations', '2', 'bold'],
+            ['', '2', 'bold'],
           ]
         },
 
@@ -190,17 +192,17 @@ const excelData = {
           ]
         },
         {
-          type: "",
+          type: "text",
           data: [
             ['Knit for Charity', '2', 'bold'],
-            ['In 2014, we started “Knit for Charity”, an initiative intended to be much more than knitting warm clothing and accessories for the elderly. “Knit for Charity” involves our employees learning how to knit, knitting different items, and presenting the items to the elderly as an expression of care and affection during our visits. This year, we inspired more than 30 employees to work together to knit pouches which we gave to the elderly during our visits and other volunteering activities.', '2', 'normal'],
+            ['', '2', 'normal'],
           ]
         },
         {
-          type: "",
+          type: "text",
           data: [
             ['Career Exploration Workshops for Students with Special Needs', '2', 'bold'],
-            ['We arranged for students with learning disabilities from Escola Luso-Chinesa Técnico-Profissional to attend a floral arrangement training and observe kitchen operations at Macau Tower to help them explore career options.', '2', 'normal'],
+            ['', '2', 'normal'],
 
           ]
         },
@@ -219,7 +221,7 @@ var value = {
   "Pubrel02": ["9"],
   "Pubrel03": ["9"],
   "Pubrel04": ["9"],
-  "Pubrel05": ["9"],
+  "Pubrel05": ["99"],
   "Pubrel06": ["9"],
   "Pubrel07": ["9"],
   "Pubrel08": ["9"],
@@ -227,8 +229,16 @@ var value = {
   "Pubrel12": ["9"],
   "Pubrel13": ["9"],
   "Pubrel14": ["9"],
-  "Pubrel15": ["9"]
-}
+  "Pubrel15": ["9"],
+  "Pubrel21": ["9"],
+  "Pubrel22": ["9"],
+  "Pubrel23": ["9"],
+  "Pubrel31": ["9"],
+  "Pubrel32": ["9"],
+  "Pubrel41": ["9"],
+  "Pubrel42": ["9"]
+};
+
 
 const getUploadJson = function (data) {
   var status = true;
@@ -354,7 +364,7 @@ const getUploadJson = function (data) {
           {
             type: "normal",
             data: [
-              ['Personal time', '2', 'bold'],
+              ['Personal time(hours)', '2', 'bold'],
               [data.Pubrel12[0], '2', 'normal'],
             ]
           },
@@ -394,24 +404,24 @@ const getUploadJson = function (data) {
             ]
           },
           {
-            type: "",
+            type: "textview",
             data: [
               ['Award', '2', 'bold'],
-              ['Issuing bodies', '2', 'bold'],
+              [data.Pubrel21[0], '2', 'bold'],
             ]
           },
           {
-            type: "",
+            type: "textview",
             data: [
               ['2nd F&B Occupational Safety and Health Award Program ', '2 ', 'bold '],
-              ['Macau Labour Affairs\nBureau', '2', 'bold'],
+              [data.Pubrel22[0], '2', 'bold'],
             ]
           },
           {
-            type: "",
+            type: "textview",
             data: [
               ['Award for implementing paid paternity leave for male employees', '2', 'bold'],
-              ['The Women’s General Association of Macau', '2', 'bold'],
+              [data.Pubrel23[0], '2', 'bold'],
             ]
           },
           {
@@ -429,15 +439,17 @@ const getUploadJson = function (data) {
             ]
           },
           {
-            type: "",
+            type: "textview",
             data: [
               ['Social Welfare Department', '2', 'bold'],
+              [data.Pubrel31[0], '2', 'bold'],
             ]
           },
           {
-            type: "",
+            type: "textview",
             data: [
               ['Local community organisations', '2', 'bold'],
+              [data.Pubrel32[0], '2', 'bold'],
             ]
           },
 
@@ -456,17 +468,17 @@ const getUploadJson = function (data) {
             ]
           },
           {
-            type: "",
+            type: "textview",
             data: [
               ['Knit for Charity', '2', 'bold'],
-              ['In 2014, we started “Knit for Charity”, an initiative intended to be much more than knitting warm clothing and accessories for the elderly. “Knit for Charity” involves our employees learning how to knit, knitting different items, and presenting the items to the elderly as an expression of care and affection during our visits. This year, we inspired more than 30 employees to work together to knit pouches which we gave to the elderly during our visits and other volunteering activities.', '2', 'normal'],
+              [data.Pubrel41[0], '2', 'normal'],
             ]
           },
           {
-            type: "",
+            type: "textview",
             data: [
               ['Career Exploration Workshops for Students with Special Needs', '2', 'bold'],
-              ['We arranged for students with learning disabilities from Escola Luso-Chinesa Técnico-Profissional to attend a floral arrangement training and observe kitchen operations at Macau Tower to help them explore career options.', '2', 'normal'],
+              [data.Pubrel42[0], '2', 'normal'],
 
             ]
           },
