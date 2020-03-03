@@ -67,10 +67,7 @@ export default {
     this.test();
   },
   methods: {
-    test() {
-      console.log(this.fileTotal);
-      console.log(this.fileTotalText);
-    },
+    test() {},
     fillChartData(data, nowIndex) {
       var chromacolor = chroma
         .scale(["#8DDF5E", "#306377"])

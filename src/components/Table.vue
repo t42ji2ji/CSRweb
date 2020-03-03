@@ -1,5 +1,5 @@
 <template lang="pug">
-  .tableApp
+  .tableApp(@click="handleClick")
     //- number style
     .table.tableInput.tableInputBG(v-if="tableType[0]",:class="{ 'tablehover': hover}",)
       .title(:style="{flex: data[0][1], fontWeight: data[0][2], }") {{data[0][0]}}
@@ -18,6 +18,8 @@
     //- normal Style
     .table(:class="{ 'tablehover': hover}",v-if="tableType[3]")
       .title.fz(v-for="(item,index) in data" :style="{flex: item[1], fontWeight: item[2]}") {{item[0]}}
+    .btn.deleteTable(v-if="deletBtn" ,@click="handleDel($event)") 刪除
+
 
 </template>
 
@@ -26,6 +28,10 @@ import { mapActions, mapState } from "vuex";
 export default {
   name: "Table",
   props: {
+    deletBtn: {
+      default: false,
+      type: Boolean
+    },
     hover: {
       default: true,
       type: Boolean
@@ -76,7 +82,14 @@ export default {
   methods: {
     ...mapActions({
       addUploadData: "addUploadData"
-    })
+    }),
+    handleDel(event) {
+      event.stopPropagation();
+      this.$emit("delete");
+    },
+    handleClick() {
+      this.$emit("openTable");
+    }
   },
   computed: {
     ...mapState({ blackBg: "blackBg" }),
@@ -119,6 +132,7 @@ export default {
 .tableApp {
   width: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 .table {
   font-size: 0.8rem;
@@ -127,6 +141,7 @@ export default {
   transition: 0.5s;
 
   .title {
+    display: block;
     flex: 1;
     font-weight: bold;
     text-align: left;
@@ -167,5 +182,18 @@ export default {
 .tableDash {
   padding: 15px;
   margin-bottom: 80px;
+}
+
+.deleteTable {
+  width: 30px;
+  height: 15px;
+  line-height: 15px;
+  position: absolute;
+  margin-top: auto;
+  margin-bottom: auto;
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  font-size: 0.8rem;
 }
 </style>

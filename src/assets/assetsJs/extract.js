@@ -18,11 +18,11 @@ const extractData = function (data) {
   data.forEach((value, index_question) => {
     var q_item = [];
 
-    value.map((value, index) => {
+    value.map((value, index, array) => {
       if (index == 0)
         q_item.push([value, '2', 'bold']);
       else {
-        q_item.push([value, 1, 'normal']);
+        q_item.push([value, 2 / (array.length - 1), 'normal']);
       }
     });
 

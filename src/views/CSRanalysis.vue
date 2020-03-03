@@ -77,6 +77,11 @@ export default {
           if (val.type == "textview") {
             return val.data;
           }
+          if (val.data[1] != undefined) {
+            if (val.type == "normal" && isNaN(val.data[1][0])) {
+              return val.data;
+            }
+          }
         });
         if (x != undefined) return x;
       });
@@ -106,7 +111,7 @@ export default {
         this.fileData = ExtractExcel.extractData(data);
         this.fileTotal = ExtractExcel.calcTotal(data);
         this.fileName = filename.name;
-        console.log(this.fileFormName);
+        console.log(this.fileData);
       });
     },
     fillChartData(data, nowIndex) {

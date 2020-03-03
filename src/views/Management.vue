@@ -1,5 +1,6 @@
 <template lang="pug">
   .Management(v-if="isLogin")
+    Alert(:msg="alert.msg",:isShow="alert.isShow",@alertReturnVale="handleDelCheck")
     h2 表單管理
     h4 Management
     .tabgroup
@@ -16,7 +17,12 @@
         ["userName", "3", "bold"],
         ["last update", "3", "bold"]
       ], :hover="false")
-      Table(v-for="(item,index) in nowData", :key="index", :data="item" @click.native="OpenTable(index)")
+      Table(v-for="(item,index) in nowData", :key="index", :data="item" :deletBtn="true", v-on:delete="getFormId(index)", v-on:openTable="OpenFormTable(index)")
+      .formpage
+        .btnGroup
+          .btn(@click="pageChange(false)" :class="{btn_disable: isBtnDisable.lastPage}") 上一頁 
+          span(style="padding: 0px 10px")  {{nowpage}} 
+          .btn(@click="pageChange(true)" :class="{btn_disable: isBtnDisable.nextPage}") 下一頁 
     transition(name="bounce")
       .QuestionWindow(v-if="openWindow")
         .cover(@click="()=>{this.openWindow = !this.openWindow}")
@@ -28,6 +34,7 @@
           Anaylsis(:fileTotal="fileTotal", :fileTotalText="fileTotalText",v-if="isChart", :fileName="fileName")
         .noData(v-else="this.fileData.hasOwnProperty('questions') ?  true : false ")
           h3 沒有資料
+
 
   GotoLogin(v-else="isLogin")
 </template>
@@ -41,13 +48,15 @@ import dayjs from "dayjs";
 import HR from "../components/questions/HR";
 import ExtractExcel from "../assets/assetsJs/extract";
 import Anaylsis from "../components/questions/Anaylsis";
+import Alert from "../components/Alert";
 
 export default {
   components: {
     GotoLogin,
     Table,
     HR,
-    Anaylsis
+    Anaylsis,
+    Alert
   },
   // eslint-disable-next-line no-unused-vars
   beforeRouteEnter(to, from, next) {
@@ -63,6 +72,13 @@ export default {
   mounted() {},
   data() {
     return {
+      isBtnDisable: { lastPage: true, nextPage: false },
+      nowpage: 1,
+      alert: {
+        msg: "",
+        isShow: false,
+        _id: ""
+      },
       isChart: false,
       openWindow: false,
       fileData: {},
@@ -73,12 +89,7 @@ export default {
       engmainData: [],
       puberlData: [],
       nowData: [],
-      nowTab: {
-        hr: false,
-        "ENG&MAIN": false,
-        CumSer: false,
-        PubRel: false
-      },
+      nowTab: "hr",
       csrData: [
         [
           ["HR", "1", "bold"],
@@ -115,6 +126,7 @@ export default {
       var output = this.fileData.questions.map(val => {
         var x = val.q.map(val => {
           if (val.type == "textview") {
+            console.log(val.data);
             return val.data;
           }
         });
@@ -129,15 +141,36 @@ export default {
       openBlackBg: "isShowBlackBg",
       ChangeFileData: "ChangeFileData"
     }),
-
-    OpenTable(index) {
+    pageChange(isNext) {
+      if (isNext) {
+        this.nowpage += 1;
+        this.geFilledFormData(this.nowTab, this.nowpage);
+      } else {
+        if (this.nowpage == 1) {
+          return;
+        }
+        this.nowpage -= 1;
+        this.geFilledFormData(this.nowTab, this.nowpage);
+      }
+    },
+    handleDelCheck(val) {
+      if (val) {
+        this.deleteForm(this.alert._id);
+        this.alert.isShow = false;
+      } else {
+        this.alert.isShow = false;
+      }
+    },
+    getFormId(index) {
+      var id = this.responseData[index]._id;
+      this.alert.isShow = true;
+      this.alert.msg = `確定刪除嗎?`;
+      this.alert._id = id;
+    },
+    OpenFormTable(index) {
       // this.openBlackBg();
       this.fileData = this.responseData[index].data;
       this.openWindow = true;
-      // console.log(index);
-      // this.changeFormState(index);
-      // // console.log(this.csrData[index][0][0]);
-      // this.ChangeFileData(this.fileData);
     },
     altToNowData(payload) {
       this.nowData = payload.map((value, index) => {
@@ -150,6 +183,11 @@ export default {
       });
     },
     changeTab(tabname, event) {
+      this.nowTab = tabname;
+      //page clean
+      this.nowpage = 1;
+      this.btnClear(false);
+
       this.geFilledFormData(tabname);
       var tab = document.querySelectorAll(".tab");
       tab.forEach(value => {
@@ -157,16 +195,49 @@ export default {
       });
       event.target.classList.add("tabClick");
     },
-    async geFilledFormData(formname) {
+    btnClear(state) {
+      this.isBtnDisable.nextPage = state;
+      this.isBtnDisable.lastPage = state;
+      if (this.nowpage == 1) {
+        this.isBtnDisable.lastPage = true;
+      }
+      this.isBtnDisable.reg = state;
+    },
+    async deleteForm(delet_id) {
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${this.userData.token}`;
+      try {
+        const response = await axios.delete(
+          `https://csrweb.ahkui.com/api/form/${this.nowTab}/${delet_id}`
+        );
+        if (response.data.status) {
+          this.geFilledFormData(this.nowTab);
+        } else {
+          this.isDelError = true;
+          this.notLoggin(response.data.message);
+        }
+      } catch (error) {
+        console.error(error);
+        this.isDelError = true;
+        this.notLoggin("找不到帳號 " + this.del_username);
+      }
+    },
+    async geFilledFormData(formname, page = 1) {
+      this.btnClear(false);
       this.nowData = [];
-
       this.isDelError = false;
+      var limit = 15;
       try {
         const response = await axios.get(
-          `https://csrweb.ahkui.com/api/form/${formname}/list`
+          `https://csrweb.ahkui.com/api/form/${formname}/list?limit=${limit}&page=${page}`
         );
         if (response.data.status) {
           this.responseData = response.data.data;
+
+          if (this.responseData.length < limit) {
+            this.isBtnDisable.nextPage = true;
+          }
           switch (formname) {
             case "hr":
               this.fileName = "Hr";

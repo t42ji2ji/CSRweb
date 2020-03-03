@@ -131,6 +131,11 @@ $green: #42b983;
   }
 }
 
+.btn_disable {
+  filter: grayscale(0.8);
+  pointer-events: none;
+}
+
 .cover {
   width: 100%;
   height: 100%;

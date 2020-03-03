@@ -52,6 +52,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 }
 
 .window {
@@ -68,6 +69,8 @@ export default {
 .btnGroup {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
   .btn {
     margin: 5px;
   }
