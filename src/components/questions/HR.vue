@@ -3,7 +3,7 @@
     .adjust
       h3(ref="input1111") {{fileName}}
       .quote(v-for="(question, questionIndex) in fileData.questions")
-        Table(:hover="false", :data="item.data", :type="item.type", v-for="(item, index) in question.q", :key="item.data + index" :id="'table'+index", :class="{'tableOdd':index%2 != 1}", :tag="fileName + questionIndex + index")
+        Table(:hover="false", :data="item.data", :type="item.type", v-for="(item, index) in question.q", :key="item.data + index" :id="'table'+index", :class="{'tableOdd':index%2 != 1}", :tag="fileName + questionIndex + index", @addRow="addRow", :questionIndex="questionIndex", :qIndex="index")
       .alert(v-if="isError") {{errorMsg}}
       .btn(v-if="isUploadPage", @click="submit") Save
 </template>
@@ -44,6 +44,18 @@ export default {
     Table
   },
   methods: {
+    addRow(arg) {
+      console.log("add", arg);
+      var index = this.fileData.questions[arg].q.length;
+      this.fileData.questions[arg].q.splice(index - 2, 0, {
+        type: "input",
+        data: [
+          ["Directors", "2", "bold"],
+          ["", "1", "normal"],
+          ["", "1", "normal"]
+        ]
+      });
+    },
     submit() {
       // eslint-disable-next-line no-unused-vars
       this.isFormNull();

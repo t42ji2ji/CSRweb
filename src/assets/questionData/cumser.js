@@ -35,7 +35,8 @@ const excelData = {
             ['Food & Beverages', '2', 'bold'],
             ['', '2', 'normal'],
           ]
-        }, {
+        },
+        {
           type: "dash",
           data: []
         },
@@ -238,7 +239,7 @@ const getUploadJson = function (data) {
   }
   var uploadExcel = {
     fileConfig: {
-      name: 'Cum Ser'
+      name: 'Customer Services & Relationship'
     },
     questions: [{
         q: [{

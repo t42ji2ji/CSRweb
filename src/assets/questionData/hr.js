@@ -64,7 +64,14 @@ const excelData = {
             ['', '1', 'normal'],
             ['', '1', 'normal']
           ]
-        }, {
+        },
+        {
+          type: "add",
+          data: [
+            ['Add', '2', 'bold'],
+          ]
+        },
+        {
           type: "dash",
           data: []
         },
@@ -103,7 +110,14 @@ const excelData = {
             ['', '1', 'normal'],
             ['', '1', 'normal']
           ]
-        }, {
+        },
+        {
+          type: "add",
+          data: [
+            ['Add', '2', 'bold'],
+          ]
+        },
+        {
           type: "dash",
           data: []
         },
@@ -366,7 +380,7 @@ const getUploadJson = function (data) {
   }
   var uploadExcel = {
     fileConfig: {
-      name: 'HR'
+      name: 'Human Resources'
     },
     questions: [{
         q: [{

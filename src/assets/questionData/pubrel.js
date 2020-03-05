@@ -276,7 +276,7 @@ const getUploadJson = function (data) {
 
   var uploadExcel = {
     fileConfig: {
-      name: 'Pubrel'
+      name: 'Community & Public Relations'
     },
     questions: [{
         q: [{

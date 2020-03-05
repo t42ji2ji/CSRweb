@@ -2,7 +2,7 @@
   .tableApp(@click="handleClick")
     //- number style
     .table.tableInput.tableInputBG(v-if="tableType[0]",:class="{ 'tablehover': hover}",)
-      .title(:style="{flex: data[0][1], fontWeight: data[0][2], }") {{data[0][0]}}
+      .title(:style="{flex: data[0][1], fontWeight: data[0][2], }" contenteditable="true") {{data[0][0]}}
       .inputContainer(v-for="(item, index) in inputArray", type="number",:style="{flex: item[1], fontWeight: item[2]}")
         input.inputStyle(type="number", v-model="form.parentId[index]")
     //- textArea style
@@ -18,6 +18,11 @@
     //- normal Style
     .table(:class="{ 'tablehover': hover}",v-if="tableType[3]")
       .title.fz(v-for="(item,index) in data" :style="{flex: item[1], fontWeight: item[2]}") {{item[0]}}
+    //- add Style
+    .table(:class="{'tablehover': hover}",v-if="tableType[5]")
+      .title.fz.add(v-for="(item,index) in data" :style="{flex: item[1], fontWeight: item[2]}",) 
+        font-awesome-icon(icon="plus-circle" @click="test") Add
+
     .btn.deleteTable(v-if="deletBtn" ,@click="handleDel($event)") 刪除
 
 
@@ -31,6 +36,10 @@ export default {
     deletBtn: {
       default: false,
       type: Boolean
+    },
+    questionIndex: {
+      default: null,
+      type: Number
     },
     hover: {
       default: true,
@@ -83,6 +92,10 @@ export default {
     ...mapActions({
       addUploadData: "addUploadData"
     }),
+    test() {
+      console.log(this.questionIndex);
+      this.$emit("addRow", this.questionIndex);
+    },
     handleDel(event) {
       event.stopPropagation();
       this.$emit("delete");
@@ -99,27 +112,31 @@ export default {
       });
     },
     tableType() {
-      //input dash title
-      var returnValue = [false, false, false, false, false];
+      //input dash title text add
+      var returnValue = [false, false, false, false, false, false];
       switch (this.type) {
         case "input":
-          returnValue = [true, false, false, false, false];
-          break;
-
-        case "text":
-          returnValue = [false, false, false, false, true];
+          returnValue = [true, false, false, false, false, false];
           break;
 
         case "dash":
-          returnValue = [false, true, false, false, false];
+          returnValue = [false, true, false, false, false, false];
           break;
 
         case "title":
-          returnValue = [false, false, true, false, false];
+          returnValue = [false, false, true, false, false, false];
+          break;
+
+        case "text":
+          returnValue = [false, false, false, false, true, false];
+          break;
+
+        case "add":
+          returnValue = [false, false, false, false, false, true];
           break;
 
         default:
-          returnValue = [false, false, false, true, false];
+          returnValue = [false, false, false, true, false, false];
           break;
       }
       return returnValue;
@@ -146,6 +163,9 @@ export default {
     font-weight: bold;
     text-align: left;
     font-size: 1rem;
+  }
+  .add {
+    text-align: center;
   }
 }
 .inputContainer {
