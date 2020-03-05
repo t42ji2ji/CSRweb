@@ -1,7 +1,7 @@
 <template lang="pug">
   .home(v-if="isLogin")
     h2 CSR 資訊管理
-    h4 CSR Information Management
+    h4 CSR DATA Management
     .tablegroup()
       Table(:data="csrTitle", :hover="isTitle" )
       Table(v-for="(item,index) in csrData", :id="index",:data="item", :key="index", @click.native="OpenTable(index)", v-if="mapFormAuth[index]")
@@ -28,30 +28,30 @@ export default {
     return {
       isTitle: false,
       csrTitle: [
-        ["表單標題", "1", "bold"],
-        ["表單描述", "2", "normal"],
-        ["建立日期", "1", "normal"]
+        ["Department", "1", "bold"],
+        ["Data Input & Approva", "2", "normal"],
+        ["Last Update", "1", "normal"]
       ],
       csrData: [
         [
-          ["HR", "1", "bold"],
-          ["必填表單", "2", "normal"],
-          ["2019/01/01", "1", "normal"]
+          ["Human Resources", "1", "bold"],
+          ["MoMo Chan", "2", "normal"],
+          ["2019/04/01", "1", "normal"]
         ],
         [
-          ["ENG & MAIN", "1", "bold"],
-          ["必填表單", "2", "normal"],
-          ["2019/01/01", "1", "normal"]
+          ["Engineering & Maintenance", "1", "bold"],
+          ["Albert Leung", "2", "normal"],
+          ["2019/04/01", "1", "normal"]
         ],
         [
-          ["Cum Ser", "1", "bold"],
-          ["必填表單", "2", "normal"],
-          ["2019/01/01", "1", "normal"]
+          ["Customer Services & Relationship", "1", "bold"],
+          ["Jose Ng", "2", "normal"],
+          ["2019/04/01", "1", "normal"]
         ],
         [
-          ["Pub Rel", "1", "bold"],
-          ["必填表單", "2", "normal"],
-          ["2019/01/01", "1", "normal"]
+          ["Community & Public Relations", "1", "bold"],
+          ["Apple Wong", "2", "normal"],
+          ["2019/04/01", "1", "normal"]
         ]
       ]
     };
@@ -119,16 +119,16 @@ export default {
     mapData(str) {
       var data = null;
       switch (str) {
-        case "HR":
+        case "Human Resources":
           data = require("../assets/questionData/hr");
           break;
-        case "ENG & MAIN":
+        case "Engineering & Maintenance":
           data = require("../assets/questionData/eng&main");
           break;
-        case "Cum Ser":
+        case "Customer Services & Relationship":
           data = require("../assets/questionData/cumser");
           break;
-        case "Pub Rel":
+        case "Community & Public Relations":
           data = require("../assets/questionData/pubrel");
           break;
         default:

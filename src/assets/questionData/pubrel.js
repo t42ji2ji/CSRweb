@@ -1,13 +1,13 @@
 const excelData = {
   fileConfig: {
-    name: 'Pubrel'
+    name: 'Community & Public Relations'
   },
   questions: [{
       q: [{
           type: "title",
           data: [
             ['Donations', '2', 'bold'],
-            ['in \'000', '2', 'bold'],
+            ['MOP’000', '2', 'bold'],
           ]
         }, {
           type: "input",
@@ -250,7 +250,7 @@ const getUploadJson = function (data) {
         return {
           status,
           uploadExcel: {},
-          msg: 'some empty'
+          msg: 'Warning: Incomplete Information '
         };
       }
       for (var x = 0; x < data[key].length; x++) {
@@ -260,7 +260,7 @@ const getUploadJson = function (data) {
           return {
             status,
             uploadExcel: {},
-            msg: 'some empty'
+            msg: 'Warning: Incomplete Information '
           };
         }
       }
@@ -269,7 +269,7 @@ const getUploadJson = function (data) {
       return {
         status,
         uploadExcel: {},
-        msg: 'some empty'
+        msg: 'Warning: Incomplete Information '
       };
     }
   }

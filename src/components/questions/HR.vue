@@ -5,7 +5,7 @@
       .quote(v-for="(question, questionIndex) in fileData.questions")
         Table(:hover="false", :data="item.data", :type="item.type", v-for="(item, index) in question.q", :key="item.data + index" :id="'table'+index", :class="{'tableOdd':index%2 != 1}", :tag="fileName + questionIndex + index")
       .alert(v-if="isError") {{errorMsg}}
-      .btn(v-if="isUploadPage", @click="submit") send
+      .btn(v-if="isUploadPage", @click="submit") Save
 </template>
 
 <script>
@@ -52,7 +52,7 @@ export default {
         return;
       } else {
         this.isError = false;
-        this.errorMsg = "some empty";
+        this.errorMsg = "Warning: Incomplete Information ";
       }
       console.log(this.altJson(this.nowForm));
       this.uploadJson(this.altJson(this.nowForm));
@@ -88,7 +88,7 @@ export default {
           console.log("n number");
           item.classList.add("redinput");
           this.isError = true;
-          this.errorMsg = "some empty";
+          this.errorMsg = "Warning: Incomplete Information ";
           state = true;
         } else {
           item.classList.remove("redinput");
@@ -100,7 +100,7 @@ export default {
 
           item.classList.add("redinput");
           this.isError = true;
-          this.errorMsg = "some empty";
+          this.errorMsg = "Warning: Incomplete Information ";
           state = true;
         } else {
           item.classList.remove("redinput");

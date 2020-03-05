@@ -1,6 +1,6 @@
 const excelData = {
   fileConfig: {
-    name: 'HR'
+    name: 'Human Resources'
   },
   questions: [{
       q: [{
@@ -76,8 +76,8 @@ const excelData = {
           type: "title",
           data: [
             ['Age', '2', 'bold'],
-            ['', '1', 'normal'],
-            ['', '1', 'normal']
+            ['Male', '1', 'bold'],
+            ['Female', '1', 'bold'],
           ]
         },
         {
@@ -115,8 +115,8 @@ const excelData = {
           type: "title",
           data: [
             ['Newly hired', '2', 'bold'],
-            ['', '1', 'normal'],
-            ['', '1', 'normal']
+            ['Male', '1', 'bold'],
+            ['Female', '1', 'bold'],
           ]
         },
         {
@@ -154,8 +154,8 @@ const excelData = {
           type: "title",
           data: [
             ['Resigned', '2', 'bold'],
-            ['', '1', 'normal'],
-            ['', '1', 'normal']
+            ['Male', '1', 'bold'],
+            ['Female', '1', 'bold'],
           ]
         },
         {
@@ -193,8 +193,8 @@ const excelData = {
           type: "title",
           data: [
             ['Training hours', '2', 'bold'],
-            ['', '1', 'normal'],
-            ['', '1', 'normal']
+            ['Male', '1', 'bold'],
+            ['Female', '1', 'bold'],
           ]
         },
         {
@@ -231,9 +231,9 @@ const excelData = {
       q: [{
           type: "title",
           data: [
-            ['Performace & career development reviews', '5', 'bold'],
-            ['', '1', 'normal'],
-            ['', '1', 'normal']
+            ['Performace & career development reviews', '2', 'bold'],
+            ['Male', '1', 'bold'],
+            ['Female', '1', 'bold'],
           ]
         },
         {
@@ -342,7 +342,7 @@ const getUploadJson = function (data) {
         return {
           status,
           uploadExcel: {},
-          msg: 'some empty'
+          msg: 'Warning: Incomplete Information '
         };
       }
       for (var x = 0; x < data[key].length; x++) {
@@ -351,7 +351,7 @@ const getUploadJson = function (data) {
           return {
             status,
             uploadExcel: {},
-            msg: 'some empty'
+            msg: 'Warning: Incomplete Information '
           };
         }
       }
@@ -360,7 +360,7 @@ const getUploadJson = function (data) {
       return {
         status,
         uploadExcel: {},
-        msg: 'some empty'
+        msg: 'Warning: Incomplete Information '
       };
     }
   }

@@ -1,13 +1,13 @@
 const excelData = {
   fileConfig: {
-    name: 'Eng & Main'
+    name: 'Engineering & Maintenance'
   },
   questions: [{
       q: [{
           type: "title",
           data: [
             ['Engergy consumption', '2', 'bold'],
-            ['MWH', '2', 'bold'],
+            ['Mwh', '2', 'bold'],
           ]
         }, {
           type: "input",
@@ -39,7 +39,7 @@ const excelData = {
       q: [{
           type: "title",
           data: [
-            ['-', '2', 'bold'],
+            ['Water consumed', '2', 'bold'],
             ['m3', '2', 'bold'],
           ]
         },
@@ -61,7 +61,7 @@ const excelData = {
       q: [{
           type: "title",
           data: [
-            ['-', '2', 'bold'],
+            ['Packaging material', '2', 'bold'],
             ['tonnes', '1', 'bold'],
             ['units', '1', 'bold']
           ]
@@ -69,7 +69,7 @@ const excelData = {
         {
           type: "input",
           data: [
-            ['Packaging material', '2', 'bold'],
+            ['Material used', '2', 'bold'],
             ['', '1', 'normal'],
             ['', '1', 'normal']
           ]
@@ -84,8 +84,8 @@ const excelData = {
       q: [{
           type: "title",
           data: [
-            ['GFA', '2', 'bold'],
-            ['M2', '2', 'bold'],
+            ['Gross Floor Area', '2', 'bold'],
+            ['m2', '2', 'bold'],
           ]
         },
         {
@@ -114,7 +114,7 @@ const excelData = {
           type: "title",
           data: [
             ['Greenhouse gas emissions(CO2)', '2', 'bold'],
-            ['in Tonnes', '2', 'bold'],
+            ['Tonnes', '2', 'bold'],
           ]
         },
         {
@@ -311,7 +311,7 @@ const getUploadJson = function (data) {
         return {
           status,
           uploadExcel: {},
-          msg: 'some empty'
+          msg: 'Warning: Incomplete Information '
         };
       }
       for (var x = 0; x < data[key].length; x++) {
@@ -321,7 +321,7 @@ const getUploadJson = function (data) {
           return {
             status,
             uploadExcel: {},
-            msg: 'some empty'
+            msg: 'Warning: Incomplete Information '
           };
         }
       }
@@ -330,7 +330,7 @@ const getUploadJson = function (data) {
       return {
         status,
         uploadExcel: {},
-        msg: 'some empty'
+        msg: 'Warning: Incomplete Information '
       };
     }
   }
@@ -399,8 +399,8 @@ const getUploadJson = function (data) {
             type: "title",
             data: [
               ['-', '2', 'bold'],
-              ['tonnes', '1', 'bold'],
-              ['units', '1', 'bold']
+              ['Tonnes', '1', 'bold'],
+              ['Units', '1', 'bold']
             ]
           },
           {

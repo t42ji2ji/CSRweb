@@ -11,7 +11,7 @@
       .btn(@click="Loggin") 登入
       button(style="display: none")
   .Login.alignLeft(v-else="isLogin")
-    h2 {{userData.username}} 已經登入系統
+    h2 {{userData.realname}} 
     h4 管理員等級: {{altLevel(userData.level)}}
     .btn.alignLeft.logout_btn(@click="Logout") 登出
     Alert(@alertReturnVale="handleAlert",:msg="alertMsg", :isShow="alertShow", :showcancel="showcancel")
@@ -35,26 +35,26 @@
 
     .gridContainer
       .funcArea.reg_grid
-        h2 註冊帳號
+        h2 Account Registration
         .testfiled 
-          span 會員姓名：
+          span Staff Name：
           input(v-model="reg_realname" )
         .testfiled 
-          span 帳號：
+          span Login Name：
           input(v-model="reg_username")
         .testfiled 
-          span 密碼：
+          span Password：
           input(v-model="reg_password" type="password")
         .testfiled 
-          span 密碼確認：
+          span Re-enter Password：
           input(v-model="reg_password_confirm" type="password")
         .testfiled 
-          span 帳號權限：
+          span Role：
           select(v-model="reg_premision")
-            option(disabled value="") 選擇權限
+            option(disabled value="") Role--
             option(value="0") 一般會員
             option(value="1") 管理員
-        .testfiled 表單權限：
+        .testfiled Department：
           input(type="checkbox" v-model="formVisible" value="hr" id="hr_checkbox")
           label(for="hr_checkbox") hr
           input(type="checkbox" v-model="formVisible" value="ENG&MAIN" id="ENG&MAIN_checkbox")
@@ -66,7 +66,7 @@
           input(type="checkbox" v-model="formVisible" value="PubRel" id="PubRel_checkbox")
           label(for="PubRel_checkbox") Pub Rel
         .alertText(v-show="isRegError") {{LoggMessage}}
-        .btn(@click="alertSet('register')", :class="{btn_disable: isBtnDisable.reg}") 註冊 
+        .btn(@click="alertSet('register')", :class="{btn_disable: isBtnDisable.reg}") Register 
       .funcArea.delete_grid
         h2 刪除帳號
         form
@@ -427,6 +427,7 @@ export default {
       }
     },
     async Loggin() {
+      console.log("Login");
       try {
         const response = await axios.post(
           "https://csrweb.ahkui.com/api/user/login",

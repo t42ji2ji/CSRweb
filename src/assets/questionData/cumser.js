@@ -1,6 +1,6 @@
 const excelData = {
   fileConfig: {
-    name: 'Cum Ser'
+    name: 'Customer Services & Relationship'
   },
   questions: [{
       q: [{
@@ -12,27 +12,27 @@ const excelData = {
         }, {
           type: "input",
           data: [
-            ['Entertainment', '2', 'bold'],
+            ['Front Office', '2', 'bold'],
             ['', '2', 'normal'],
           ]
         }, {
           type: "input",
           data: [
-            ['Entertainment', '2', 'bold'],
+            ['Housekeeping', '2', 'bold'],
             ['', '2', 'normal'],
           ]
         },
         {
           type: "input",
           data: [
-            ['Lodging', '2', 'bold'],
+            ['Retail Shops', '2', 'bold'],
             ['', '2', 'normal'],
           ]
         },
         {
           type: "input",
           data: [
-            ['F & B', '2', 'bold'],
+            ['Food & Beverages', '2', 'bold'],
             ['', '2', 'normal'],
           ]
         }, {
@@ -83,13 +83,20 @@ const excelData = {
           type: "title",
           data: [
             ['Social media', '2', 'bold'],
-            ['times', '2', 'bold'],
+            ['Times', '2', 'bold'],
           ]
         },
         {
           type: "input",
           data: [
-            ['Comments and feedbacks', '2', 'bold'],
+            ['Communications', '2', 'bold'],
+            ['', '2', 'normal'],
+          ]
+        },
+        {
+          type: "input",
+          data: [
+            ['Website……Number of visitors per year', '2', 'bold'],
             ['', '2', 'normal'],
           ]
         }, {
@@ -104,13 +111,13 @@ const excelData = {
           type: "title",
           data: [
             ['Meetings with customers', '2', 'bold'],
-            ['', '2', 'bold'],
+            ['Number', '2', 'bold'],
           ]
         },
         {
           type: "input",
           data: [
-            ['-', '2', 'bold'],
+            ['In-person meetings', '2', 'bold'],
             ['', '2', 'normal'],
           ]
         }, {
@@ -207,7 +214,7 @@ const getUploadJson = function (data) {
         return {
           status,
           uploadExcel: {},
-          msg: 'some empty'
+          msg: 'Warning: Incomplete Information '
         };
       }
       for (var x = 0; x < data[key].length; x++) {
@@ -216,7 +223,7 @@ const getUploadJson = function (data) {
           return {
             status,
             uploadExcel: {},
-            msg: 'some empty'
+            msg: 'Warning: Incomplete Information '
           };
         }
       }
@@ -225,7 +232,7 @@ const getUploadJson = function (data) {
       return {
         status,
         uploadExcel: {},
-        msg: 'some empty'
+        msg: 'Warning: Incomplete Information '
       };
     }
   }
