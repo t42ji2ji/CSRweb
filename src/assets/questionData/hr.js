@@ -76,7 +76,14 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['Directors', '2', 'bold'],
+          ['', '1', 'normal'],
+          ['', '1', 'normal']
+        ]
+      }
     },
     {
       q: [{
@@ -122,7 +129,14 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['<30', '2', 'bold'],
+          ['', '1', 'normal'],
+          ['', '1', 'normal']
+        ]
+      },
     },
     {
       q: [{
@@ -161,7 +175,14 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['<30', '2', 'bold'],
+          ['', '1', 'normal'],
+          ['', '1', 'normal']
+        ]
+      },
     },
     {
       q: [{
@@ -200,7 +221,14 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['<30', '2', 'bold'],
+          ['', '1', 'normal'],
+          ['', '1', 'normal']
+        ]
+      },
     },
     {
       q: [{
@@ -239,7 +267,14 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['Directors', '2', 'bold'],
+          ['', '1', 'normal'],
+          ['', '1', 'normal']
+        ]
+      },
     },
     {
       q: [{
@@ -311,7 +346,14 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['Director', '2', 'bold'],
+          ['', '1', 'normal'],
+          ['', '1', 'normal']
+        ]
+      },
     },
   ]
 };

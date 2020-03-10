@@ -4,6 +4,7 @@
       h1 請先登入
       router-link(to='/login')
         .btn 前往登入 
+
 </template>
 
 <style lang="scss" scoped>

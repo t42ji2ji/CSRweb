@@ -3,7 +3,7 @@
     .questionChart(v-for="(data, index) in fileTotal[0]")
       Table(:hover="false", :data="fileTotal[3][index]", type="title")
       .chartAdjust
-        bar-chart(:chart-data="fillChartData(data,index)", :options="getOptions(index)", v-if="!altChartType(index)" :width="600" :height="500")
+        bar-chart(:chart-data="fillChartData(data,index)", :options="getOptions(index)", v-if="!altChartType(index) && charthasData(index)" :width="600" :height="500")
       .textview(v-if="!altChartType(index)" v-for="(data, qIndex) in fileTotal[1][index]") {{fileTotal[0][index][qIndex]}}：{{data[0]}}
       .textview(v-if="altChartType(index)" v-for="(data, qIndex) in fileTotalText[index]") 
         .text(v-for="(data, x) in altTotalText(data)") {{data[0]}} 
@@ -64,10 +64,18 @@ export default {
     }
   },
   mounted() {
-    this.test();
+    console.log(this.fileTotal);
+    console.log(this.fileTotalText);
   },
   methods: {
     test() {},
+    charthasData(index) {
+      if (this.fileTotal[1][index].length === 0) {
+        return false;
+      } else {
+        return true;
+      }
+    },
     fillChartData(data, nowIndex) {
       var chromacolor = chroma
         .scale(["#8DDF5E", "#306377"])
@@ -91,13 +99,13 @@ export default {
     },
     altlabels(index) {
       switch (this.fileName) {
-        case "Hr":
+        case "Human Resources":
           return questionPlugin.hr_label(index);
-        case "Cum Ser":
-          return questionPlugin.cumser_label(index);
-        case "ENG & MAIN":
+        case "Engineering & Maintenance":
           return questionPlugin.engmain_label(index);
-        case "Pub Rel":
+        case "Customer Services & Relationship":
+          return questionPlugin.cumser_label(index);
+        case "Community & Public Relations":
           return questionPlugin.pubrel_label(index);
         default:
           return questionPlugin.hr_label(index);
@@ -105,13 +113,13 @@ export default {
     },
     altChartType(index) {
       switch (this.fileName) {
-        case "Hr":
+        case "Human Resources":
           return questionPlugin.hr_plugin.includes(index);
-        case "Cum Ser":
-          return questionPlugin.cumser_plugin.includes(index);
-        case "ENG & MAIN":
+        case "Engineering & Maintenance":
           return questionPlugin.engmain_plugin.includes(index);
-        case "Pub Rel":
+        case "Customer Services & Relationship":
+          return questionPlugin.cumser_plugin.includes(index);
+        case "Community & Public Relations":
           return questionPlugin.pubrel_plugin.includes(index);
         default:
           console.log("error label");
@@ -127,7 +135,22 @@ export default {
         };
       }
       var option;
-      if (this.fileTotal[1][index][0].length == 1) {
+      if (this.fileTotal[1][index].length === 0) {
+        option = {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                  min: 0
+                }
+              }
+            ]
+          }
+        };
+      } else if (this.fileTotal[1][index][0].length == 1) {
         option = {
           responsive: true,
           maintainAspectRatio: false,

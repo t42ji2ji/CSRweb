@@ -52,6 +52,7 @@ const extractData = function (data) {
     }
 
   });
+
   return excelData;
 };
 

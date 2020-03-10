@@ -5,7 +5,6 @@
     .tablegroup()
       Table(:data="csrTitle", :hover="isTitle" )
       Table(v-for="(item,index) in csrData", :id="index",:data="item", :key="index", @click.native="OpenTable(index)", v-if="mapFormAuth[index]")
-        
   GotoLogin(v-else="isLogin")
 
 </template>
@@ -16,6 +15,7 @@ import GotoLogin from "../components/GotoLogin.vue";
 import { mapActions } from "vuex";
 import { mapState } from "vuex";
 import axios from "axios";
+import lodash from "lodash";
 
 export default {
   name: "home",
@@ -59,8 +59,7 @@ export default {
   computed: {
     ...mapState({
       isLogin: "isLogin",
-      userData: "userData",
-      nowForm: "nowForm"
+      userData: "userData"
     }),
     mapFormAuth() {
       if (this.userData.level > 0) {
@@ -114,22 +113,24 @@ export default {
       console.log(index);
       this.changeFormState(index);
       // console.log(this.csrData[index][0][0]);
-      this.ChangeFileData(this.mapData(this.csrData[index][0][0]));
+      var formName = this.csrData[index][0][0];
+      this.ChangeFileData(this.mapData(formName));
     },
     mapData(str) {
-      var data = null;
+      var data = {};
       switch (str) {
         case "Human Resources":
-          data = require("../assets/questionData/hr");
+          // data = require("../assets/questionData/hr");
+          data = lodash.cloneDeep(require("../assets/questionData/hr"));
           break;
         case "Engineering & Maintenance":
-          data = require("../assets/questionData/eng&main");
+          data = lodash.cloneDeep(require("../assets/questionData/eng&main"));
           break;
         case "Customer Services & Relationship":
-          data = require("../assets/questionData/cumser");
+          data = lodash.cloneDeep(require("../assets/questionData/cumser"));
           break;
         case "Community & Public Relations":
-          data = require("../assets/questionData/pubrel");
+          data = lodash.cloneDeep(require("../assets/questionData/pubrel"));
           break;
         default:
           break;

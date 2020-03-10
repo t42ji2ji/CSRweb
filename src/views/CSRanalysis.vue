@@ -1,7 +1,7 @@
 <template lang="pug">
-  .CSRanalysis
+  .CSRanalysis(v-if="isLogin")
     h2 CSR 資訊分析
-    h4 CSR Information Analysis
+    h4 CSR Data Analysis
     //- h3 {{fileTotal}}
     .flobatbtnGroup
       .floatbtn(@click="handleUpload") +
@@ -11,34 +11,39 @@
         font-awesome-icon(icon="chart-bar")
         span  表格/統計圖
 
-      HR(:fileData="fileData", :fileName="fileName",v-show="!isChart")
+      HR(:fileData="fileData", :fileName="fileName",v-show="!isChart", isUploadPage=true,isAnalysisPage=true)
       //- .chartAdjust
       //-   bar-chart(:chart-data="fillChartData()", :options="options")
-       
-      Anaylsis(:fileTotal="fileTotal", :fileTotalText="fileTotalText",v-if="isChart", :fileName="fileFormName")
+      
+      Anaylsis(:fileTotal="fileTotal", :fileTotalText="fileTotalText",v-if="isChart", :fileName="fileFormName",)
       //- .chartWrapper
       //-   .questionChart(v-for="(data, index) in fileTotal[0]",v-if="isChart")
       //-     Table(:hover="false", :data="fileTotal[3][index]", type="title")
       //-     .chartAdjust
       //-       bar-chart(:chart-data="fillChartData(data,index)", :options="options")
-    
+  GotoLogin(v-else="isLogin")  
 </template>
 <script>
 import Excel from "../assets/assetsJs/excel";
 import HR from "../components/questions/HR";
 import Table from "../components/Table";
 import Anaylsis from "../components/questions/Anaylsis";
+import GotoLogin from "../components/GotoLogin.vue";
 
 import ExtractExcel from "../assets/assetsJs/extract";
 import BarChart from "../components/chart/BarChart";
 import chroma from "chroma-js";
+import questionPlugin from "../assets/questionData/question_plugin";
+
+import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
     HR,
     BarChart,
     Table,
-    Anaylsis
+    Anaylsis,
+    GotoLogin
   },
   data() {
     return {
@@ -71,6 +76,10 @@ export default {
     this.fillData();
   },
   computed: {
+    ...mapState({
+      isLogin: "isLogin",
+      userData: "userData"
+    }),
     fileTotalText() {
       var output = this.fileData.questions.map(val => {
         var x = val.q.map(val => {
@@ -91,19 +100,20 @@ export default {
       var firstq = this.fileData.questions[0].q[0].data[0][0];
       switch (firstq) {
         case "Staff Head Count":
-          return "Hr";
-        case "Satisfaction rate":
-          return "Cum Ser";
+          return "Human Resources";
         case "Engergy consumption":
-          return "ENG & MAIN";
+          return "Engineering & Maintenance";
+        case "Satisfaction rate":
+          return "Customer Services & Relationship";
         case "Donations":
-          return "Pub Rel";
+          return "Community & Public Relations";
         default:
           return "";
       }
     }
   },
   methods: {
+    ...mapActions({ changeFormState: "changeFormState" }),
     handleUpload() {
       // eslint-disable-next-line no-unused-vars
       Excel.importExcel((data, dataRef, filename) => {
@@ -112,6 +122,59 @@ export default {
         this.fileTotal = ExtractExcel.calcTotal(data);
         this.fileName = filename.name;
         console.log(this.fileData);
+        var firstq = this.fileData.questions[0].q[0].data[0][0];
+        var vm = this;
+        switch (firstq) {
+          case "Staff Head Count":
+            this.fileData.fileConfig.name = "Human Resources";
+            this.changeFormState(0);
+
+            questionPlugin.hr_plugin.forEach(val => {
+              vm.fileData.questions[val].q.forEach((val, index, array) => {
+                if (index > 0) {
+                  array[index].type = "textview";
+                }
+              });
+            });
+            break;
+          case "Engergy consumption":
+            this.fileData.fileConfig.name = "Engineering & Maintenance";
+
+            this.changeFormState(1);
+
+            questionPlugin.engmain_plugin.forEach(val => {
+              vm.fileData.questions[val].q.forEach((val, index, array) => {
+                if (index > 0) {
+                  array[index].type = "textview";
+                }
+              });
+            });
+            break;
+          case "Satisfaction rate":
+            this.fileData.fileConfig.name = "Customer Services & Relationship";
+            this.changeFormState(2);
+            questionPlugin.cumser_plugin.forEach(val => {
+              vm.fileData.questions[val].q.forEach((val, index, array) => {
+                if (index > 0) {
+                  array[index].type = "textview";
+                }
+              });
+            });
+            break;
+          case "Donations":
+            this.fileData.fileConfig.name = "Community & Public Relations";
+            this.changeFormState(3);
+            questionPlugin.pubrel_plugin.forEach(val => {
+              vm.fileData.questions[val].q.forEach((val, index, array) => {
+                if (index > 0) {
+                  array[index].type = "textview";
+                }
+              });
+            });
+            break;
+          default:
+            break;
+        }
       });
     },
     fillChartData(data, nowIndex) {

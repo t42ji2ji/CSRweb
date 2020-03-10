@@ -2,14 +2,14 @@
   .tableApp(@click="handleClick")
     //- number style
     .table.tableInput.tableInputBG(v-if="tableType[0]",:class="{ 'tablehover': hover}",)
-      .title(:style="{flex: data[0][1], fontWeight: data[0][2], }" contenteditable="true") {{data[0][0]}}
+      .title(:style="{flex: data[0][1], fontWeight: data[0][2], }" contenteditable="true" @input="onInput") {{data[0][0]}}
       .inputContainer(v-for="(item, index) in inputArray", type="number",:style="{flex: item[1], fontWeight: item[2]}")
-        input.inputStyle(type="number", v-model="form.parentId[index]")
+        input.inputStyle(type="number", v-model="form.parentId[index]" @input="editValue(index, $event)")
     //- textArea style
     .table.tableInput.tableInputBG(v-if="tableType[4]",:class="{ 'tablehover': hover}",)
       .title(:style="{flex: data[0][1], fontWeight: data[0][2], }") {{data[0][0]}}
       .inputContainer(v-for="(item, index) in inputArray", :style="{flex: item[1], fontWeight: item[2]}")
-        textarea.inputStyle(type="number", v-model="form.parentId[index]")
+        textarea.inputStyle(type="number", v-model="form.parentId[index]" @input="editValue(index, $event)")
     //- dash style
     .table.tableDash(:class="{ 'tablehover': hover}",v-if="tableType[1]")
     //- title style
@@ -21,9 +21,10 @@
     //- add Style
     .table(:class="{'tablehover': hover}",v-if="tableType[5]")
       .title.fz.add(v-for="(item,index) in data" :style="{flex: item[1], fontWeight: item[2]}",) 
-        font-awesome-icon(icon="plus-circle" @click="test") Add
+        font-awesome-icon(icon="plus-circle" @click="addRow") Add
 
-    .btn.deleteTable(v-if="deletBtn" ,@click="handleDel($event)") 刪除
+    .btn.deleteTable(v-if="deletBtn" ,@click="handleDel($event)") delete
+    .btn.deleteRow(v-if="deletRow" ,@click="handleDeletRow") x
 
 
 </template>
@@ -37,7 +38,15 @@ export default {
       default: false,
       type: Boolean
     },
+    deletRow: {
+      default: false,
+      type: Boolean
+    },
     questionIndex: {
+      default: null,
+      type: Number
+    },
+    qIndex: {
       default: null,
       type: Number
     },
@@ -92,8 +101,28 @@ export default {
     ...mapActions({
       addUploadData: "addUploadData"
     }),
-    test() {
-      console.log(this.questionIndex);
+    handleDeletRow() {
+      this.$emit("handleDeletRow", this.questionIndex, this.qIndex);
+    },
+    onInput(e) {
+      console.log(e.target.innerText, this.questionIndex, this.qIndex);
+      this.$emit(
+        "editRow",
+        e.target.innerText,
+        this.questionIndex,
+        this.qIndex
+      );
+    },
+    editValue(index, event) {
+      this.$emit(
+        "editValue",
+        this.questionIndex,
+        this.qIndex,
+        index,
+        event.target.value
+      );
+    },
+    addRow() {
       this.$emit("addRow", this.questionIndex);
     },
     handleDel(event) {
@@ -163,6 +192,7 @@ export default {
     font-weight: bold;
     text-align: left;
     font-size: 1rem;
+    padding: 0px 2px;
   }
   .add {
     text-align: center;
@@ -215,5 +245,18 @@ export default {
   bottom: 0;
   right: 10px;
   font-size: 0.8rem;
+}
+.deleteRow {
+  width: 30px;
+  height: 15px;
+  line-height: 15px;
+  position: absolute;
+  margin-top: auto;
+  margin-bottom: auto;
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  font-size: 0.8rem;
+  border: none;
 }
 </style>

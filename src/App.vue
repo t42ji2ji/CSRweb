@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import HR from "./components/questions/HR";
-import HRdata from "./assets/questionData/hrnew";
+import { mapActions, mapState } from 'vuex';
+import HR from './components/questions/HR';
+import HRdata from './assets/questionData/hrnew';
 
 export default {
   components: {
@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     ...mapState({
-      blackBg: "blackBg"
+      blackBg: 'blackBg'
     }),
     blackBg() {
       return this.$store.state.blackBg;
@@ -47,8 +47,8 @@ export default {
   },
   mounted() {
     var vm = this;
-    document.addEventListener("keyup", e => {
-      if (e.code === "Escape" && vm.blackBg) {
+    document.addEventListener('keyup', e => {
+      if (e.code === 'Escape' && vm.blackBg) {
         console.log(vm.blackBg);
         vm.openBlackBg();
       }
@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      openBlackBg: "isShowBlackBg"
+      openBlackBg: 'isShowBlackBg'
     }),
     OpenTable() {
       this.openBlackBg();
@@ -102,7 +102,7 @@ $green: #42b983;
 }
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -208,7 +208,7 @@ $green: #42b983;
     background-position: 0 center;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url("https://www.google.com.tw/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png");
+    background-image: url('https://www.google.com.tw/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png');
   }
 }
 

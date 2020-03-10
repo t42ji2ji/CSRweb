@@ -126,10 +126,10 @@ export default {
       var output = this.fileData.questions.map(val => {
         var x = val.q.map(val => {
           if (val.type == "textview") {
-            console.log(val.data);
             return val.data;
           }
         });
+
         if (x != undefined) return x;
       });
       return output;
@@ -176,9 +176,9 @@ export default {
       this.nowData = payload.map((value, index) => {
         return [
           [index, "1", "normal"],
-          [value.type, "2", "normal"],
+          [value.data.fileConfig.name, "2", "normal"],
           [value.user.realname, "3", "normal"],
-          [dayjs(value.update_at).format("YYYY/MM/DD HH:mm"), "3", "normal"]
+          [dayjs(value.created_at).format("YYYY/MM/DD HH:mm"), "3", "normal"]
         ];
       });
     },
@@ -227,6 +227,7 @@ export default {
       this.btnClear(false);
       this.nowData = [];
       this.isDelError = false;
+
       var limit = 15;
       try {
         const response = await axios.get(
@@ -234,28 +235,27 @@ export default {
         );
         if (response.data.status) {
           this.responseData = response.data.data;
-
           if (this.responseData.length < limit) {
             this.isBtnDisable.nextPage = true;
           }
           switch (formname) {
             case "hr":
-              this.fileName = "Hr";
+              this.fileName = "Human Resources";
               this.hrData = response.data.data;
               this.altToNowData(this.hrData);
               break;
             case "ENG&MAIN":
-              this.fileName = "ENG & MAIN";
+              this.fileName = "Engineering & Maintenance";
               this.engmainData = response.data.data;
               this.altToNowData(this.engmainData);
               break;
             case "CumSer":
-              this.fileName = "Cum Ser";
+              this.fileName = "Customer Services & Relationship";
               this.cumserData = response.data.data;
               this.altToNowData(this.cumserData);
               break;
             case "PubRel":
-              this.fileName = "Pub Rel";
+              this.fileName = "Community & Public Relations";
               this.puberlData = response.data.data;
               this.altToNowData(this.puberlData);
               break;

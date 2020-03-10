@@ -41,7 +41,13 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['Front Office', '2', 'bold'],
+          ['', '2', 'normal'],
+        ]
+      }
     },
     {
       q: [{
@@ -77,7 +83,13 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['Disputes', '2', 'bold'],
+          ['', '2', 'normal'],
+        ]
+      }
     },
     {
       q: [{
@@ -105,7 +117,13 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['Communications', '2', 'bold'],
+          ['', '2', 'normal'],
+        ]
+      }
     },
     {
       q: [{
@@ -126,7 +144,13 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['In-person meetings', '2', 'bold'],
+          ['', '2', 'normal'],
+        ]
+      }
     },
     {
       q: [{
@@ -155,7 +179,13 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "text",
+        data: [
+          ['2014-present', '2', 'bold'],
+          ['', '2', 'normal'],
+        ]
+      }
     },
     {
       q: [{
@@ -183,7 +213,13 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "text",
+        data: [
+          ['Residential Properties (Firsthand Sales) Ordinance', '2', 'bold'],
+          ['', '2', 'bold'],
+        ]
+      }
     },
   ]
 };
@@ -322,7 +358,7 @@ const getUploadJson = function (data) {
             type: "title",
             data: [
               ['Social media', '2', 'bold'],
-              ['times', '2', 'bold'],
+              ['Times', '2', 'bold'],
             ]
           },
           {

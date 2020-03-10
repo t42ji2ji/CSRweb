@@ -3,7 +3,7 @@
     .adjust
       h3(ref="input1111") {{fileName}}
       .quote(v-for="(question, questionIndex) in fileData.questions")
-        Table(:hover="false", :data="item.data", :type="item.type", v-for="(item, index) in question.q", :key="item.data + index" :id="'table'+index", :class="{'tableOdd':index%2 != 1}", :tag="fileName + questionIndex + index", @addRow="addRow", :questionIndex="questionIndex", :qIndex="index")
+        Table(:hover="false", :data="item.data", :type="item.type", v-for="(item, index) in question.q", :key="item.data + index" :id="'table'+index", :class="{'tableOdd':index%2 != 1}", :tag="fileName + questionIndex + index", @addRow="addRow", :questionIndex="questionIndex", :qIndex="index", @editRow="editRow", @handleDeletRow="handleDeletRow", :deletRow="(item.type ==='input' || item.type === 'text')", @editValue="editValue")
       .alert(v-if="isError") {{errorMsg}}
       .btn(v-if="isUploadPage", @click="submit") Save
 </template>
@@ -17,6 +17,7 @@ import EngMain from "../../assets/questionData/eng&main";
 import CumSer from "../../assets/questionData/cumser";
 import PubRel from "../../assets/questionData/pubrel";
 import axios from "axios";
+import lodash from "lodash";
 
 export default {
   props: {
@@ -38,6 +39,10 @@ export default {
     showChart: {
       type: Boolean,
       default: false
+    },
+    isAnalysisPage: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -45,39 +50,59 @@ export default {
   },
   methods: {
     addRow(arg) {
-      console.log("add", arg);
       var index = this.fileData.questions[arg].q.length;
-      this.fileData.questions[arg].q.splice(index - 2, 0, {
-        type: "input",
-        data: [
-          ["Directors", "2", "bold"],
-          ["", "1", "normal"],
-          ["", "1", "normal"]
-        ]
-      });
+      this.fileData.questions[arg].q.splice(
+        index - 2,
+        0,
+        this.fileData.questions[arg].s
+      );
+    },
+    editValue(questionIndex, qIndex, index, value) {
+      this.fileData.questions[questionIndex].q[qIndex].data[
+        index + 1
+      ][0] = value;
+    },
+    editRow(data, questionIndex, qIndex) {
+      this.fileData.questions[questionIndex].q[qIndex].data[0][0] = data;
+    },
+    handleDeletRow(questionIndex, qIndex) {
+      this.fileData.questions[questionIndex].q.splice(qIndex, 1);
     },
     submit() {
       // eslint-disable-next-line no-unused-vars
-      this.isFormNull();
-      if (!this.altJson(this.nowForm).status) {
-        console.error("hasnull");
-        return;
-      } else {
-        this.isError = false;
-        this.errorMsg = "Warning: Incomplete Information ";
+      if (!this.isAnalysisPage) {
+        if (this.isFormNull()) {
+          return;
+        }
       }
-      console.log(this.altJson(this.nowForm));
-      this.uploadJson(this.altJson(this.nowForm));
+
+      var sumbitData = lodash.cloneDeep(this.fileData);
+      sumbitData.questions.forEach((val, index, array) => {
+        val.q.forEach((qval, qindex) => {
+          if (qval.type === "input") {
+            array[index].q[qindex].type = "normal";
+          } else if (qval.type === "text") {
+            array[index].q[qindex].type = "textview";
+          } else if (qval.type === "add") {
+            array[index].q.splice(qindex, 1);
+          }
+        });
+      });
+      console.log(sumbitData);
+
+      this.uploadJson(sumbitData);
     },
     async uploadJson(data) {
+      console.log("in");
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${this.userData.token}`;
       try {
+        console.log(this.nowForm, data);
         const response = await axios.post(
           `https://csrweb.ahkui.com/api/form/${this.nowForm}`,
           {
-            data: data.uploadExcel
+            data: data
           }
         );
         if (response.data.status) {
@@ -92,14 +117,15 @@ export default {
       }
     },
     isFormNull() {
-      var inp = document.querySelectorAll("input");
-      var tex = document.querySelectorAll("textarea");
+      this.isError = false;
+      var inp = document.querySelectorAll(".question > input");
+      var tex = document.querySelectorAll(".question > textarea");
       var state = false;
       inp.forEach(item => {
         if (item.value == "") {
-          console.log("n number");
           item.classList.add("redinput");
           this.isError = true;
+          console.log(item);
           this.errorMsg = "Warning: Incomplete Information ";
           state = true;
         } else {
@@ -154,11 +180,6 @@ export default {
       handler(val, oldval) {
         this.errorMsg = "";
         this.isError = false;
-      }
-    },
-    fileData: {
-      handler(val) {
-        console.log(val);
       }
     }
   },
@@ -217,6 +238,7 @@ export default {
 
 .alert {
   font-weight: bold;
+  text-align: center;
   color: red;
 }
 </style>

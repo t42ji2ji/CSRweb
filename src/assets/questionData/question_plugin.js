@@ -1,7 +1,7 @@
 const hr_plugin = [''];
+const engmain_plugin = [6, 7];
 const cumser_plugin = [4, 5];
 const pubrel_plugin = [2, 3, 4];
-const engmain_plugin = [6, 7];
 const hr_label = (index) => {
   var label = [
     ['Male', 'Female'],
@@ -14,11 +14,24 @@ const hr_label = (index) => {
   ];
   return label[index];
 };
+const engmain_label = (index) => {
+  var label = [
+    ['Mwh'],
+    ['m3'],
+    ['Tonness', 'Units'],
+    ['m2'],
+    ['Tonnes'],
+    ['in Tonnes/Litres/Pieces'],
+    [''],
+    ['']
+  ];
+  return label[index];
+};
 const cumser_label = (index) => {
   var label = [
     ['%'],
     ['No. of calls'],
-    ['times'],
+    ['Times'],
     [''],
     ['']
   ];
@@ -26,7 +39,7 @@ const cumser_label = (index) => {
 };
 const pubrel_label = (index) => {
   var label = [
-    ['in \'000'],
+    ['MOP’000'],
     [''],
     [''],
     [''],
@@ -34,19 +47,7 @@ const pubrel_label = (index) => {
   ];
   return label[index];
 };
-const engmain_label = (index) => {
-  var label = [
-    ['MWH'],
-    ['m3'],
-    ['tonnes', 'units'],
-    ['M2'],
-    ['in Tonnes'],
-    ['in Tonnes/Litres/Pieces'],
-    [''],
-    ['']
-  ];
-  return label[index];
-};
+
 
 module.exports.hr_plugin = hr_plugin;
 module.exports.cumser_plugin = cumser_plugin;

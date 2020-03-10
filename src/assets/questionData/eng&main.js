@@ -33,7 +33,13 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['Stationary', '2', 'bold'],
+          ['', '2', 'normal'],
+        ]
+      }
     },
     {
       q: [{
@@ -55,15 +61,21 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['Water consumed', '2', 'bold'],
+          ['', '2', 'normal'],
+        ]
+      },
     },
     {
       q: [{
           type: "title",
           data: [
             ['Packaging material', '2', 'bold'],
-            ['tonnes', '1', 'bold'],
-            ['units', '1', 'bold']
+            ['Tonness', '1', 'bold'],
+            ['Units', '1', 'bold']
           ]
         },
         {
@@ -78,7 +90,14 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['Material used', '2', 'bold'],
+          ['', '1', 'normal'],
+          ['', '1', 'normal']
+        ]
+      }
     },
     {
       q: [{
@@ -107,7 +126,13 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['Hotel', '2', 'bold'],
+          ['', '2', 'normal'],
+        ]
+      },
     },
     {
       q: [{
@@ -142,7 +167,13 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['Direct emissions from owned or controlled sources', '2', 'bold'],
+          ['', '2', 'normal'],
+        ]
+      }
     },
     {
       q: [{
@@ -220,7 +251,13 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "input",
+        data: [
+          ['Paper', '2', 'bold'],
+          ['', '2', 'normal'],
+        ]
+      }
     },
     {
       q: [{
@@ -250,7 +287,14 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "text",
+        data: [
+          ['1. Creating a Renewable Future - Installation of Solar Panel', '2', 'bold'],
+          ['', '2', 'bold'],
+
+        ]
+      },
     },
     {
       q: [{
@@ -271,7 +315,13 @@ const excelData = {
           data: []
         },
       ],
-      s: []
+      s: {
+        type: "text",
+        data: [
+          ['ans.', '2', 'bold'],
+          ['', '2', 'normal'],
+        ]
+      }
     },
   ]
 };
