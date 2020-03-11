@@ -9,15 +9,11 @@
 </template>
 
 <script>
-import Table from "../../components/Table";
-import questionField from "../../assets/questionData/hr";
-import { mapState } from "vuex";
-import hr from "../../assets/questionData/hr";
-import EngMain from "../../assets/questionData/eng&main";
-import CumSer from "../../assets/questionData/cumser";
-import PubRel from "../../assets/questionData/pubrel";
-import axios from "axios";
-import lodash from "lodash";
+import Table from '../../components/Table';
+import questionField from '../../assets/questionData/hr';
+import { mapState } from 'vuex';
+import axios from 'axios';
+import lodash from 'lodash';
 
 export default {
   props: {
@@ -30,7 +26,7 @@ export default {
     fileName: {
       required: true,
       type: String,
-      default: "No Table"
+      default: 'No Table'
     },
     isUploadPage: {
       type: Boolean,
@@ -79,11 +75,11 @@ export default {
       var sumbitData = lodash.cloneDeep(this.fileData);
       sumbitData.questions.forEach((val, index, array) => {
         val.q.forEach((qval, qindex) => {
-          if (qval.type === "input") {
-            array[index].q[qindex].type = "normal";
-          } else if (qval.type === "text") {
-            array[index].q[qindex].type = "textview";
-          } else if (qval.type === "add") {
+          if (qval.type === 'input') {
+            array[index].q[qindex].type = 'normal';
+          } else if (qval.type === 'text') {
+            array[index].q[qindex].type = 'textview';
+          } else if (qval.type === 'add') {
             array[index].q.splice(qindex, 1);
           }
         });
@@ -93,9 +89,9 @@ export default {
       this.uploadJson(sumbitData);
     },
     async uploadJson(data) {
-      console.log("in");
+      console.log('in');
       axios.defaults.headers.common[
-        "Authorization"
+        'Authorization'
       ] = `Bearer ${this.userData.token}`;
       try {
         console.log(this.nowForm, data);
@@ -107,10 +103,10 @@ export default {
         );
         if (response.data.status) {
           this.isError = true;
-          this.errorMsg = "Upload Success";
+          this.errorMsg = 'Upload Success';
         } else {
           this.isError = true;
-          this.errorMsg = "Upload Fail. Check Your Internet.";
+          this.errorMsg = 'Upload Fail. Check Your Internet.';
         }
       } catch (error) {
         console.error(error);
@@ -118,67 +114,49 @@ export default {
     },
     isFormNull() {
       this.isError = false;
-      var inp = document.querySelectorAll(".question > input");
-      var tex = document.querySelectorAll(".question > textarea");
+      var inp = document.querySelectorAll('.question > input');
+      var tex = document.querySelectorAll('.question > textarea');
       var state = false;
       inp.forEach(item => {
-        if (item.value == "") {
-          item.classList.add("redinput");
+        if (item.value == '') {
+          item.classList.add('redinput');
           this.isError = true;
           console.log(item);
-          this.errorMsg = "Warning: Incomplete Information ";
+          this.errorMsg = 'Warning: Incomplete Information ';
           state = true;
         } else {
-          item.classList.remove("redinput");
+          item.classList.remove('redinput');
         }
       });
       tex.forEach(item => {
-        if (item.value == "") {
-          console.log("n text");
+        if (item.value == '') {
+          console.log('n text');
 
-          item.classList.add("redinput");
+          item.classList.add('redinput');
           this.isError = true;
-          this.errorMsg = "Warning: Incomplete Information ";
+          this.errorMsg = 'Warning: Incomplete Information ';
           state = true;
         } else {
-          item.classList.remove("redinput");
+          item.classList.remove('redinput');
         }
       });
       return state;
-    },
-    altJson(formName) {
-      var data = {};
-      switch (formName) {
-        case "hr":
-          data = hr.getUploadJson(this.UploadData);
-          break;
-        case "ENG&MAIN":
-          data = EngMain.getUploadJson(this.UploadData);
-          break;
-        case "CumSer":
-          data = CumSer.getUploadJson(this.UploadData);
-          break;
-        case "PubRel":
-          data = PubRel.getUploadJson(this.UploadData);
-          break;
-      }
-      return data;
     }
   },
   computed: {
     ...mapState({
-      InputTitle: "InputTitle",
-      nowForm: "nowForm",
-      userData: "userData",
-      UploadData: "UploadData",
-      blackBg: "blackBg"
+      InputTitle: 'InputTitle',
+      nowForm: 'nowForm',
+      userData: 'userData',
+      UploadData: 'UploadData',
+      blackBg: 'blackBg'
     })
   },
   watch: {
     blackBg: {
       // eslint-disable-next-line no-unused-vars
       handler(val, oldval) {
-        this.errorMsg = "";
+        this.errorMsg = '';
         this.isError = false;
       }
     }
@@ -187,18 +165,18 @@ export default {
   data() {
     return {
       questionTitle: [
-        ["Staff Head Count", "2", "bold"],
-        ["Male", "1", "normal"],
-        ["Female", "1", "normal"]
+        ['Staff Head Count', '2', 'bold'],
+        ['Male', '1', 'normal'],
+        ['Female', '1', 'normal']
       ],
-      test: "input",
+      test: 'input',
       isError: false,
-      errorMsg: "",
+      errorMsg: '',
       questions: questionField.excelData,
       questionField: [
-        ["Directors", "2", "bold"],
-        ["", "1", "normal"],
-        ["", "1", "normal"]
+        ['Directors', '2', 'bold'],
+        ['', '1', 'normal'],
+        ['', '1', 'normal']
       ]
     };
   }
