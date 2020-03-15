@@ -5,15 +5,15 @@
       .quote(v-for="(question, questionIndex) in fileData.questions")
         Table(:hover="false", :data="item.data", :type="item.type", v-for="(item, index) in question.q", :key="item.data + index" :id="'table'+index", :class="{'tableOdd':index%2 != 1}", :tag="fileName + questionIndex + index", @addRow="addRow", :questionIndex="questionIndex", :qIndex="index", @editRow="editRow", @handleDeletRow="handleDeletRow", :deletRow="(item.type ==='input' || item.type === 'text')", @editValue="editValue")
       .alert(v-if="isError") {{errorMsg}}
-      .btn(v-if="isUploadPage", @click="submit") Save
+      .btn(v-if="isUploadPage && uploadVisible", @click="submit") Save
 </template>
 
 <script>
-import Table from '../../components/Table';
-import questionField from '../../assets/questionData/hr';
-import { mapState } from 'vuex';
-import axios from 'axios';
-import lodash from 'lodash';
+import Table from "../../components/Table";
+import questionField from "../../assets/questionData/hr";
+import { mapState, mapActions } from "vuex";
+import axios from "axios";
+import lodash from "lodash";
 
 export default {
   props: {
@@ -26,7 +26,7 @@ export default {
     fileName: {
       required: true,
       type: String,
-      default: 'No Table'
+      default: "No Table"
     },
     isUploadPage: {
       type: Boolean,
@@ -45,6 +45,9 @@ export default {
     Table
   },
   methods: {
+    ...mapActions({
+      changeUploadVisible: "changeUploadVisible"
+    }),
     addRow(arg) {
       var index = this.fileData.questions[arg].q.length;
       this.fileData.questions[arg].q.splice(
@@ -75,11 +78,11 @@ export default {
       var sumbitData = lodash.cloneDeep(this.fileData);
       sumbitData.questions.forEach((val, index, array) => {
         val.q.forEach((qval, qindex) => {
-          if (qval.type === 'input') {
-            array[index].q[qindex].type = 'normal';
-          } else if (qval.type === 'text') {
-            array[index].q[qindex].type = 'textview';
-          } else if (qval.type === 'add') {
+          if (qval.type === "input") {
+            array[index].q[qindex].type = "normal";
+          } else if (qval.type === "text") {
+            array[index].q[qindex].type = "textview";
+          } else if (qval.type === "add") {
             array[index].q.splice(qindex, 1);
           }
         });
@@ -89,12 +92,10 @@ export default {
       this.uploadJson(sumbitData);
     },
     async uploadJson(data) {
-      console.log('in');
       axios.defaults.headers.common[
-        'Authorization'
+        "Authorization"
       ] = `Bearer ${this.userData.token}`;
       try {
-        console.log(this.nowForm, data);
         const response = await axios.post(
           `https://csrweb.ahkui.com/api/form/${this.nowForm}`,
           {
@@ -103,10 +104,10 @@ export default {
         );
         if (response.data.status) {
           this.isError = true;
-          this.errorMsg = 'Upload Success';
+          this.errorMsg = "Upload Success";
         } else {
           this.isError = true;
-          this.errorMsg = 'Upload Fail. Check Your Internet.';
+          this.errorMsg = "Upload Fail. Check Your Internet.";
         }
       } catch (error) {
         console.error(error);
@@ -114,30 +115,27 @@ export default {
     },
     isFormNull() {
       this.isError = false;
-      var inp = document.querySelectorAll('.question > input');
-      var tex = document.querySelectorAll('.question > textarea');
+      var inp = document.querySelectorAll(".question > input");
+      var tex = document.querySelectorAll(".question > textarea");
       var state = false;
       inp.forEach(item => {
-        if (item.value == '') {
-          item.classList.add('redinput');
+        if (item.value == "") {
+          item.classList.add("redinput");
           this.isError = true;
-          console.log(item);
-          this.errorMsg = 'Warning: Incomplete Information ';
+          this.errorMsg = "Warning: Incomplete Information ";
           state = true;
         } else {
-          item.classList.remove('redinput');
+          item.classList.remove("redinput");
         }
       });
       tex.forEach(item => {
-        if (item.value == '') {
-          console.log('n text');
-
-          item.classList.add('redinput');
+        if (item.value == "") {
+          item.classList.add("redinput");
           this.isError = true;
-          this.errorMsg = 'Warning: Incomplete Information ';
+          this.errorMsg = "Warning: Incomplete Information ";
           state = true;
         } else {
-          item.classList.remove('redinput');
+          item.classList.remove("redinput");
         }
       });
       return state;
@@ -145,18 +143,19 @@ export default {
   },
   computed: {
     ...mapState({
-      InputTitle: 'InputTitle',
-      nowForm: 'nowForm',
-      userData: 'userData',
-      UploadData: 'UploadData',
-      blackBg: 'blackBg'
+      InputTitle: "InputTitle",
+      nowForm: "nowForm",
+      userData: "userData",
+      UploadData: "UploadData",
+      blackBg: "blackBg",
+      uploadVisible: "uploadVisible"
     })
   },
   watch: {
     blackBg: {
       // eslint-disable-next-line no-unused-vars
       handler(val, oldval) {
-        this.errorMsg = '';
+        this.errorMsg = "";
         this.isError = false;
       }
     }
@@ -165,18 +164,18 @@ export default {
   data() {
     return {
       questionTitle: [
-        ['Staff Head Count', '2', 'bold'],
-        ['Male', '1', 'normal'],
-        ['Female', '1', 'normal']
+        ["Staff Head Count", "2", "bold"],
+        ["Male", "1", "normal"],
+        ["Female", "1", "normal"]
       ],
-      test: 'input',
+      test: "input",
       isError: false,
-      errorMsg: '',
+      errorMsg: "",
       questions: questionField.excelData,
       questionField: [
-        ['Directors', '2', 'bold'],
-        ['', '1', 'normal'],
-        ['', '1', 'normal']
+        ["Directors", "2", "bold"],
+        ["", "1", "normal"],
+        ["", "1", "normal"]
       ]
     };
   }

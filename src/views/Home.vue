@@ -83,7 +83,6 @@ export default {
       changeFormState: "changeFormState"
     }),
     async testUpload() {
-      console.log("upload");
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${this.userData.token}`;
@@ -110,7 +109,6 @@ export default {
     },
     OpenTable(index) {
       this.openBlackBg();
-      console.log(index);
       this.changeFormState(index);
       // console.log(this.csrData[index][0][0]);
       var formName = this.csrData[index][0][0];

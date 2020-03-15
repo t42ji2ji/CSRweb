@@ -5,6 +5,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    uploadVisible: true,
+
     blackBg: false,
     FileData: {
       fileConfig: {
@@ -39,9 +41,15 @@ export default new Vuex.Store({
     },
     clearUploadData(state) {
       state.UploadData = {};
+    },
+    changeUploadVisible(state) {
+      state.uploadVisible = !state.uploadVisible;
     }
   },
   actions: {
+    changeUploadVisible(context) {
+      context.commit('changeUploadVisible');
+    },
     changeFormState(context, index) {
       context.commit('nowFormState', index);
     },

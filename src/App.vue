@@ -49,7 +49,6 @@ export default {
     var vm = this;
     document.addEventListener('keyup', e => {
       if (e.code === 'Escape' && vm.blackBg) {
-        console.log(vm.blackBg);
         vm.openBlackBg();
       }
     });

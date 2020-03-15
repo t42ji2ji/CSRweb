@@ -26,14 +26,17 @@
     transition(name="bounce")
       .QuestionWindow(v-if="openWindow")
         .cover(@click="()=>{this.openWindow = !this.openWindow}")
-        .QuestionWraper(v-if="this.fileData.hasOwnProperty('questions') ?  true : false ")
-          .btn(@click="()=> {this.isChart = !this.isChart}")
+        .QuestionWraper(v-if="this.fileData.hasOwnProperty('questions') ?  true : false " ref="qwrapper")
+          .btn(@click="()=> {this.isChart = !this.isChart}" v-if="uploadVisible")
               font-awesome-icon(icon="chart-bar")
               span  表格/統計圖
           HR(:fileData="fileData", :fileName="fileName",v-show="!isChart")
           Anaylsis(:fileTotal="fileTotal", :fileTotalText="fileTotalText",v-if="isChart", :fileName="fileName")
+          .btn(@click="toPdf" v-if="uploadVisible") DownLoad PDF
+
         .noData(v-else="this.fileData.hasOwnProperty('questions') ?  true : false ")
           h3 沒有資料
+        
 
 
   GotoLogin(v-else="isLogin")
@@ -50,6 +53,8 @@ import ExtractExcel from "../assets/assetsJs/extract";
 import Anaylsis from "../components/questions/Anaylsis";
 import Alert from "../components/Alert";
 
+import toPdf from "../mixins/toPdf";
+
 export default {
   components: {
     GotoLogin,
@@ -58,6 +63,7 @@ export default {
     Anaylsis,
     Alert
   },
+  mixins: [toPdf],
   // eslint-disable-next-line no-unused-vars
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -117,7 +123,8 @@ export default {
   computed: {
     ...mapState({
       isLogin: "isLogin",
-      userData: "userData"
+      userData: "userData",
+      uploadVisible: "uploadVisible"
     }),
     fileTotal() {
       return ExtractExcel.calcTotal(this.fileData, true);
@@ -139,8 +146,12 @@ export default {
   methods: {
     ...mapActions({
       openBlackBg: "isShowBlackBg",
-      ChangeFileData: "ChangeFileData"
+      ChangeFileData: "ChangeFileData",
+      changeUploadVisible: "changeUploadVisible"
     }),
+    toPdf() {
+      this.mixins_toPdf(this.$refs.qwrapper, this.fileName);
+    },
     pageChange(isNext) {
       if (isNext) {
         this.nowpage += 1;

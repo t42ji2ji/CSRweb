@@ -105,7 +105,7 @@ export default {
       this.$emit("handleDeletRow", this.questionIndex, this.qIndex);
     },
     onInput(e) {
-      console.log(e.target.innerText, this.questionIndex, this.qIndex);
+      // console.log(e.target.innerText, this.questionIndex, this.qIndex);
       this.$emit(
         "editRow",
         e.target.innerText,

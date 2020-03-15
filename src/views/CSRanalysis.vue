@@ -6,8 +6,8 @@
     .flobatbtnGroup
       .floatbtn(@click="handleUpload") +
       .btnInfo 上傳檔案
-    .QuestionWraper(v-if="Object.keys(fileData).length > 0")
-      .btn(@click="()=> {this.isChart = !this.isChart}")
+    .QuestionWraper(v-if="Object.keys(fileData).length > 0", ref="qwrapper")
+      .btn(@click="()=> {this.isChart = !this.isChart}" v-if="  uploadVisible")
         font-awesome-icon(icon="chart-bar")
         span  表格/統計圖
 
@@ -16,6 +16,8 @@
       //-   bar-chart(:chart-data="fillChartData()", :options="options")
       
       Anaylsis(:fileTotal="fileTotal", :fileTotalText="fileTotalText",v-if="isChart", :fileName="fileFormName",)
+      .btn(@click="toPdf") DownLoad PDF
+
       //- .chartWrapper
       //-   .questionChart(v-for="(data, index) in fileTotal[0]",v-if="isChart")
       //-     Table(:hover="false", :data="fileTotal[3][index]", type="title")
@@ -36,6 +38,7 @@ import chroma from "chroma-js";
 import questionPlugin from "../assets/questionData/question_plugin";
 
 import { mapActions, mapState } from "vuex";
+import html2pdf from "html2pdf.js";
 
 export default {
   components: {
@@ -78,7 +81,8 @@ export default {
   computed: {
     ...mapState({
       isLogin: "isLogin",
-      userData: "userData"
+      userData: "userData",
+      uploadVisible: "uploadVisible"
     }),
     fileTotalText() {
       var output = this.fileData.questions.map(val => {
@@ -113,7 +117,25 @@ export default {
     }
   },
   methods: {
-    ...mapActions({ changeFormState: "changeFormState" }),
+    ...mapActions({
+      changeFormState: "changeFormState",
+      changeUploadVisible: "changeUploadVisible"
+    }),
+    toPdf() {
+      console.log("object");
+      this.$nextTick(() => {
+        var element = this.$refs.qwrapper;
+        console.log(element);
+        html2pdf()
+          .set({
+            margin: 2,
+            filename: `${this.fileName}.pdf`,
+            pagebreak: { mode: "avoid-all" }
+          })
+          .from(element)
+          .save();
+      });
+    },
     handleUpload() {
       // eslint-disable-next-line no-unused-vars
       Excel.importExcel((data, dataRef, filename) => {
@@ -121,7 +143,6 @@ export default {
         this.fileData = ExtractExcel.extractData(data);
         this.fileTotal = ExtractExcel.calcTotal(data);
         this.fileName = filename.name;
-        console.log(this.fileData);
         var firstq = this.fileData.questions[0].q[0].data[0][0];
         var vm = this;
         switch (firstq) {
