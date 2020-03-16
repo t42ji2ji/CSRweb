@@ -6,17 +6,18 @@
     .flobatbtnGroup
       .floatbtn(@click="handleUpload") +
       .btnInfo 上傳檔案
-    .QuestionWraper(v-if="Object.keys(fileData).length > 0", ref="qwrapper")
-      .btn(@click="()=> {this.isChart = !this.isChart}" v-if="  uploadVisible")
-        font-awesome-icon(icon="chart-bar")
-        span  表格/統計圖
+    .QuestionWraper(v-if="Object.keys(fileData).length > 0", )
+      .pdf(ref="qwrapper")
+        .btn(@click="()=> {this.isChart = !this.isChart}" v-if="uploadVisible")
+          font-awesome-icon(icon="chart-bar")
+          span  表格/統計圖
 
-      HR(:fileData="fileData", :fileName="fileName",v-show="!isChart", isUploadPage=true,isAnalysisPage=true)
-      //- .chartAdjust
-      //-   bar-chart(:chart-data="fillChartData()", :options="options")
-      
-      Anaylsis(:fileTotal="fileTotal", :fileTotalText="fileTotalText",v-if="isChart", :fileName="fileFormName",)
-      .btn(@click="toPdf") DownLoad PDF
+        HR(:fileData="fileData", :fileName="fileName",v-show="!isChart", isUploadPage=true,isAnalysisPage=true)
+        //- .chartAdjust
+        //-   bar-chart(:chart-data="fillChartData()", :options="options")
+        
+        Anaylsis(:fileTotal="fileTotal", :fileTotalText="fileTotalText",v-if="isChart", :fileName="fileFormName",)
+        .btn(@click="toPdf" v-if="uploadVisible") DownLoad PDF
 
       //- .chartWrapper
       //-   .questionChart(v-for="(data, index) in fileTotal[0]",v-if="isChart")
@@ -38,7 +39,7 @@ import chroma from "chroma-js";
 import questionPlugin from "../assets/questionData/question_plugin";
 
 import { mapActions, mapState } from "vuex";
-import html2pdf from "html2pdf.js";
+import toPdf from "../mixins/toPdf";
 
 export default {
   components: {
@@ -48,6 +49,7 @@ export default {
     Anaylsis,
     GotoLogin
   },
+  mixins: [toPdf],
   data() {
     return {
       isChart: false,
@@ -122,19 +124,7 @@ export default {
       changeUploadVisible: "changeUploadVisible"
     }),
     toPdf() {
-      console.log("object");
-      this.$nextTick(() => {
-        var element = this.$refs.qwrapper;
-        console.log(element);
-        html2pdf()
-          .set({
-            margin: 2,
-            filename: `${this.fileName}.pdf`,
-            pagebreak: { mode: "avoid-all" }
-          })
-          .from(element)
-          .save();
-      });
+      this.mixins_toPdf(this.$refs.qwrapper, this.fileName);
     },
     handleUpload() {
       // eslint-disable-next-line no-unused-vars

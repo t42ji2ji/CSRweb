@@ -200,7 +200,6 @@ export default {
 .btn {
   border: 1px solid #42b983;
   margin-bottom: 40px;
-  width: 100px;
   padding: 5px 20px;
   color: #42b983;
   cursor: pointer;

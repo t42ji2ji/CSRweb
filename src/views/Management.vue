@@ -26,14 +26,14 @@
     transition(name="bounce")
       .QuestionWindow(v-if="openWindow")
         .cover(@click="()=>{this.openWindow = !this.openWindow}")
-        .QuestionWraper(v-if="this.fileData.hasOwnProperty('questions') ?  true : false " ref="qwrapper")
-          .btn(@click="()=> {this.isChart = !this.isChart}" v-if="uploadVisible")
-              font-awesome-icon(icon="chart-bar")
-              span  表格/統計圖
-          HR(:fileData="fileData", :fileName="fileName",v-show="!isChart")
-          Anaylsis(:fileTotal="fileTotal", :fileTotalText="fileTotalText",v-if="isChart", :fileName="fileName")
-          .btn(@click="toPdf" v-if="uploadVisible") DownLoad PDF
-
+        .QuestionWraper(v-if="this.fileData.hasOwnProperty('questions') ?  true : false " )
+          .pdf(ref="qwrapper")
+            .btn(@click="()=> {this.isChart = !this.isChart}" v-if="uploadVisible")
+                font-awesome-icon(icon="chart-bar")
+                span  表格/統計圖
+            HR(:fileData="fileData", :fileName="fileName",v-show="!isChart")
+            Anaylsis(:fileTotal="fileTotal", :fileTotalText="fileTotalText",v-if="isChart", :fileName="fileName")
+            .btn(@click="toPdf" v-if="uploadVisible") DownLoad PDF
         .noData(v-else="this.fileData.hasOwnProperty('questions') ?  true : false ")
           h3 沒有資料
         
@@ -314,7 +314,6 @@ export default {
   text-align: left;
   position: relative;
   overflow-y: scroll;
-
   h2 {
     margin: 0;
   }
@@ -360,13 +359,6 @@ export default {
   height: 80%;
   width: 80%;
   overflow-y: scroll;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  .btn {
-    margin: 10px;
-    white-space: nowrap;
-  }
 }
 .QuestionWindow {
   width: 100vw;

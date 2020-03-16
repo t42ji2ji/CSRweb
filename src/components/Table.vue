@@ -235,7 +235,6 @@ export default {
 }
 
 .deleteTable {
-  width: 30px;
   height: 15px;
   line-height: 15px;
   position: absolute;

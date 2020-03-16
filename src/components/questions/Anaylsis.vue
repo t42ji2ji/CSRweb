@@ -1,5 +1,6 @@
 <template lang="pug">
   .chartWrapper
+    h3 {{fileName}}
     .questionChart(v-for="(data, index) in fileTotal[0]")
       Table(:hover="false", :data="fileTotal[3][index]", type="title")
       .chartAdjust
