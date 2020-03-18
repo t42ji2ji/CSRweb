@@ -29,28 +29,28 @@ export default {
       isTitle: false,
       csrTitle: [
         ["Department", "1", "bold"],
-        ["Data Input & Approva", "2", "normal"],
+        ["Data Input & Approva", "1", "normal"],
         ["Last Update", "1", "normal"]
       ],
       csrData: [
         [
           ["Human Resources", "1", "bold"],
-          ["MoMo Chan", "2", "normal"],
+          ["MoMo Chan approved", "1", "normal"],
           ["2019/04/01", "1", "normal"]
         ],
         [
           ["Engineering & Maintenance", "1", "bold"],
-          ["Albert Leung", "2", "normal"],
+          ["Albert Leung input", "1", "normal"],
           ["2019/04/01", "1", "normal"]
         ],
         [
           ["Customer Services & Relationship", "1", "bold"],
-          ["Jose Ng", "2", "normal"],
+          ["Jose Ng input", "1", "normal"],
           ["2019/04/01", "1", "normal"]
         ],
         [
           ["Community & Public Relations", "1", "bold"],
-          ["Apple Wong", "2", "normal"],
+          ["Apple Wong approved", "1", "normal"],
           ["2019/04/01", "1", "normal"]
         ]
       ]

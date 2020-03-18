@@ -67,14 +67,7 @@ export default {
     handleDeletRow(questionIndex, qIndex) {
       this.fileData.questions[questionIndex].q.splice(qIndex, 1);
     },
-    submit() {
-      // eslint-disable-next-line no-unused-vars
-      if (!this.isAnalysisPage) {
-        if (this.isFormNull()) {
-          return;
-        }
-      }
-
+    getSubmitData() {
       var sumbitData = lodash.cloneDeep(this.fileData);
       sumbitData.questions.forEach((val, index, array) => {
         val.q.forEach((qval, qindex) => {
@@ -87,9 +80,17 @@ export default {
           }
         });
       });
-      console.log(sumbitData);
-
-      this.uploadJson(sumbitData);
+      return sumbitData;
+    },
+    submit() {
+      // eslint-disable-next-line no-unused-vars
+      if (!this.isAnalysisPage) {
+        if (this.isFormNull()) {
+          return;
+        }
+      }
+      this.uploadJson(this.getSubmitData());
+      console.log(this.getSubmitData());
     },
     async uploadJson(data) {
       axios.defaults.headers.common[

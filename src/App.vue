@@ -3,8 +3,13 @@
   transition(name="bounce")
     .cover(v-if="blackBg", @click="OpenTable")
   transition(name="bounce")
-    .Questionnaire(@click="", v-show="blackBg")
-      HR(:fileData="FileData", isUploadPage=true, :fileName="FileData.fileConfig.name") 
+    .Questionnaire(@click="", v-if="blackBg")
+      .btn(@click="test" )
+        font-awesome-icon(icon="chart-bar")
+        span  表格/統計圖
+      HR(:fileData="FileData", isUploadPage=true, :fileName="FileData.fileConfig.name", v-show="!isChart" ref="analysis") 
+      Analysis(:fileData="FileData",:fileName="FileData.fileConfig.name", :fileTotal='fileTotal' :fileTotalText="fileTotalText" v-if="isChart" ) 
+
 
   #nav
     .tab
@@ -14,7 +19,7 @@
       router-link(to='/about')
         font-awesome-icon(icon="file-excel") 
         span   CSR Data Analysis
-      router-link(to='/Management')
+      router-link(to='/Management' v-if="this.userData.level > 0")
         font-awesome-icon(icon="marker") 
         span   表單管理
       router-link(to='/login')
@@ -29,20 +34,39 @@
 import { mapActions, mapState } from "vuex";
 import HR from "./components/questions/HR";
 import HRdata from "./assets/questionData/hrnew";
+import Analysis from "./components/questions/Anaylsis";
+import ExtractExcel from "./assets/assetsJs/extract";
 
 export default {
   components: {
-    HR
+    HR,
+    Analysis
   },
   computed: {
     ...mapState({
-      blackBg: "blackBg"
+      blackBg: "blackBg",
+      userData: "userData"
     }),
     blackBg() {
       return this.$store.state.blackBg;
     },
     FileData() {
       return this.$store.state.FileData;
+    },
+    fileTotal() {
+      return ExtractExcel.calcTotal(this.subData, true);
+    },
+    fileTotalText() {
+      var output = this.subData.questions.map(val => {
+        var x = val.q.map(val => {
+          if (val.type == "textview") {
+            return val.data;
+          }
+        });
+
+        if (x != undefined) return x;
+      });
+      return output;
     }
   },
   mounted() {
@@ -55,7 +79,9 @@ export default {
   },
   data() {
     return {
-      fileData: HRdata.excelData
+      fileData: HRdata.excelData,
+      subData: {},
+      isChart: false
     };
   },
   methods: {
@@ -64,6 +90,22 @@ export default {
     }),
     OpenTable() {
       this.openBlackBg();
+      this.isChart = false;
+    },
+    test() {
+      console.log("object");
+      console.log(this.$refs);
+      if (this.$refs.analysis)
+        this.subData = this.$refs.analysis.getSubmitData();
+      this.$nextTick(() => {
+        this.isChart = !this.isChart;
+        if (!this.isChart) {
+          this.subData = {};
+        }
+      });
+
+      // this.subData = data;
+      // this.isChart = true;
     }
   }
 };
@@ -157,6 +199,7 @@ $green: #42b983;
   border-radius: 5px;
   display: flex;
   justify-content: flex-start;
+  flex-direction: column;
   padding: 0px 2rem;
   overflow-y: scroll;
   box-sizing: border-box;

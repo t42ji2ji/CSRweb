@@ -10,7 +10,7 @@
       .alertText(v-show="isLogError") {{LoggMessage}}
       .btn(@click="Loggin") 登入
       button(style="display: none")
-  .Login.alignLeft(v-else="isLogin")
+  .Login.alignLeft(v-else-if="(isLogin && userData.level > 0)")
     h2 {{userData.realname}} 
     h4 管理員等級: {{altLevel(userData.level)}}
     .btn.alignLeft.logout_btn(@click="Logout") 登出
@@ -54,17 +54,19 @@
             option(disabled value="") Role--
             option(value="0") 一般會員
             option(value="1") 管理員
-        .testfiled Department：
-          input(type="checkbox" v-model="formVisible" value="hr" id="hr_checkbox")
-          label(for="hr_checkbox") hr
-          input(type="checkbox" v-model="formVisible" value="ENG&MAIN" id="ENG&MAIN_checkbox")
-          label(for="ENG&MAIN_checkbox") ENG & MAIN
-
-          input(type="checkbox" v-model="formVisible" value="CumSer" id="CumSer_checkbox")
-          label(for="CumSer_checkbox") Cum Ser
-
-          input(type="checkbox" v-model="formVisible" value="PubRel" id="PubRel_checkbox")
-          label(for="PubRel_checkbox") Pub Rel
+        .testfiled.DepartmentCheck Department：
+          .depart
+            input(type="checkbox" v-model="formVisible" value="hr" id="hr_checkbox")
+            label(for="hr_checkbox") Human Resources
+          .depart
+            input(type="checkbox" v-model="formVisible" value="ENG&MAIN" id="ENG&MAIN_checkbox")
+            label(for="ENG&MAIN_checkbox") Engineering & Maintenance
+          .depart
+            input(type="checkbox" v-model="formVisible" value="CumSer" id="CumSer_checkbox")
+            label(for="CumSer_checkbox") Customer Services & Relationship
+          .depart
+            input(type="checkbox" v-model="formVisible" value="PubRel" id="PubRel_checkbox")
+            label(for="PubRel_checkbox") Community & Public Relations
         .alertText(v-show="isRegError") {{LoggMessage}}
         .btn(@click="alertSet('register')", :class="{btn_disable: isBtnDisable.reg}") Register 
       .funcArea.delete_grid
@@ -96,7 +98,11 @@
             span(style="padding: 0px 10px")  {{nowpage}} 
             .btn(@click="pageChange(true)" :class="{btn_disable: isBtnDisable.nextPage}") 下一頁 
 
-    
+  .Login(v-else)
+    .t 
+      h3 {{userData.realname}} 登入成功
+    .btn.logout_btn(@click="Logout") 登出
+
 </template>
 
 <script>
@@ -509,9 +515,9 @@ form {
 }
 
 .alignLeft {
-  align-items: start;
-  justify-content: start;
-  align-self: start;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: flex-start;
 }
 
 .gridContainer {
@@ -600,5 +606,11 @@ form {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.DepartmentCheck {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 </style>
