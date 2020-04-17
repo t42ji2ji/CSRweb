@@ -19,15 +19,14 @@ const mixins = {
       this.changeUploadVisible();
       await html2pdf()
         .set({
-          margin: 2,
+          margin: 0,
           filename: `${fileName}.pdf`,
-          pagebreak: {
-            mode: "legacy",
-          }
         })
         .from(element)
         .save();
       console.log('Save');
+      element.innertHTML = '';
+      console.log(element.innertHTML);
       this.changeUploadVisible();
     },
   },
