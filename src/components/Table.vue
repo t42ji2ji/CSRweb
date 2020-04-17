@@ -257,5 +257,9 @@ export default {
   right: 10px;
   font-size: 0.8rem;
   border: none;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0);
+    color: #4fe09fc8;
+  }
 }
 </style>

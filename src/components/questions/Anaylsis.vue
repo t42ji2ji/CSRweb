@@ -1,17 +1,19 @@
 <template lang="pug">
   .chartWrapper
-    h3 {{fileName}}
-    .questionChart(v-for="(data, index) in fileTotal[0]")
+    h3(v-if="showFileName") {{fileName}}
+    .questionChart(v-for="(data, index) in fileTotal[0]" v-if="dataview.includes(index)")
       Table(:hover="false", :data="fileTotal[3][index]", type="title")
-      .chartAdjust
-        bar-chart(:chart-data="fillChartData(data,index)", :options="getOptions(index)", v-if="!altChartType(index) && charthasData(index)" :width="600" :height="500")
-      .textview(v-if="!altChartType(index)" v-for="(data, qIndex) in fileTotal[1][index]") {{fileTotal[0][index][qIndex]}}：{{data[0]}}
+      Table(:hover="false", :data="[[fileTotal[0][index][qIndex]], ...data.map(e=>{return[e]})]", type="normal", v-for="(data, qIndex) in fileTotal[1][index]", v-if="!altChartType(index)", :key="qIndex")
+      //- .textview(v-if="!altChartType(index)" v-for="(data, qIndex) in fileTotal[1][index]") {{fileTotal[0][index][qIndex]}}：{{data[0]}}
       .textview(v-if="altChartType(index)" v-for="(data, qIndex) in fileTotalText[index]") 
         .text(v-for="(data, x) in altTotalText(data)") {{data[0]}} 
-          span(v-if="x % 2 == 0") :
+          span(v-if="x % 2 == 0") 
           |
           hr(v-if="x % 2 == 1") 
           |
+      .chartAdjust
+        bar-chart(:chart-data="fillChartData(data,index)", :options="getOptions(index)", v-if="!altChartType(index) && charthasData(index)" :width="500" :height="300")
+
         //- .textview(v-if="altChartType(index)" v-for="(data, qIndex) in fileTotal[1][index]") {{fileTotal[0][index][qIndex]}}:{{data[0]}}
 </template>
 
@@ -30,6 +32,20 @@ export default {
     fileTotal: {
       required: true,
       type: Array
+    },
+    showFileName: {
+      required: false,
+      type: Boolean,
+      default: () => {
+        return false;
+      }
+    },
+    dataview: {
+      required: false,
+      type: Array,
+      default: () => {
+        return [...Array(100).keys()];
+      }
     },
     fileTotalText: {
       required: true,
@@ -105,6 +121,8 @@ export default {
         case "Engineering & Maintenance":
           return questionPlugin.engmain_label(index);
         case "Customer Services & Relationship":
+          console.log(questionPlugin.cumser_label(index));
+
           return questionPlugin.cumser_label(index);
         case "Community & Public Relations":
           return questionPlugin.pubrel_label(index);
@@ -123,7 +141,7 @@ export default {
         case "Community & Public Relations":
           return questionPlugin.pubrel_plugin.includes(index);
         default:
-          console.log("error label");
+          console.log(`error label ${this.fileName}`);
           return questionPlugin.hr_label.includes(index);
       }
     },
@@ -131,7 +149,7 @@ export default {
       if (this.altChartType(index)) {
         return {
           responsive: true,
-          maintainAspectRatio: false,
+          maintainAspectRatio: true,
           beginAtZero: true
         };
       }
@@ -203,6 +221,10 @@ export default {
 .chartAdjust {
   margin-top: 10px;
   display: flex;
+}
+
+.text {
+  margin: 15px 0px 15px 0px;
 }
 
 .chartWrapper {

@@ -7,6 +7,7 @@ const excelData = {
           type: "title",
           data: [
             ['Staff Head Count', '2', 'bold'],
+            ['Staff Level', '1', 'bold'],
             ['Male', '1', 'bold'],
             ['Female', '1', 'bold'],
           ]
@@ -14,6 +15,7 @@ const excelData = {
           type: "input",
           data: [
             ['Directors', '2', 'bold'],
+            ['', '1', 'normal'],
             ['', '1', 'normal'],
             ['', '1', 'normal']
           ]
@@ -23,12 +25,14 @@ const excelData = {
             ['Managers', '2', 'bold'],
             ['', '1', 'normal'],
             ['', '1', 'normal'],
+            ['', '1', 'normal'],
           ]
         },
         {
           type: "input",
           data: [
             ['Officer', '2', 'bold'],
+            ['', '1', 'normal'],
             ['', '1', 'normal'],
             ['', '1', 'normal']
           ]
@@ -38,6 +42,7 @@ const excelData = {
           data: [
             ['Designer', '2', 'bold'],
             ['', '1', 'normal'],
+            ['', '1', 'normal'],
             ['', '1', 'normal']
           ]
         },
@@ -45,6 +50,7 @@ const excelData = {
           type: "input",
           data: [
             ['Coordinator', '2', 'bold'],
+            ['', '1', 'normal'],
             ['', '1', 'normal'],
             ['', '1', 'normal']
           ]
@@ -54,6 +60,7 @@ const excelData = {
           data: [
             ['Waitress', '2', 'bold'],
             ['', '1', 'normal'],
+            ['', '1', 'normal'],
             ['', '1', 'normal']
           ]
         },
@@ -61,6 +68,7 @@ const excelData = {
           type: "input",
           data: [
             ['Drivers', '2', 'bold'],
+            ['', '1', 'normal'],
             ['', '1', 'normal'],
             ['', '1', 'normal']
           ]
@@ -80,6 +88,7 @@ const excelData = {
         type: "input",
         data: [
           ['Directors', '2', 'bold'],
+          ['', '1', 'normal'],
           ['', '1', 'normal'],
           ['', '1', 'normal']
         ]

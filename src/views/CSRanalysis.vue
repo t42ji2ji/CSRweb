@@ -12,7 +12,7 @@
           font-awesome-icon(icon="chart-bar")
           span  表格/統計圖
 
-        HR(:fileData="fileData", :fileName="fileName",v-show="!isChart", isUploadPage=true,isAnalysisPage=true)
+        HR(:fileData="fileData", :fileName="fileName",v-show="!isChart", isUploadPage=true,isAnalysisPage=true, :datepicker="true")
         //- .chartAdjust
         //-   bar-chart(:chart-data="fillChartData()", :options="options")
         
@@ -257,39 +257,6 @@ export default {
   display: flex;
   align-items: center;
   flex-direction: column;
-}
-.flobatbtnGroup {
-  z-index: 999;
-  position: absolute;
-  right: 7%;
-  bottom: 7%;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  .btnInfo {
-    margin-top: 15px;
-  }
-  .floatbtn {
-    text-align: center;
-    line-height: 3rem;
-    vertical-align: middle;
-
-    background-color: #42b983;
-    color: white;
-    font-size: 1.4rem;
-    font-weight: bold;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 1.5rem;
-
-    box-shadow: #42b98360 2px 4px 10px;
-    transition: 0.4s;
-    &:hover {
-      transform: scale(1.3);
-      box-shadow: #42b98360 2px 7px 10px;
-    }
-  }
 }
 
 .btn {

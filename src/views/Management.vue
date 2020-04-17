@@ -180,6 +180,7 @@ export default {
     },
     OpenFormTable(index) {
       // this.openBlackBg();
+      console.log(this.responseData[index].data);
       this.fileData = this.responseData[index].data;
       this.openWindow = true;
     },

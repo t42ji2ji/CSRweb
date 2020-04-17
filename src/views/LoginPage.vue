@@ -119,6 +119,7 @@ export default {
   },
   data() {
     return {
+      loginLock: false,
       userList: [],
       isBtnDisable: { lastPage: false, nextPage: false, reg: false },
       showVisible: false,
@@ -434,6 +435,10 @@ export default {
     },
     async Loggin() {
       console.log("Login");
+      if (this.loginLock) {
+        return;
+      }
+      this.loginLock = true;
       try {
         const response = await axios.post(
           "https://csrweb.ahkui.com/api/user/login",
@@ -444,14 +449,18 @@ export default {
         );
         if (response.data.status) {
           this.isLogError = false;
+          this.loginLock = false;
           this.chnageLoginState();
           this.editUserdata(response.data);
           this.getAccount();
         } else {
           this.isLogError = true;
+          this.loginLock = false;
+
           this.notLoggin("Account or password not correct");
         }
       } catch (error) {
+        this.loginLock = false;
         console.error(error);
       }
     },

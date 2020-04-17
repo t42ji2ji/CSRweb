@@ -107,20 +107,38 @@ var testdata = [
  */
 const calcTotal = function (exceldata, isDone = false) {
   var data = exceldata;
+
   if (!isDone) {
     data = extractData(exceldata);
   }
+  console.log('========');
+  if (data.questions) {
+    console.log();
+    if (data.questions[0].q[0].data[0][0] === 'Staff Head Count') {
+      // eslint-disable-next-line no-unused-vars
+      data.questions[0].q.forEach((value, index) => {
+        if (value.type != "title") {
+          // eslint-disable-next-line no-unused-vars
+          if (data.questions[0].q[index].data[0]) {
+            console.log(data.questions[0].q[index].data[0][0]);
+            data.questions[0].q[index].data[0][0] = data.questions[0].q[index].data[0][0] + ' level ' + data.questions[0].q[index].data[1][0];
+          }
+          data.questions[0].q[index].data.splice(1, 1);
+        }
+      });
+    }
+  }
+  console.log(data);
   var alltotal = [];
   var totals = [];
   var totals_stack = [];
   var totals_stack_title = [];
   var totals_stack_title_question = [];
-  data.questions.forEach((value) => {
+  data.questions.forEach((value1) => {
     var total_one_question = [];
     var total_one_question_saperate = [];
     var total_one_question_saperate_title = [];
-
-    value.q.forEach((value) => {
+    value1.q.forEach((value) => {
       var total_one_q = [];
       value.data.forEach((num, index) => {
         if (index > 0) {
@@ -142,12 +160,20 @@ const calcTotal = function (exceldata, isDone = false) {
         }
       }
     });
-    if (value.q[0].type == 'title') {
-      totals_stack_title_question.push([
-        [value.q[0].data[0][0], '1', 'bold'],
-        [total_one_question[0], '1', 'bold'],
-        [total_one_question[1], '1', 'bold']
-      ]);
+    if (value1.q[0].type == 'title') {
+      if (total_one_question[1] == undefined) {
+        totals_stack_title_question.push([
+          [value1.q[0].data[0][0], '1', 'bold'],
+          [total_one_question[0], '1', 'bold'],
+        ]);
+      } else {
+        totals_stack_title_question.push([
+          [value1.q[0].data[0][0], '1', 'bold'],
+          [total_one_question[0], '1', 'bold'],
+          [total_one_question[1], '1', 'bold']
+        ]);
+      }
+
     }
     totals_stack.push(total_one_question_saperate);
     totals_stack_title.push(total_one_question_saperate_title);

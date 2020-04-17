@@ -1,10 +1,16 @@
 <template lang="pug">
   .question
     .adjust
-      h3(ref="input1111") {{fileName}}
+      h3 {{fileName}}
+      .datePicker(v-if="datepicker")
+        .title <b>Period: </b>
+        vc-date-picker(mode="range" v-model="date" color="green" ) 
+      .datePicker(v-else="datepicker") 
+        .title <b>Period: </b> {{Formate_date}} 
       .quote(v-for="(question, questionIndex) in fileData.questions")
         Table(:hover="false", :data="item.data", :type="item.type", v-for="(item, index) in question.q", :key="item.data + index" :id="'table'+index", :class="{'tableOdd':index%2 != 1}", :tag="fileName + questionIndex + index", @addRow="addRow", :questionIndex="questionIndex", :qIndex="index", @editRow="editRow", @handleDeletRow="handleDeletRow", :deletRow="(item.type ==='input' || item.type === 'text')", @editValue="editValue")
       .alert(v-if="isError") {{errorMsg}}
+
       .btn(v-if="isUploadPage && uploadVisible", @click="submit") Save
 </template>
 
@@ -14,6 +20,7 @@ import questionField from "../../assets/questionData/hr";
 import { mapState, mapActions } from "vuex";
 import axios from "axios";
 import lodash from "lodash";
+import dayjs from "dayjs";
 
 export default {
   props: {
@@ -22,6 +29,10 @@ export default {
       default: () => {
         return {};
       }
+    },
+    datepicker: {
+      type: Boolean,
+      default: false
     },
     fileName: {
       required: true,
@@ -69,6 +80,7 @@ export default {
     },
     getSubmitData() {
       var sumbitData = lodash.cloneDeep(this.fileData);
+      sumbitData.fileConfig.date = this.date;
       sumbitData.questions.forEach((val, index, array) => {
         val.q.forEach((qval, qindex) => {
           if (qval.type === "input") {
@@ -150,7 +162,17 @@ export default {
       UploadData: "UploadData",
       blackBg: "blackBg",
       uploadVisible: "uploadVisible"
-    })
+    }),
+    Formate_date() {
+      if (this.fileData.fileConfig.date == undefined) {
+        return "";
+      } else {
+        var dt = `${dayjs(this.fileData.fileConfig.date.start).format(
+          "YYYY/MM/DD"
+        )} - ${dayjs(this.fileData.fileConfig.date.end).format("YYYY/MM/DD")}`;
+        return dt;
+      }
+    }
   },
   watch: {
     blackBg: {
@@ -164,6 +186,7 @@ export default {
   mounted() {},
   data() {
     return {
+      date: "",
       questionTitle: [
         ["Staff Head Count", "2", "bold"],
         ["Male", "1", "normal"],
@@ -190,6 +213,9 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: column;
+    h3 {
+      text-align: left;
+    }
   }
 }
 
@@ -217,5 +243,16 @@ export default {
   font-weight: bold;
   text-align: center;
   color: red;
+}
+
+.datePicker {
+  display: flex;
+  align-content: center;
+  margin-bottom: 10px;
+  .title {
+    text-align: center;
+    line-height: 32px;
+    margin-right: 10px;
+  }
 }
 </style>

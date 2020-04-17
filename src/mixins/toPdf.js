@@ -22,14 +22,13 @@ const mixins = {
           margin: 2,
           filename: `${fileName}.pdf`,
           pagebreak: {
-            mode: "avoid-all"
+            mode: "legacy",
           }
         })
         .from(element)
         .save();
       console.log('Save');
       this.changeUploadVisible();
-
     },
   },
 };

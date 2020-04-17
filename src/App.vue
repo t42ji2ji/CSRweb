@@ -7,7 +7,7 @@
       .btn(@click="test" )
         font-awesome-icon(icon="chart-bar")
         span  表格/統計圖
-      HR(:fileData="FileData", isUploadPage=true, :fileName="FileData.fileConfig.name", v-show="!isChart" ref="analysis") 
+      HR(:fileData="FileData", isUploadPage=true, :fileName="FileData.fileConfig.name", v-show="!isChart" ref="analysis" :datepicker="true") 
       Analysis(:fileData="FileData",:fileName="FileData.fileConfig.name", :fileTotal='fileTotal' :fileTotalText="fileTotalText" v-if="isChart" ) 
 
 
@@ -19,6 +19,12 @@
       router-link(to='/about')
         font-awesome-icon(icon="file-excel") 
         span   CSR Data Analysis
+      router-link(to='/Report')
+        font-awesome-icon(icon="file-excel") 
+        span   Report
+      router-link(to='/t')
+        font-awesome-icon(icon="marker") 
+        span   t
       router-link(to='/Management' v-if="this.userData.level > 0")
         font-awesome-icon(icon="marker") 
         span   表單管理
@@ -123,6 +129,40 @@ $green: #42b983;
 @mixin flex() {
   display: flex;
   flex-direction: column;
+}
+
+.flobatbtnGroup {
+  z-index: 999;
+  position: fixed;
+  right: 7%;
+  bottom: 7%;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .btnInfo {
+    margin-top: 15px;
+  }
+  .floatbtn {
+    text-align: center;
+    line-height: 3rem;
+    vertical-align: middle;
+
+    background-color: #42b983;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: bold;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+
+    box-shadow: #42b98360 2px 4px 10px;
+    transition: 0.4s;
+    &:hover {
+      transform: scale(1.3);
+      box-shadow: #42b98360 2px 7px 10px;
+    }
+  }
 }
 
 .bounce-enter-active {
