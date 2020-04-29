@@ -60,12 +60,10 @@ export default {
       changeUploadVisible: "changeUploadVisible"
     }),
     addRow(arg) {
+      var value = lodash.cloneDeep(this.fileData.questions[arg].s);
+      console.log(value);
       var index = this.fileData.questions[arg].q.length;
-      this.fileData.questions[arg].q.splice(
-        index - 2,
-        0,
-        this.fileData.questions[arg].s
-      );
+      this.fileData.questions[arg].q.splice(index - 2, 0, value);
     },
     editValue(questionIndex, qIndex, index, value) {
       this.fileData.questions[questionIndex].q[qIndex].data[

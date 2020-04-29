@@ -3,35 +3,35 @@
     .Cover
       img(src="https://s.w.org/style/images/about/WordPress-logotype-alternative.png", alt="")
     form(@submit="Loggin")
-      .testfiled 帳號：
+      .testfiled Account：
         input(v-model="username")
-      .testfiled 密碼：
+      .testfiled Password：
         input(v-model="password", type="password")
       .alertText(v-show="isLogError") {{LoggMessage}}
-      .btn(@click="Loggin") 登入
+      .btn(@click="Loggin") Login
       button(style="display: none")
   .Login.alignLeft(v-else-if="(isLogin && userData.level > 0)")
     h2 {{userData.realname}} 
-    h4 管理員等級: {{altLevel(userData.level)}}
-    .btn.alignLeft.logout_btn(@click="Logout") 登出
+    h4 Role: {{altLevel(userData.level)}}
+    .btn.alignLeft.logout_btn(@click="Logout") Logout
     Alert(@alertReturnVale="handleAlert",:msg="alertMsg", :isShow="alertShow", :showcancel="showcancel")
     transition(name="bounce")
       .updateFormVisible(v-if="showVisible")
         .funcArea
-          h4 修改 {{this.Visible_id.username}} 權限
-          .testfiled 表單權限：
+          h4 Revise the access rights of “{{this.Visible_id.username}}”
+          .testfiled Access rights：
             input(type="checkbox" v-model="formVisible" value="hr" id="hr_checkbox")
-            label(for="hr_checkbox") hr
+            label(for="hr_checkbox") HR
             input(type="checkbox" v-model="formVisible" value="ENG&MAIN" id="ENG&MAIN_checkbox")
             label(for="ENG&MAIN_checkbox") ENG & MAIN
             input(type="checkbox" v-model="formVisible" value="CumSer" id="CumSer_checkbox")
-            label(for="CumSer_checkbox") Cum Ser
+            label(for="CumSer_checkbox") CUMSER
             input(type="checkbox" v-model="formVisible" value="PubRel" id="PubRel_checkbox")
-            label(for="PubRel_checkbox") Pub Rel
+            label(for="PubRel_checkbox") PUBREL
           .alertText(v-show="isRegError") {{LoggMessage}}
           .btnGroup
-            .btn(@click="updateVisible") 更新 
-            .btn(@click="()=>{this.showVisible = false}") 取消 
+            .btn(@click="updateVisible") Update 
+            .btn(@click="()=>{this.showVisible = false}") Cancel 
 
     .gridContainer
       .funcArea.reg_grid
@@ -52,8 +52,8 @@
           span Role：
           select(v-model="reg_premision")
             option(disabled value="") Role--
-            option(value="0") 一般會員
-            option(value="1") 管理員
+            option(value="0") Member
+            option(value="1") Manager
         .testfiled.DepartmentCheck Department：
           .depart
             input(type="checkbox" v-model="formVisible" value="hr" id="hr_checkbox")
@@ -70,38 +70,38 @@
         .alertText(v-show="isRegError") {{LoggMessage}}
         .btn(@click="alertSet('register')", :class="{btn_disable: isBtnDisable.reg}") Register 
       .funcArea.delete_grid
-        h2 刪除帳號
+        h2 Delete account
         form
           .testfiled 
-            span 刪除帳號名稱：
+            span Delete account name：
             input(v-model="del_username")
           .alertText(v-show="isDelError") {{LoggMessage}}
-          .btn(@click="alertSet('delete')") 刪除
+          .btn(@click="alertSet('delete')") Delete
       .funcArea.account_grid
-        h2 管理帳號
+        h2 Manage account
         .testfiled 
           form.flex_Row
-            span 查詢帳號：
+            span Account inquiry：
             input(v-model="search_username")
-            .btn.search_btn(@click="getAccount(search_username)") 查詢
+            .btn.search_btn(@click="getAccount(search_username)") Inquire
         .alertText(v-show="isSearchError") {{LoggMessage}}
         Table(:data=[
         ["id", "1", "bold"],
         ["level", "2", "bold"],
         ["userName", "4", "bold"],
-        ["權限", "6", "bold"]
+        ["Access rights", "6", "bold"]
       ], :hover="false")
         Table(v-for="(val, index) in userList" :data="val" :key="`userList${index}`" @click.native="updateForm(index)")
         .formpage
           .btnGroup
-            .btn(@click="pageChange(false)" :class="{btn_disable: isBtnDisable.lastPage}") 上一頁 
+            .btn(@click="pageChange(false)" :class="{btn_disable: isBtnDisable.lastPage}") Pervious page 
             span(style="padding: 0px 10px")  {{nowpage}} 
-            .btn(@click="pageChange(true)" :class="{btn_disable: isBtnDisable.nextPage}") 下一頁 
+            .btn(@click="pageChange(true)" :class="{btn_disable: isBtnDisable.nextPage}") Next page 
 
   .Login(v-else)
     .t 
-      h3 {{userData.realname}} 登入成功
-    .btn.logout_btn(@click="Logout") 登出
+      h3 {{userData.realname}} Login Success
+    .btn.logout_btn(@click="Logout") Logout
 
 </template>
 
@@ -115,7 +115,7 @@ import Table from "../components/Table";
 export default {
   components: {
     Alert,
-    Table
+    Table,
   },
   data() {
     return {
@@ -145,11 +145,11 @@ export default {
       formVisible: [],
       response: {},
       searchResult: [],
-      nowpage: 1
+      nowpage: 1,
     };
   },
   beforeRouteEnter(to, from, next) {
-    next(vm => {
+    next((vm) => {
       if (vm.userData.level > 0 && vm.isLogin) {
         vm.getAccount();
       }
@@ -158,7 +158,7 @@ export default {
   computed: {
     ...mapState({
       isLogin: "isLogin",
-      userData: "userData"
+      userData: "userData",
     }),
     alertAlt() {
       var validate;
@@ -172,12 +172,12 @@ export default {
             this.reg_realname == ""
           ) {
             validate = false;
-            validateMsg = "不可留空";
+            validateMsg = "empty";
           }
           return {
-            msg: `確定要註冊 ${this.reg_username} 嗎`,
+            msg: `Confirm to register "${this.reg_username}" ?`,
             validate: validate,
-            validateMsg: validateMsg
+            validateMsg: validateMsg,
           };
         case "delete":
           if (
@@ -186,21 +186,21 @@ export default {
             this.reg_premision == ""
           ) {
             validate = false;
-            validateMsg = "不可留空";
+            validateMsg = "empty";
           }
           return {
-            msg: `確定要刪除 ${this.del_username} 嗎`,
-            validate: validate
+            msg: `Confirm to delete "${this.del_username}" ?`,
+            validate: validate,
           };
         default:
           return "";
       }
-    }
+    },
   },
   methods: {
     ...mapActions({
       editUserdata: "editUserdata",
-      chnageLoginState: "chnageLoginState"
+      chnageLoginState: "chnageLoginState",
     }),
     test() {
       console.log("test");
@@ -219,12 +219,12 @@ export default {
         const response = await axios.post(
           `https://csrweb.ahkui.com/api/admin/user/${this.Visible_id.username}/formVisible`,
           {
-            formVisible: this.formVisible
+            formVisible: this.formVisible,
           }
         );
         if (response.data.status) {
           this.isUpdateError = true;
-          this.notLoggin("更新成功");
+          this.notLoggin("Update Success");
           this.getAccount();
           this.clearInput();
           setTimeout(function() {
@@ -246,11 +246,11 @@ export default {
       var level = data.toString();
       switch (level) {
         case "0":
-          return "一般會員";
+          return "Member";
         case "1":
-          return "管理員";
+          return "Manager";
         case "2":
-          return "超級管理員";
+          return "Super Manager";
       }
       return "123";
     },
@@ -288,14 +288,14 @@ export default {
       var vm = this;
       var output = data.users.map((val, index) => {
         var visible = "";
-        val.formVisible.forEach(val => {
-          visible = visible + val + " ";
+        val.formVisible.forEach((val) => {
+          visible = visible.toUpperCase() + val + " ";
         });
         return [
           [index, "1", "normal"],
           [vm.altLevel(val.level), "2", "normal"],
           [val.username, "4", "normal"],
-          [visible, "6", "normal"]
+          [visible, "6", "normal"],
         ];
       });
       this.userList = output;
@@ -314,12 +314,12 @@ export default {
             "password-confirm": this.reg_password_confirm,
             realname: this.reg_realname,
             level: this.reg_premision,
-            formVisible: this.formVisible
+            formVisible: this.formVisible,
           }
         );
         if (response.data.status) {
           this.isRegError = true;
-          this.notLoggin("註冊成功");
+          this.notLoggin("Success");
           this.clearInput();
           this.getAccount();
         } else {
@@ -427,7 +427,7 @@ export default {
           this.editUserdata(response.data);
           this.clearState();
         } else {
-          this.notLoggin("登出失敗");
+          this.notLoggin("Logout Fail");
         }
       } catch (error) {
         console.error(error);
@@ -444,7 +444,7 @@ export default {
           "https://csrweb.ahkui.com/api/user/login",
           {
             username: this.username,
-            password: this.password
+            password: this.password,
           }
         );
         if (response.data.status) {
@@ -478,8 +478,8 @@ export default {
       this.reg_realname = "";
       this.del_username = "";
       this.alertMsg = "";
-    }
-  }
+    },
+  },
 };
 </script>
 

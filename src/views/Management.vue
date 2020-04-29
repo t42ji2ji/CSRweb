@@ -1,8 +1,7 @@
 <template lang="pug">
   .Management(v-if="isLogin")
     Alert(:msg="alert.msg",:isShow="alert.isShow",@alertReturnVale="handleDelCheck")
-    h2 表單管理
-    h4 Management
+    h2 Datasheets management
     .tabgroup
       .tab.tabClick(@click ="changeTab('hr', $event)") Hr
       .tab(@click ="changeTab('ENG&MAIN', $event)") ENG&MAIN
@@ -20,9 +19,9 @@
       Table(v-for="(item,index) in nowData", :key="index", :data="item" :deletBtn="true", v-on:delete="getFormId(index)", v-on:openTable="OpenFormTable(index)")
       .formpage
         .btnGroup
-          .btn(@click="pageChange(false)" :class="{btn_disable: isBtnDisable.lastPage}") 上一頁 
+          .btn(@click="pageChange(false)" :class="{btn_disable: isBtnDisable.lastPage}") Pervious page 
           span(style="padding: 0px 10px")  {{nowpage}} 
-          .btn(@click="pageChange(true)" :class="{btn_disable: isBtnDisable.nextPage}") 下一頁 
+          .btn(@click="pageChange(true)" :class="{btn_disable: isBtnDisable.nextPage}") Next page 
     transition(name="bounce")
       .QuestionWindow(v-if="openWindow")
         .cover(@click="()=>{this.openWindow = !this.openWindow}")
@@ -30,12 +29,12 @@
           .pdf(ref="qwrapper")
             .btn(@click="()=> {this.isChart = !this.isChart}" v-if="uploadVisible")
                 font-awesome-icon(icon="chart-bar")
-                span  表格/統計圖
+                span Table / statistics graph
             HR(:fileData="fileData", :fileName="fileName",v-show="!isChart")
             Anaylsis(:fileTotal="fileTotal", :fileTotalText="fileTotalText",v-if="isChart", :fileName="fileName")
             .btn(@click="toPdf" v-if="uploadVisible") DownLoad PDF
         .noData(v-else="this.fileData.hasOwnProperty('questions') ?  true : false ")
-          h3 沒有資料
+          h3 No Data
         
 
 
@@ -175,7 +174,7 @@ export default {
     getFormId(index) {
       var id = this.responseData[index]._id;
       this.alert.isShow = true;
-      this.alert.msg = `確定刪除嗎?`;
+      this.alert.msg = `Confirm to delete?`;
       this.alert._id = id;
     },
     OpenFormTable(index) {
@@ -232,7 +231,7 @@ export default {
       } catch (error) {
         console.error(error);
         this.isDelError = true;
-        this.notLoggin("找不到帳號 " + this.del_username);
+        this.notLoggin("Can't find account:" + this.del_username);
       }
     },
     async geFilledFormData(formname, page = 1) {

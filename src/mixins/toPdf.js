@@ -21,12 +21,25 @@ const mixins = {
         .set({
           margin: 0,
           filename: `${fileName}.pdf`,
+          pagebreak: {
+            after: 'canvas'
+          },
+          html2canvas: {
+            scale: 1,
+            useCORS: true,
+            letterRendering: true
+          },
+
         })
         .from(element)
         .save();
       console.log('Save');
-      element.innertHTML = '';
+      var tg = document.querySelectorAll(".forcanvas > canvas");
+      tg.forEach((value) => {
+        element.removeChild(value);
+      });
       console.log(element.innertHTML);
+      console.log(element);
       this.changeUploadVisible();
     },
   },

@@ -4,10 +4,10 @@
     .table.tableInput.tableInputBG(v-if="tableType[0]",:class="{ 'tablehover': hover}",)
       .title(:style="{flex: data[0][1], fontWeight: data[0][2], }" contenteditable="true" @input="onInput") {{data[0][0]}}
       .inputContainer(v-for="(item, index) in inputArray", type="number",:style="{flex: item[1], fontWeight: item[2]}")
-        input.inputStyle(type="number", v-model="form.parentId[index]" @input="editValue(index, $event)")
+        input.inputStyle(type="number", v-model="form.parentId[index] == undefined ? item[0] :  form.parentId[index] " @input="editValue(index, $event)", min="0" @keyup="keyup" )
     //- textArea style
     .table.tableInput.tableInputBG(v-if="tableType[4]",:class="{ 'tablehover': hover}",)
-      .title(:style="{flex: data[0][1], fontWeight: data[0][2], }") {{data[0][0]}}
+      .title(:style="{flex: data[0][1], fontWeight: data[0][2], }",contenteditable="true" @input="onInput") {{data[0][0]}}
       .inputContainer(v-for="(item, index) in inputArray", :style="{flex: item[1], fontWeight: item[2]}")
         textarea.inputStyle(type="number", v-model="form.parentId[index]" @input="editValue(index, $event)")
     //- dash style
@@ -77,6 +77,9 @@ export default {
       }
     };
   },
+  created() {
+    console.log("create");
+  },
   watch: {
     form: {
       // eslint-disable-next-line no-unused-vars
@@ -101,6 +104,13 @@ export default {
     ...mapActions({
       addUploadData: "addUploadData"
     }),
+    keyup(e) {
+      // eslint-disable-next-line no-undef
+      console.log(parseFloat(e.target.value));
+      if (parseFloat(e.target.value) < 0) {
+        e.target.value = 0;
+      }
+    },
     handleDeletRow() {
       this.$emit("handleDeletRow", this.questionIndex, this.qIndex);
     },

@@ -1,16 +1,15 @@
 <template lang="pug">
   .CSRanalysis(v-if="isLogin")
-    h2 CSR 資訊分析
-    h4 CSR Data Analysis
+    h2 CSR Data Analysis
     //- h3 {{fileTotal}}
     .flobatbtnGroup
       .floatbtn(@click="handleUpload") +
-      .btnInfo 上傳檔案
+      .btnInfo Upload
     .QuestionWraper(v-if="Object.keys(fileData).length > 0", )
       .pdf(ref="qwrapper")
         .btn(@click="()=> {this.isChart = !this.isChart}" v-if="uploadVisible")
           font-awesome-icon(icon="chart-bar")
-          span  表格/統計圖
+          span  Table / statistics graph
 
         HR(:fileData="fileData", :fileName="fileName",v-show="!isChart", isUploadPage=true,isAnalysisPage=true, :datepicker="true")
         //- .chartAdjust

@@ -6,7 +6,7 @@
     .Questionnaire(@click="", v-if="blackBg")
       .btn(@click="test" )
         font-awesome-icon(icon="chart-bar")
-        span  表格/統計圖
+        span  Table / statistics graph
       HR(:fileData="FileData", isUploadPage=true, :fileName="FileData.fileConfig.name", v-show="!isChart" ref="analysis" :datepicker="true") 
       Analysis(:fileData="FileData",:fileName="FileData.fileConfig.name", :fileTotal='fileTotal' :fileTotalText="fileTotalText" v-if="isChart" ) 
 
@@ -22,12 +22,10 @@
       router-link(to='/Report')
         font-awesome-icon(icon="file-excel") 
         span   Report
-      router-link(to='/t')
-        font-awesome-icon(icon="marker") 
-        span   t
+
       router-link(to='/Management' v-if="this.userData.level > 0")
         font-awesome-icon(icon="marker") 
-        span   表單管理
+        span   Datasheets management
       router-link(to='/login')
         font-awesome-icon(icon="user") 
         span   Login
@@ -212,6 +210,13 @@ $green: #42b983;
     color: white;
     background-color: #42b983;
   }
+  &-confirm {
+    background-color: #42b983;
+    color: white;
+    &:hover {
+      filter: brightness(110%);
+    }
+  }
 }
 
 .btn_disable {
@@ -298,14 +303,5 @@ $green: #42b983;
 
 .redinput {
   border: 1px solid rgba(255, 0, 0, 0.431);
-}
-
-.pdf {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  padding-bottom: 20px;
 }
 </style>

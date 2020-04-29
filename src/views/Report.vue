@@ -1,10 +1,12 @@
 <template lang="pug">
   .Report(v-if="true")
-    h2 表格生成
-    h4 report generation
+    h2 Report Generation
     .flobatbtnGroup
       .floatbtn(@click="toPdf") +
       .btnInfo PDF
+    //- .flobatbtnGroup(style="right: 40px;")
+    //-   .floatbtn(@click="testToPdf") +
+    //-   .btnInfo test
     .uploadGroups
       .uploadGroup
         h2 Upload excel
@@ -53,8 +55,8 @@
           h4 name of audit firm 
           input(v-model="audit_firm")
 
-    .reportWrapper
-      .pdf
+    .reportWrapper(ref="printR")
+      .pdf(ref="printD")
         .reportWrapper-cover.pageSetting
           .content
             h1 logo
@@ -62,7 +64,6 @@
             h4 Corporate Responsibility and Sustainability Report {{year}}
             img(:src="imgSource", width="100")
         .reportWrapper-commonpage.pageSetting
-          .content
           .content
             h2 About This Report
             p We aim to provide a connected view of different aspects of our performance, financial and nonfinancial, enabling our stakeholders to have a holistic view of our company. This Corporate Responsibility and Sustainability Report {{year}} is produced with the intention that it is read together with our Annual Report, with this icon showing relevant linkages in the Annual Report {{hyperlink}}. We continue to share the challenges and successes of our sustainability journey over the past year. This medium is just one of the ways we engage with our stakeholders; in addition, we regularly hold meetings with interested stakeholders to discuss our sustainability performance in more detail. Feel free to reach out to us if you want to find out more.
@@ -74,31 +75,65 @@
             p This report complies with the “comply or explain” provisions in the Hong Kong Stock Exchange’s (HKEx) Environmental, Social, and Governance Reporting Guide (ESG Guide), which includes a number of relevant recommended disclosures (read together with the Annual Report) and this report has been prepared in accordance with the Global Reporting Initiative Sustainability Reporting Standards (GRI Standards): Core option, and references the International Integrated Reporting Framework from the International Integrated Reporting Council (IIRC) (read together with the Annual Report) and Task Force on Climate-related Financial Disclosures (TCFD).
         .reportWrapper-commonpage.pageSetting
           .content
-          .content
             p(v-if="audit_firm") {{audit_firm}} was commissioned to conduct assurance and to provide an independent opinion on identified elements of this report in accordance with the HKEx ESG Guide. 
             p We welcome your feedback. Please share your views with us by post or email: <br> Company Name : {{companyName}} <br> Address : {{address}} <br> Website : {{website}} <br> Enail : {{email}}
         .reportWrapper-commonpage.pageSetting
-          .content
-          .content
-            h2 Contents
-            //- <br>OUR SUSTAINABILITY VISION	5
-            //- <br>Message from the Management	6
-            //- <br>Governance	7
-            //- <br>Responsible Business	7
-            //- <br>Responsible Gaming	8
-            //- <br>Our People	10
-            //- <br>Employment and Caring Workplace	10
-            //- <br>Training and Development	12
-            //- <br>Occupational Safety and Health	13
-            //- <br>Our Community	14
-            //- <br>Donation and Participation	14
-            //- <br>Collaboration and Core Community Program	15
-            //- <br>Major Recognitions and Awards	16
-            //- <br>Our Environment	17
-            //- <br>Energy Efficiency	17
-            //- <br>Waste Management	18
-            //- <br>Environmental Awareness	19
-            //- <br>Our Customer	20
+          h2 Contents
+          .content.contents
+            .content-item 
+              span OUR SUSTAINABILITY VISION
+              span 5
+            .content-item
+              span Message from the Management
+              span 	6
+            .content-item
+              span Governance
+              span 	7
+            .content-item.content-item-sub
+              span Responsible Business
+              span 	7
+            .content-item.content-item-sub
+              span Responsible Gaming
+              span 	8
+            .content-item
+              span Our People	
+              span 10
+            .content-item.content-item-sub
+              span Employment and Caring Workplace
+              span 10
+            .content-item.content-item-sub
+              span Training and Development	
+              span 12
+            .content-item.content-item-sub
+              span Occupational Safety and Health	
+              span 13
+            .content-item
+              span Our Community	
+              span 14
+            .content-item.content-item-sub
+              span Donation and Participation	
+              span 14
+            .content-item.content-item-sub
+              span Collaboration and Core Community Program
+              span 15
+            .content-item.content-item-sub
+              span Major Recognitions and Awards	
+              span 16
+            .content-item
+              span Our Environment	
+              span 17
+            .content-item.content-item-sub
+              span Energy Efficiency	
+              span 17
+            .content-item.content-item-sub
+              span Waste Management	
+              span 18
+            .content-item.content-item-sub
+              span Environmental Awareness	
+              span 19
+            .content-item
+              span Our Customer	
+              span 20
 
 
         .reportWrapper-commonpage.pageSetting
@@ -118,7 +153,7 @@
             p <b>Ethics, Transparency and anti-corruption</b><br>
               span(contenteditable="true") [We are committed to the highest standards of business ethics. Guided by our Code of Conduct and anti-corruption policy, our entire workforce is required to adhere to practices relating to the prevention of bribery, fraud and corruption. Apart from communicating relevant policies to all new recruits during induction sessions, regular seminars with guest speakers from the Commission Against Corruption (CCAC) of Macao. are provided to our staff. During the reporting year, over [input no. of staff] staff members attended anti-corruption training courses.]
             p Our ongoing project protect responsible gaming includes: 
-            ul
+            ul(contenteditable="true") 
               li Macau Penal Code;
               li The rules of the Convention on Combating Bribery of Foreign Public Officials in International Business Transactions (the “OECD Convention”)
               li Anti-corruption policy
@@ -136,7 +171,7 @@
             p(contenteditable="true") [At our company, our guests can visitors can enjoy a wide range of entertainment. Committed to their well-being as well as the wellbeing of the greater Macao community, we remain firm in our support of responsible gaming. We have been setting an example by establishing self-exclusion and other comprehensive responsible gaming programs, as well as remain in full support of the Gaming Inspection and Coordination Bureau (“DICJ”)]
 
             p Our ongoing project protect responsible gaming includes: 
-            ul
+            ul(contenteditable="true") 
               li Team member training
               li Ambassador assistance
               li Prominent signage for resources
@@ -151,12 +186,14 @@
             p(contenteditable="true") [As an equal opportunity employer, we believe that building a stable workforce and cultivating a harmonious workplace starts with embracing diversity. Therefore, we ensure equal opportunities in every area, including compensation and benefits, recruitment, promotion and transfer, and training and development. We do not tolerate any kind of discrimination based on race, religion, gender, marital status, age, national origin, or any other considerations deemed irrelevant by local labour laws. ]
             //- HR(:fileData="fileData_HR", :fileName="fileName_HR",v-if="!(fileData_HR.fileConfig == undefined)")
 
-          Anaylsis(:fileTotal="fileTotalCut(0, 0,fileTotal_HR)", :fileTotalText="fileTotalText(fileData_HR)",v-if="!(fileData_HR.fileConfig == undefined)", :fileName="fileData_HR.fileConfig.name")
+
+          Anaylsis(:fileTotal="fileTotal_HR", :fileTotalText="fileTotalText(fileData_HR)",v-if="!(fileData_HR.fileConfig == undefined)", :fileName="fileData_HR.fileConfig.name", :dataview="[0,1,2,3]")
+          
           .content
-            p(contenteditable="true") [When there are vacant positions, we also give priority to qualified internal candidates prior to recruiting from external sources, whenever possible. As at the end of [Year], the employee turnover rate of the Group was [system auto-calculated rate] for male employees and [system auto-calculated rate] for female employees; and [system auto-calculated rate] for employees aged below 40 and [system auto-calculated rate] for employees aged over 40.In order to retain a loyal workforce, competitive compensation packages or fringe benefits are provided to our employees based on job responsibilities, performance and their contributions as well as their professional and managerial competencies. Employees undergo annual appraisals and are rewarded appropriately according to their performance and contributions to the company’s development.]
+            p(contenteditable="true") [When there are vacant positions, we also give priority to qualified internal candidates prior to recruiting from external sources, whenever possible. As at the end of {{year}}, the employee turnover rate of the Group was {{fileTotal_HR ? (((fileTotal_HR[3][3][1][0] + fileTotal_HR[3][2][1][0])/fileTotal_HR[3][0][1][0])*100).toFixed(1) : ''}}% for male employees and {{fileTotal_HR ? (((fileTotal_HR[3][3][2][0] + fileTotal_HR[3][2][2][0])/fileTotal_HR[3][0][2][0])*100).toFixed(1) : ''}}% for female employees; and {{fileTotal_HR ? ((fileTotal_HR[3][1][1][0] + fileTotal_HR[3][1][2][0]) -(fileTotal_HR[1][1][2][0]+fileTotal_HR[1][1][2][1])) : ''}} for employees aged below 40 and {{fileTotal_HR ? ((fileTotal_HR[1][1][2][0]+fileTotal_HR[1][1][2][1])) : ''}} for employees aged over 40.In order to retain a loyal workforce, competitive compensation packages or fringe benefits are provided to our employees based on job responsibilities, performance and their contributions as well as their professional and managerial competencies. Employees undergo annual appraisals and are rewarded appropriately according to their performance and contributions to the company’s development.]
 
             h4 Compensation packages and fringe benefits:
-            ul
+            ul(contenteditable="true") 
               li Medical and Life Insurance Scheme
               li Annual leave
               li Sick Leave
@@ -173,9 +210,10 @@
 
           Anaylsis(:fileTotal="fileTotalCut(0, 1,fileTotal_HR)", :fileTotalText="fileTotalText(fileData_HR)",v-if="!(fileData_HR.fileConfig == undefined)", :fileName="fileData_HR.fileConfig.name")
           
+          
           .content
-            p Percentage of employees receiving regular performance and career development review: [system auto-calculated]
-            p Cost spent on Training and Education: [Data retrieved from accounting system]
+            p(contenteditable="true") Percentage of employees receiving regular performance and career development review: [system auto-calculated]
+            p(contenteditable="true") Cost spent on Training and Education: [Data retrieved from accounting system]
 
             h4.contentsubTitle Occupational Safety and Health
             p(contenteditable="true") [We actively provide training to our employees to educate them on the importance of OSH. A key component of our OSH Training Programme is written assessments, which ensure that course participants have retained a good understanding of the main safety messages from the OSH training courses.]
@@ -187,21 +225,21 @@
               | [The success of our business is inextricably linked to the success and sustainability of the cities and communities where we operate. These communities provide the resources, infrastructure and markets that our businesses rely on. It is essential that they benefit from having us there.
               | We believe we have a responsibility to deliver positive, lasting impacts that contribute shared and sustained value for all.We recognise that different communities face distinct challenges, and for this reason, each department tailors their efforts to match community needs through local action plans. We engage and invest in our local communities in a manner that responds to their needs in a strategic, relevant and focused way. Our volunteering and community initiatives also emphasise the manner and importance of delivering care, a skill that is integral in our daily work.]
             h4.contentsubTitle Donation and Participation
-            p In {{year}}, we recorded over MOP[system auto-calculated] in total cash donations to charitable organizations focused in following areas: 
+            p(contenteditable="true")  In {{year}}, we recorded over MOP {{fileTotal_CPR ? fileTotal_CPR[3][0][1][0]: ''}},000 in total cash donations to charitable organizations focused in following areas: 
 
-            p In {{year}}, the number of [add the name of company’s community service team] Ambassadors is [insert number]. 
+            p(contenteditable="true")  In {{year}}, the number of [add the name of company’s community service team] Ambassadors is [insert number]. 
           
           Anaylsis(:fileTotal="fileTotal_CPR", :fileTotalText="fileTotalText(fileData_CPR)",v-if="!(fileData_CPR.fileConfig == undefined)", :fileName="fileData_CPR.fileConfig.name", :dataview="[0,1]")
           
           .content
             h4.contentsubTitle Collaboration and Core Community Program
-            p During the reporting year, we joined hands with many of our stakeholders, including our employees, their families and friends, and our like-minded strategic partners to serve the communities in which we operate.
+            p(contenteditable="true")  During the reporting year, we joined hands with many of our stakeholders, including our employees, their families and friends, and our like-minded strategic partners to serve the communities in which we operate.
 
           Anaylsis(:fileTotal="fileTotal_CPR", :fileTotalText="fileTotalText(fileData_CPR)",v-if="!(fileData_CPR.fileConfig == undefined)", :fileName="fileData_CPR.fileConfig.name", :dataview="[3,4]")
 
           .content
             h4.contentsubTitle Major Recognitions and Awards
-            p We strive to deliver excellent community services, whilst creating a positive social and environmental impact. Our efforts have earned us a variety of accolades. The following table lists the awards and recognitions garnered by the company in {{year}}, arranged in alphabetical order.
+            p(contenteditable="true")  We strive to deliver excellent community services, whilst creating a positive social and environmental impact. Our efforts have earned us a variety of accolades. The following table lists the awards and recognitions garnered by the company in {{year}}, arranged in alphabetical order.
 
           Anaylsis(:fileTotal="fileTotal_CPR", :fileTotalText="fileTotalText(fileData_CPR)",v-if="!(fileData_CPR.fileConfig == undefined)", :fileName="fileData_CPR.fileConfig.name", :dataview="[2]")
 
@@ -246,7 +284,12 @@
           Anaylsis(:fileTotal="fileTotal_CSR", :fileTotalText="fileTotalText(fileData_CSR)",v-if="!(fileData_CSR.fileConfig == undefined)", :fileName="fileData_CSR.fileConfig.name", :dataview="[4]")
           
           .content
-            p We maintain the ethical principles set out in our Code of Conduct and comply with applicable laws and regulations and industry guidelines. Employee and customer data are safeguarded through the [Personal Data (Privacy) Ordinance and Residential Properties (Firsthand Sales) Ordinance]. 
+            p We maintain the ethical principles set out in our Code of Conduct and comply with applicable laws and regulations and industry guidelines. Employee and customer data are safeguarded through the [Personal Data (Privacy) Ordinance and Residential Properties (Firsthand Sales) Ordinance].
+        .reportWrapper-commonpage.pageSetting
+          .content
+            p Contact us
+            p We welcome feedback on this report and any aspect of our sustainability management approach and performance. Comments or feedback can be sent by email to {{email}} 
+
         .forcanvas(style="background-color: white",ref="print")
 
   
@@ -265,9 +308,11 @@ import { mapState, mapActions } from "vuex";
 import questionPlugin from "../assets/questionData/question_plugin";
 import ExtractExcel from "../assets/assetsJs/extract";
 import Excel from "../assets/assetsJs/excel";
+// eslint-disable-next-line no-unused-vars
 import html2canvas from "html2canvas";
 // eslint-disable-next-line no-unused-vars
 import jsPDF from "jspdf";
+import html2pdf from "html2pdf.js";
 
 export default {
   components: { GotoLogin, HR, Anaylsis },
@@ -279,17 +324,17 @@ export default {
   },
   data() {
     return {
-      fileData_HR: {},
-      fileTotal_HR: {},
+      fileData_HR: "",
+      fileTotal_HR: "",
       fileName_HR: "",
-      fileData_EM: {},
-      fileTotal_EM: {},
+      fileData_EM: "",
+      fileTotal_EM: "",
       fileName_EM: "",
-      fileData_CSR: {},
-      fileTotal_CSR: {},
+      fileData_CSR: "",
+      fileTotal_CSR: "",
       fileName_CSR: "",
-      fileData_CPR: {},
-      fileTotal_CPR: {},
+      fileData_CPR: "",
+      fileTotal_CPR: "",
       fileName_CPR: "",
       year: "1995",
       companyName: "companyName",
@@ -306,21 +351,68 @@ export default {
     ...mapActions({
       changeUploadVisible: "changeUploadVisible",
     }),
+    async testToPdf() {
+      const opt = {
+        margin: [0, 0],
+        filename: "myfile.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { dpi: 192, letterRendering: true },
+      };
+      this.$nextTick(() => {});
+      var x = document.querySelectorAll(".pageSetting");
+
+      const doc = new jsPDF(opt.jsPDF);
+      const pageSize = jsPDF.getPageSize(opt.jsPDF);
+      console.log(pageSize);
+      for (let i = 0; i < x.length; i++) {
+        const page = x[i];
+        const pageImage = await html2pdf()
+          .from(page)
+          .set({
+            pagebreak: {
+              mode: "avoid-all",
+            },
+          })
+          .set(opt)
+          .outputImg();
+        if (i != 0) {
+          doc.addPage();
+        }
+        doc.addImage(
+          pageImage.src,
+          "jpeg",
+          opt.margin[0],
+          opt.margin[1],
+          page.clientWidth,
+          page.clientHeight
+        );
+      }
+      // This can be whatever output you want. I prefer blob.
+      const pdf = doc.output("blob");
+      doc.save("a4.pdf");
+
+      return pdf;
+    },
     toPdf() {
       var x = document.querySelectorAll(".pageSetting");
       console.log(x);
       x.forEach(async (x, index, array) => {
-        await html2canvas(x).then((canvas) => {
-          var tg = document.querySelector(".forcanvas");
-          tg.appendChild(canvas);
-          if (array.length == index + 1) {
-            this.mixins_toPdf(this.$refs.print, "output");
-          }
-        });
+        await html2canvas(x)
+          .then((canvas) => {
+            var tg = document.querySelector(".forcanvas");
+            tg.appendChild(canvas);
+            if (array.length == index + 1) {
+              this.mixins_toPdf(this.$refs.print, "output");
+            }
+          })
+          .then(() => {
+            console.log("finished" + index);
+          });
       });
 
       // this.$nextTick(() => {
-      //   this.mixins_toPdf(this.$refs.print, "output");
+      //   console.log(this.$refs.printD.clientHeight);
+      //   this.mixins_toPdf(this.$refs.printD, "output");
       // });
     },
     fileTotalText(data) {
@@ -386,11 +478,11 @@ export default {
             this.fileData_HR.fileConfig.name = "Human Resources";
             questionPlugin.hr_plugin.forEach((val) => {
               console.log(val);
-              vm.fileData_HR.questions[val].q.forEach((val, index, array) => {
-                if (index > 0) {
-                  array[index].type = "textview";
-                }
-              });
+              // vm.fileData_HR.questions[val].q.forEach((val, index, array) => {
+              //   if (index > 0) {
+              //     array[index].type = "textview";
+              //   }
+              // });
             });
             break;
           case 1:
@@ -446,7 +538,23 @@ export default {
 p {
   white-space: pre-line;
 }
+.contents {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  margin-top: 10px;
+  .content-item {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .content-item-sub {
+    font-weight: normal;
 
+    margin-left: 10px;
+  }
+}
 .Report {
   flex: 5;
   height: 100%;
@@ -491,14 +599,12 @@ p {
   flex-direction: column;
   position: relative;
   .pdf {
-    display: block;
     width: auto;
-    overflow: auto;
   }
   .pageSetting {
     background-color: #fff;
-    width: 605px;
-    min-height: 1150px;
+    width: 805px;
+    min-height: 1100px;
     padding: 40px;
     box-sizing: border-box;
     display: block;
@@ -509,7 +615,7 @@ p {
     align-items: center;
     flex-direction: column;
     width: 605px;
-    height: 1150px;
+    height: 1100px;
   }
   &-commonpage {
   }
@@ -518,7 +624,7 @@ p {
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 605px;
+  width: 805px;
   margin: 0;
 }
 </style>

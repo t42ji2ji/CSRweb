@@ -52,7 +52,7 @@ const excelData = {
       q: [{
           type: "title",
           data: [
-            ['Water consumed', '2', 'bold'],
+            ['Water Consumption', '2', 'bold'],
             ['m3', '2', 'bold'],
           ]
         },

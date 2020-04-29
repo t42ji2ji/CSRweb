@@ -1,9 +1,9 @@
 <template lang="pug">
   .gotoLogin
     .loginDirect
-      h1 請先登入
+      h1 Please login
       router-link(to='/login')
-        .btn 前往登入 
+        .btn Login 
 
 </template>
 

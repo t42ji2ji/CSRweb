@@ -1,7 +1,6 @@
 <template lang="pug">
   .home(v-if="isLogin")
-    h2 CSR 資訊管理
-    h4 CSR DATA Management
+    h2 CSR DATA Management
     .tablegroup()
       Table(:data="csrTitle", :hover="isTitle" )
       Table(v-for="(item,index) in csrData", :id="index",:data="item", :key="index", @click.native="OpenTable(index)", v-if="mapFormAuth[index]")
@@ -21,7 +20,7 @@ export default {
   name: "home",
   components: {
     Table,
-    GotoLogin
+    GotoLogin,
   },
   mounted() {},
   data() {
@@ -29,44 +28,44 @@ export default {
       isTitle: false,
       csrTitle: [
         ["Department", "1", "bold"],
-        ["Data Input & Approva", "1", "normal"],
-        ["Last Update", "1", "normal"]
+        ["Data Input & Approval", "1", "normal"],
+        ["Last Update", "1", "normal"],
       ],
       csrData: [
         [
           ["Human Resources", "1", "bold"],
           ["MoMo Chan approved", "1", "normal"],
-          ["2019/04/01", "1", "normal"]
+          ["2019/04/01", "1", "normal"],
         ],
         [
           ["Engineering & Maintenance", "1", "bold"],
           ["Albert Leung input", "1", "normal"],
-          ["2019/04/01", "1", "normal"]
+          ["2019/04/01", "1", "normal"],
         ],
         [
           ["Customer Services & Relationship", "1", "bold"],
           ["Jose Ng input", "1", "normal"],
-          ["2019/04/01", "1", "normal"]
+          ["2019/04/01", "1", "normal"],
         ],
         [
           ["Community & Public Relations", "1", "bold"],
           ["Apple Wong approved", "1", "normal"],
-          ["2019/04/01", "1", "normal"]
-        ]
-      ]
+          ["2019/04/01", "1", "normal"],
+        ],
+      ],
     };
   },
   computed: {
     ...mapState({
       isLogin: "isLogin",
-      userData: "userData"
+      userData: "userData",
     }),
     mapFormAuth() {
       if (this.userData.level > 0) {
         return [true, true, true, true];
       }
       const compareTable = ["hr", "ENG&MAIN", "CumSer", "PubRel"];
-      var output = compareTable.map(val => {
+      var output = compareTable.map((val) => {
         if (this.userData.formVisible.includes(val)) {
           return true;
         } else {
@@ -74,13 +73,13 @@ export default {
         }
       });
       return output;
-    }
+    },
   },
   methods: {
     ...mapActions({
       openBlackBg: "isShowBlackBg",
       ChangeFileData: "ChangeFileData",
-      changeFormState: "changeFormState"
+      changeFormState: "changeFormState",
     }),
     async testUpload() {
       axios.defaults.headers.common[
@@ -91,8 +90,8 @@ export default {
           `https://csrweb.ahkui.com/api/form/hr`,
           {
             data: {
-              test: "123hr"
-            }
+              test: "123hr",
+            },
           }
         );
         console.log(response);
@@ -134,8 +133,8 @@ export default {
           break;
       }
       return data.excelData;
-    }
-  }
+    },
+  },
 };
 </script>
 

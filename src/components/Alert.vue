@@ -4,8 +4,8 @@
       .window
         h3 {{msg}}
         .btnGroup
-          .btn(@click="btnClick(true)") 確定
-          .btn(@click="btnClick(false)" v-if="showcancel") 取消
+          .btn.btn-confirm(@click="btnClick(true)") Confirm
+          .btn(@click="btnClick(false)" v-if="showcancel") Cancel
 
 </template>
 
@@ -15,7 +15,7 @@ export default {
     msg: {
       required: true,
       type: String,
-      default: "確定嗎"
+      default: "Are you sure ?"
     },
     isShow: {
       required: true,
