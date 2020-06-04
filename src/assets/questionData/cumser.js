@@ -259,6 +259,75 @@ const excelData = {
         ]
       }
     },
+    {
+      q: [{
+          type: "title",
+          data: [
+            ['Facilities', '2', 'bold'],
+            ['Y/N/NA', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Disabled lifts/ramps', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Directional tiles', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Priority seats for disabled', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Wheelchair', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Dedicated room for breastfeeding', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Disabled-friendly rooms', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: 'add',
+          data: [
+            ['add', '2', 'bold']
+          ]
+        },
+        {
+          type: "dash",
+          data: []
+        },
+      ],
+      s: {
+        type: "choose2",
+        data: [
+          ['Disabled lifts/ramps', '2', 'bold'],
+          ['Y', '2', 'bold'],
+        ]
+      },
+    },
   ]
 };
 

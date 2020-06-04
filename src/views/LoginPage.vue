@@ -115,7 +115,7 @@ import Table from "../components/Table";
 export default {
   components: {
     Alert,
-    Table,
+    Table
   },
   data() {
     return {
@@ -145,11 +145,11 @@ export default {
       formVisible: [],
       response: {},
       searchResult: [],
-      nowpage: 1,
+      nowpage: 1
     };
   },
   beforeRouteEnter(to, from, next) {
-    next((vm) => {
+    next(vm => {
       if (vm.userData.level > 0 && vm.isLogin) {
         vm.getAccount();
       }
@@ -158,7 +158,7 @@ export default {
   computed: {
     ...mapState({
       isLogin: "isLogin",
-      userData: "userData",
+      userData: "userData"
     }),
     alertAlt() {
       var validate;
@@ -177,7 +177,7 @@ export default {
           return {
             msg: `Confirm to register "${this.reg_username}" ?`,
             validate: validate,
-            validateMsg: validateMsg,
+            validateMsg: validateMsg
           };
         case "delete":
           if (
@@ -190,17 +190,17 @@ export default {
           }
           return {
             msg: `Confirm to delete "${this.del_username}" ?`,
-            validate: validate,
+            validate: validate
           };
         default:
           return "";
       }
-    },
+    }
   },
   methods: {
     ...mapActions({
       editUserdata: "editUserdata",
-      chnageLoginState: "chnageLoginState",
+      chnageLoginState: "chnageLoginState"
     }),
     test() {
       console.log("test");
@@ -219,7 +219,7 @@ export default {
         const response = await axios.post(
           `https://csrweb.ahkui.com/api/admin/user/${this.Visible_id.username}/formVisible`,
           {
-            formVisible: this.formVisible,
+            formVisible: this.formVisible
           }
         );
         if (response.data.status) {
@@ -288,14 +288,14 @@ export default {
       var vm = this;
       var output = data.users.map((val, index) => {
         var visible = "";
-        val.formVisible.forEach((val) => {
+        val.formVisible.forEach(val => {
           visible = visible.toUpperCase() + val + " ";
         });
         return [
           [index, "1", "normal"],
           [vm.altLevel(val.level), "2", "normal"],
           [val.username, "4", "normal"],
-          [visible, "6", "normal"],
+          [visible, "6", "normal"]
         ];
       });
       this.userList = output;
@@ -314,7 +314,7 @@ export default {
             "password-confirm": this.reg_password_confirm,
             realname: this.reg_realname,
             level: this.reg_premision,
-            formVisible: this.formVisible,
+            formVisible: this.formVisible
           }
         );
         if (response.data.status) {
@@ -444,7 +444,7 @@ export default {
           "https://csrweb.ahkui.com/api/user/login",
           {
             username: this.username,
-            password: this.password,
+            password: this.password
           }
         );
         if (response.data.status) {
@@ -478,8 +478,8 @@ export default {
       this.reg_realname = "";
       this.del_username = "";
       this.alertMsg = "";
-    },
-  },
+    }
+  }
 };
 </script>
 

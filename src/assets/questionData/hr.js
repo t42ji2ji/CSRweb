@@ -391,6 +391,132 @@ const excelData = {
         ]
       },
     },
+    {
+      q: [{
+          type: "title",
+          data: [
+            ['Benifit item', '2', 'bold'],
+            ['Y/N', '1', 'bold'],
+          ]
+        },
+        {
+          type: "choose",
+          data: [
+            ['Medical and Life Insurance Scheme', '2', 'bold'],
+            ['Y', '1', 'normal'],
+          ]
+        },
+        {
+          type: "choose",
+          data: [
+            ['Annual leave', '2', 'bold'],
+            ['Y', '1', 'normal'],
+          ]
+        },
+        {
+          type: "choose",
+          data: [
+            ['Sick Leave', '2', 'bold'],
+            ['Y', '1', 'normal'],
+          ]
+        },
+        {
+          type: "choose",
+          data: [
+            ['Compassionate leave', '2', 'bold'],
+            ['Y', '1', 'normal'],
+          ]
+        },
+        {
+          type: "choose",
+          data: [
+            ['Marriage leave', '2', 'bold'],
+            ['Y', '1', 'normal'],
+          ]
+        },
+        {
+          type: "choose",
+          data: [
+            ['Jury Service Leave', '2', 'bold'],
+            ['Y', '1', 'normal'],
+          ]
+        },
+        {
+          type: "choose",
+          data: [
+            ['Maternity leave', '2', 'bold'],
+            ['Y', '1', 'normal'],
+          ]
+        },
+        {
+          type: "choose",
+          data: [
+            ['Study leave', '2', 'bold'],
+            ['Y', '1', 'normal'],
+          ]
+        },
+        {
+          type: "choose",
+          data: [
+            ['Pension fund', '2', 'bold'],
+            ['Y', '1', 'normal'],
+          ]
+        },
+        {
+          type: "choose",
+          data: [
+            ['Study subsidy', '2', 'bold'],
+            ['Y', '1', 'normal'],
+          ]
+        },
+        {
+          type: "add",
+          data: [
+            ['Add', '2', 'bold']
+          ]
+        },
+        {
+          type: "dash",
+          data: []
+        },
+      ],
+      s: {
+        type: "choose",
+        data: [
+          ['Other', '2', 'bold'],
+          ['', '1', 'normal'],
+        ]
+      },
+    },
+    {
+      q: [{
+          type: "title",
+          data: [
+            ['', '2', 'bold'],
+            ['', '1', 'bold'],
+          ]
+        },
+        {
+          type: "input",
+          data: [
+            ['Cost spent on Training and Education : ', '2', 'bold'],
+            ['', '1', 'normal'],
+          ]
+        },
+
+        {
+          type: "dash",
+          data: []
+        },
+      ],
+      s: {
+        type: "input",
+        data: [
+          ['Cost spent on Training and Education : ', '2', 'bold'],
+          ['', '1', 'normal'],
+        ]
+      },
+    },
   ]
 };
 

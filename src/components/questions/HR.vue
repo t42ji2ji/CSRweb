@@ -8,7 +8,7 @@
       .datePicker(v-else="datepicker") 
         .title <b>Period: </b> {{Formate_date}} 
       .quote(v-for="(question, questionIndex) in fileData.questions")
-        Table(:hover="false", :data="item.data", :type="item.type", v-for="(item, index) in question.q", :key="item.data + index" :id="'table'+index", :class="{'tableOdd':index%2 != 1}", :tag="fileName + questionIndex + index", @addRow="addRow", :questionIndex="questionIndex", :qIndex="index", @editRow="editRow", @handleDeletRow="handleDeletRow", :deletRow="(item.type ==='input' || item.type === 'text')", @editValue="editValue")
+        Table(:hover="false", :data="item.data", :type="item.type", v-for="(item, index) in question.q", :key="item.data + index" :id="'table'+index", :class="{'tableOdd':index%2 != 1}", :tag="fileName + questionIndex + index", @addRow="addRow", :questionIndex="questionIndex", :qIndex="index", @editRow="editRow", @handleDeletRow="handleDeletRow", :deletRow="(item.type ==='input' || item.type === 'text'|| item.type === 'choose'|| item.type === 'choose2')", @editValue="editValue")
       .alert(v-if="isError") {{errorMsg}}
 
       .btn(v-if="isUploadPage && uploadVisible", @click="submit") Save
@@ -28,36 +28,36 @@ export default {
       type: Object,
       default: () => {
         return {};
-      }
+      },
     },
     datepicker: {
       type: Boolean,
-      default: false
+      default: false,
     },
     fileName: {
       required: true,
       type: String,
-      default: "No Table"
+      default: "No Table",
     },
     isUploadPage: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showChart: {
       type: Boolean,
-      default: false
+      default: false,
     },
     isAnalysisPage: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   components: {
-    Table
+    Table,
   },
   methods: {
     ...mapActions({
-      changeUploadVisible: "changeUploadVisible"
+      changeUploadVisible: "changeUploadVisible",
     }),
     addRow(arg) {
       var value = lodash.cloneDeep(this.fileData.questions[arg].s);
@@ -85,6 +85,10 @@ export default {
             array[index].q[qindex].type = "normal";
           } else if (qval.type === "text") {
             array[index].q[qindex].type = "textview";
+          } else if (qval.type === "choose") {
+            array[index].q[qindex].type = "textview";
+          } else if (qval.type === "choose2") {
+            array[index].q[qindex].type = "textview";
           } else if (qval.type === "add") {
             array[index].q.splice(qindex, 1);
           }
@@ -110,7 +114,7 @@ export default {
         const response = await axios.post(
           `https://csrweb.ahkui.com/api/form/${this.nowForm}`,
           {
-            data: data
+            data: data,
           }
         );
         if (response.data.status) {
@@ -129,7 +133,7 @@ export default {
       var inp = document.querySelectorAll(".question > input");
       var tex = document.querySelectorAll(".question > textarea");
       var state = false;
-      inp.forEach(item => {
+      inp.forEach((item) => {
         if (item.value == "") {
           item.classList.add("redinput");
           this.isError = true;
@@ -139,7 +143,7 @@ export default {
           item.classList.remove("redinput");
         }
       });
-      tex.forEach(item => {
+      tex.forEach((item) => {
         if (item.value == "") {
           item.classList.add("redinput");
           this.isError = true;
@@ -150,7 +154,7 @@ export default {
         }
       });
       return state;
-    }
+    },
   },
   computed: {
     ...mapState({
@@ -159,7 +163,7 @@ export default {
       userData: "userData",
       UploadData: "UploadData",
       blackBg: "blackBg",
-      uploadVisible: "uploadVisible"
+      uploadVisible: "uploadVisible",
     }),
     Formate_date() {
       if (this.fileData.fileConfig.date == undefined) {
@@ -170,7 +174,7 @@ export default {
         )} - ${dayjs(this.fileData.fileConfig.date.end).format("YYYY/MM/DD")}`;
         return dt;
       }
-    }
+    },
   },
   watch: {
     blackBg: {
@@ -178,8 +182,8 @@ export default {
       handler(val, oldval) {
         this.errorMsg = "";
         this.isError = false;
-      }
-    }
+      },
+    },
   },
   mounted() {},
   data() {
@@ -188,7 +192,7 @@ export default {
       questionTitle: [
         ["Staff Head Count", "2", "bold"],
         ["Male", "1", "normal"],
-        ["Female", "1", "normal"]
+        ["Female", "1", "normal"],
       ],
       test: "input",
       isError: false,
@@ -197,10 +201,10 @@ export default {
       questionField: [
         ["Directors", "2", "bold"],
         ["", "1", "normal"],
-        ["", "1", "normal"]
-      ]
+        ["", "1", "normal"],
+      ],
     };
-  }
+  },
 };
 </script>
 

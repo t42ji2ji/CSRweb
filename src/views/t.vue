@@ -149,8 +149,8 @@ export default {
   mixins: [toPdf],
   computed: {
     ...mapState({
-      isLogin: "isLogin"
-    })
+      isLogin: "isLogin",
+    }),
   },
   data() {
     return {
@@ -174,12 +174,12 @@ export default {
       imgSource:
         "https://upload.wikimedia.org/wikipedia/en/thumb/6/63/IMG_%28business%29.svg/1200px-IMG_%28business%29.svg.png",
       hyperlink: "https://hyperlink.com",
-      audit_firm: "audit_firms"
+      audit_firm: "audit_firms",
     };
   },
   methods: {
     ...mapActions({
-      changeUploadVisible: "changeUploadVisible"
+      changeUploadVisible: "changeUploadVisible",
     }),
     toPdf() {
       this.$nextTick(() => {
@@ -188,8 +188,8 @@ export default {
       });
     },
     fileTotalText(data) {
-      var output = data.questions.map(val => {
-        var x = val.q.map(val => {
+      var output = data.questions.map((val) => {
+        var x = val.q.map((val) => {
           if (val.type == "textview") {
             return val.data;
           }
@@ -205,12 +205,12 @@ export default {
         case 0:
           switch (step) {
             case 0:
-              cutTotal = filetotal.map(val => {
+              cutTotal = filetotal.map((val) => {
                 return val.slice(0, 3);
               });
               return cutTotal;
             case 1:
-              cutTotal = filetotal.map(val => {
+              cutTotal = filetotal.map((val) => {
                 return val.slice(4);
               });
               return cutTotal;
@@ -221,12 +221,12 @@ export default {
         case 3:
           switch (step) {
             case 0:
-              cutTotal = filetotal.map(val => {
+              cutTotal = filetotal.map((val) => {
                 return val.slice(0, 2);
               });
               return cutTotal;
             case 1:
-              cutTotal = filetotal.map(val => {
+              cutTotal = filetotal.map((val) => {
                 return val.slice(3);
               });
               return cutTotal;
@@ -248,7 +248,7 @@ export default {
             this.fileTotal_HR = ExtractExcel.calcTotal(data);
             this.fileName_HR = filename.name;
             this.fileData_HR.fileConfig.name = "Human Resources";
-            questionPlugin.hr_plugin.forEach(val => {
+            questionPlugin.hr_plugin.forEach((val) => {
               console.log(val);
               vm.fileData_HR.questions[val].q.forEach((val, index, array) => {
                 if (index > 0) {
@@ -262,7 +262,7 @@ export default {
             this.fileTotal_EM = ExtractExcel.calcTotal(data);
             this.fileName_EM = filename.name;
             this.fileData_EM.fileConfig.name = "Engineering & Maintenance";
-            questionPlugin.engmain_plugin.forEach(val => {
+            questionPlugin.engmain_plugin.forEach((val) => {
               vm.fileData_EM.questions[val].q.forEach((val, index, array) => {
                 if (index > 0) {
                   array[index].type = "textview";
@@ -276,7 +276,7 @@ export default {
             this.fileName_CSR = filename.name;
             this.fileData_CSR.fileConfig.name =
               "Customer Services & Relationship";
-            questionPlugin.cumser_plugin.forEach(val => {
+            questionPlugin.cumser_plugin.forEach((val) => {
               vm.fileData_CSR.questions[val].q.forEach((val, index, array) => {
                 if (index > 0) {
                   array[index].type = "textview";
@@ -289,7 +289,7 @@ export default {
             this.fileTotal_CPR = ExtractExcel.calcTotal(data);
             this.fileName_CPR = filename.name;
             this.fileData_CPR.fileConfig.name = "Community & Public Relations";
-            questionPlugin.pubrel_plugin.forEach(val => {
+            questionPlugin.pubrel_plugin.forEach((val) => {
               vm.fileData_CPR.questions[val].q.forEach((val, index, array) => {
                 if (index > 0) {
                   array[index].type = "textview";
@@ -301,8 +301,8 @@ export default {
             break;
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

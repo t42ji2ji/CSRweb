@@ -3,25 +3,42 @@
     //- number style
     .table.tableInput.tableInputBG(v-if="tableType[0]",:class="{ 'tablehover': hover}",)
       .title(:style="{flex: data[0][1], fontWeight: data[0][2], }" contenteditable="true" @input="onInput") {{data[0][0]}}
-      .inputContainer(v-for="(item, index) in inputArray", type="number",:style="{flex: item[1], fontWeight: item[2]}")
-        input.inputStyle(type="number", v-model="form.parentId[index] == undefined ? item[0] :  form.parentId[index] " @input="editValue(index, $event)", min="0" @keyup="keyup" )
+      .inputContainer(v-if="inputArray" v-for="(item, index) in inputArray", type="number",:style="{flex: item[1], fontWeight: item[2]}")
+        input.inputStyle(type="number", :value="form.parentId[index] == undefined ? item[0] :  form.parentId[index]" @input="editValue(index, $event)", min="0" @keyup="keyup" )
     //- textArea style
     .table.tableInput.tableInputBG(v-if="tableType[4]",:class="{ 'tablehover': hover}",)
       .title(:style="{flex: data[0][1], fontWeight: data[0][2], }",contenteditable="true" @input="onInput") {{data[0][0]}}
       .inputContainer(v-for="(item, index) in inputArray", :style="{flex: item[1], fontWeight: item[2]}")
-        textarea.inputStyle(type="number", v-model="form.parentId[index]" @input="editValue(index, $event)")
+        textarea.inputStyle(type="number",  @input="editValue(index, $event)") {{form.parentId[index] == undefined ? item[0] :  form.parentId[index]}}
     //- dash style
     .table.tableDash(:class="{ 'tablehover': hover}",v-if="tableType[1]")
     //- title style
     .table.tableTitle(:class="{ 'tablehover': hover}",v-if="tableType[2]")
-      .title.fz(v-for="(item,index) in data" :style="{flex: item[1], fontWeight: item[2]}") {{item[0]}}
+      .title.fz(v-for="(item,index) in data" :style="{flex: item[1], fontWeight: item[2]}") {{isNaN(item[0]) == true ? item[0] : parseFloat(item[0]).toFixed(2)}}
     //- normal Style
     .table(:class="{ 'tablehover': hover}",v-if="tableType[3]")
-      .title.fz(v-for="(item,index) in data" :style="{flex: item[1], fontWeight: item[2]}") {{item[0]}}
+      .title.fz(v-for="(item,index) in data" :style="{flex: item[1], fontWeight: item[2]}") {{item[0]}} 
     //- add Style
     .table(:class="{'tablehover': hover}",v-if="tableType[5]")
       .title.fz.add(v-for="(item,index) in data" :style="{flex: item[1], fontWeight: item[2]}",) 
         font-awesome-icon(icon="plus-circle" @click="addRow") Add
+    //- choose Style
+    .table(:class="{ 'tablehover': hover}",v-if="tableType[6]")
+      .title(:style="{flex: data[0][1], fontWeight: data[0][2], }",contenteditable="true" @input="onInput") {{data[0][0]}}
+      .inputContainer(v-for="(item, index) in inputArray", :style="{flex: item[1], fontWeight: item[2]}")
+        select(@input="editValue(index, $event)")
+          option(disabled value="") Y/N
+          option(value="Y") Y
+          option(value="N") N
+    //- choose2 Style
+    .table(:class="{ 'tablehover': hover}",v-if="tableType[7]")
+      .title(:style="{flex: data[0][1], fontWeight: data[0][2], }",contenteditable="true" @input="onInput") {{data[0][0]}}
+      .inputContainer(v-for="(item, index) in inputArray", :style="{flex: item[1], fontWeight: item[2]}")
+        select(@input="editValue(index, $event)")
+          option(disabled value="") Y/N/NA
+          option(value="Y") Y
+          option(value="N") N
+          option(value="N") NA
 
     .btn.deleteTable(v-if="deletBtn" ,@click="handleDel($event)") delete
     .btn.deleteRow(v-if="deletRow" ,@click="handleDeletRow") x
@@ -36,77 +53,74 @@ export default {
   props: {
     deletBtn: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
     deletRow: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
     questionIndex: {
       default: null,
-      type: Number
+      type: Number,
     },
     qIndex: {
       default: null,
-      type: Number
+      type: Number,
     },
     hover: {
       default: true,
-      type: Boolean
+      type: Boolean,
     },
     data: {
-      type: Array
+      type: Array,
     },
     type: {
       type: String,
-      default: ""
+      default: "",
     },
     refid: {
       type: String,
-      default: ""
+      default: "",
     },
     tag: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   data() {
     return {
       form: {
-        parentId: []
-      }
+        parentId: [],
+      },
     };
   },
-  created() {
-    console.log("create");
-  },
+  created() {},
   watch: {
     form: {
       // eslint-disable-next-line no-unused-vars
       handler(newval, oldval) {
         this.addUploadData([this.tag, newval.parentId]);
       },
-      deep: true
+      deep: true,
     },
     blackBg: {
       // eslint-disable-next-line no-unused-vars
       handler(newval, oldval) {
         this.form.parentId = [];
         var inputTag = document.querySelectorAll("input");
-        inputTag.forEach(value => {
+        inputTag.forEach((value) => {
           value.value = "";
         });
-      }
-    }
+      },
+    },
   },
   mounted() {},
   methods: {
     ...mapActions({
-      addUploadData: "addUploadData"
+      addUploadData: "addUploadData",
     }),
     keyup(e) {
       // eslint-disable-next-line no-undef
-      console.log(parseFloat(e.target.value));
       if (parseFloat(e.target.value) < 0) {
         e.target.value = 0;
       }
@@ -115,7 +129,6 @@ export default {
       this.$emit("handleDeletRow", this.questionIndex, this.qIndex);
     },
     onInput(e) {
-      // console.log(e.target.innerText, this.questionIndex, this.qIndex);
       this.$emit(
         "editRow",
         e.target.innerText,
@@ -141,46 +154,63 @@ export default {
     },
     handleClick() {
       this.$emit("openTable");
-    }
+    },
   },
   computed: {
     ...mapState({ blackBg: "blackBg" }),
     inputArray() {
-      return this.data.slice(1).map(item => {
+      return this.data.slice(1).map((item) => {
         return item;
       });
     },
     tableType() {
       //input dash title text add
-      var returnValue = [false, false, false, false, false, false];
+      var returnValue = [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+      ];
       switch (this.type) {
         case "input":
-          returnValue = [true, false, false, false, false, false];
+          returnValue[0] = true;
+          break;
+
+        case "choose2":
+          returnValue[7] = true;
+          break;
+
+        case "choose":
+          returnValue[6] = true;
           break;
 
         case "dash":
-          returnValue = [false, true, false, false, false, false];
+          returnValue[1] = true;
           break;
 
         case "title":
-          returnValue = [false, false, true, false, false, false];
+          returnValue[2] = true;
           break;
 
         case "text":
-          returnValue = [false, false, false, false, true, false];
+          returnValue[4] = true;
           break;
 
         case "add":
-          returnValue = [false, false, false, false, false, true];
+          returnValue[5] = true;
           break;
 
         default:
-          returnValue = [false, false, false, true, false, false];
+          returnValue[3] = true;
           break;
       }
       return returnValue;
-    }
-  }
+    },
+  },
 };
 </script>
 

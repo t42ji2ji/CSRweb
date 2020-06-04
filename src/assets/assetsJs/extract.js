@@ -111,9 +111,7 @@ const calcTotal = function (exceldata, isDone = false) {
   if (!isDone) {
     data = extractData(exceldata);
   }
-  console.log('========');
   if (data.questions) {
-    console.log();
     if (data.questions[0].q[0].data[0][0] === 'Staff Head Count') {
       // eslint-disable-next-line no-unused-vars
       data.questions[0].q.forEach((value, index) => {

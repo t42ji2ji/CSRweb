@@ -46,7 +46,7 @@ export default {
     BarChart,
     Table,
     Anaylsis,
-    GotoLogin
+    GotoLogin,
   },
   mixins: [toPdf],
   data() {
@@ -64,16 +64,16 @@ export default {
         scales: {
           yAxes: [
             {
-              stacked: true
-            }
+              stacked: true,
+            },
           ],
           xAxes: [
             {
-              stacked: true
-            }
-          ]
-        }
-      }
+              stacked: true,
+            },
+          ],
+        },
+      },
     };
   },
   mounted() {
@@ -83,11 +83,11 @@ export default {
     ...mapState({
       isLogin: "isLogin",
       userData: "userData",
-      uploadVisible: "uploadVisible"
+      uploadVisible: "uploadVisible",
     }),
     fileTotalText() {
-      var output = this.fileData.questions.map(val => {
-        var x = val.q.map(val => {
+      var output = this.fileData.questions.map((val) => {
+        var x = val.q.map((val) => {
           if (val.type == "textview") {
             return val.data;
           }
@@ -115,12 +115,12 @@ export default {
         default:
           return "";
       }
-    }
+    },
   },
   methods: {
     ...mapActions({
       changeFormState: "changeFormState",
-      changeUploadVisible: "changeUploadVisible"
+      changeUploadVisible: "changeUploadVisible",
     }),
     toPdf() {
       this.mixins_toPdf(this.$refs.qwrapper, this.fileName);
@@ -138,8 +138,7 @@ export default {
           case "Staff Head Count":
             this.fileData.fileConfig.name = "Human Resources";
             this.changeFormState(0);
-
-            questionPlugin.hr_plugin.forEach(val => {
+            questionPlugin.hr_plugin.forEach((val) => {
               vm.fileData.questions[val].q.forEach((val, index, array) => {
                 if (index > 0) {
                   array[index].type = "textview";
@@ -152,7 +151,7 @@ export default {
 
             this.changeFormState(1);
 
-            questionPlugin.engmain_plugin.forEach(val => {
+            questionPlugin.engmain_plugin.forEach((val) => {
               vm.fileData.questions[val].q.forEach((val, index, array) => {
                 if (index > 0) {
                   array[index].type = "textview";
@@ -163,7 +162,7 @@ export default {
           case "Satisfaction rate":
             this.fileData.fileConfig.name = "Customer Services & Relationship";
             this.changeFormState(2);
-            questionPlugin.cumser_plugin.forEach(val => {
+            questionPlugin.cumser_plugin.forEach((val) => {
               vm.fileData.questions[val].q.forEach((val, index, array) => {
                 if (index > 0) {
                   array[index].type = "textview";
@@ -174,7 +173,7 @@ export default {
           case "Donations":
             this.fileData.fileConfig.name = "Community & Public Relations";
             this.changeFormState(3);
-            questionPlugin.pubrel_plugin.forEach(val => {
+            questionPlugin.pubrel_plugin.forEach((val) => {
               vm.fileData.questions[val].q.forEach((val, index, array) => {
                 if (index > 0) {
                   array[index].type = "textview";
@@ -196,12 +195,12 @@ export default {
         return {
           label: value,
           backgroundColor: chromacolor[index],
-          data: this.fileTotal[1][nowIndex][index]
+          data: this.fileTotal[1][nowIndex][index],
         };
       });
       var chartData = {
         labels: ["Male", "Female"],
-        datasets: dataset
+        datasets: dataset,
       };
       return chartData;
     },
@@ -212,20 +211,20 @@ export default {
           {
             label: "Data One",
             backgroundColor: "#f87979",
-            data: [this.getRandomInt(), this.getRandomInt()]
+            data: [this.getRandomInt(), this.getRandomInt()],
           },
           {
             label: "Data One",
             backgroundColor: "#343432",
-            data: [this.getRandomInt(), this.getRandomInt()]
-          }
-        ]
+            data: [this.getRandomInt(), this.getRandomInt()],
+          },
+        ],
       };
     },
     getRandomInt() {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -256,6 +255,9 @@ export default {
   display: flex;
   align-items: center;
   flex-direction: column;
+  .pdf {
+    width: 90%;
+  }
 }
 
 .btn {

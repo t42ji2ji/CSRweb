@@ -243,14 +243,14 @@ const excelData = {
           type: "text",
           data: [
             ['Knit for Charity', '2', 'bold'],
-            ['', '2', 'normal'],
+            ['', '2', 'bold'],
           ]
         },
         {
           type: "text",
           data: [
             ['Career Exploration Workshops for Students with Special Needs', '2', 'bold'],
-            ['', '2', 'normal'],
+            ['', '2', 'bold'],
 
           ]
         },
@@ -269,9 +269,197 @@ const excelData = {
         type: "text",
         data: [
           ['Knit for Charity', '2', 'bold'],
-          ['', '2', 'normal'],
+          ['', '2', 'bold'],
         ]
       }
+    },
+    {
+      q: [{
+          type: "title",
+          data: [
+            ['Related policies', '2', 'bold'],
+            ['Y/N/NA', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Macau Penal Code', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['The rules of the Convention on Combating Bribery of Foreign Public Officials in International Business Transactions (the “OECD Convention”)', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Anti-corruption policy', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Charitable contributions and sponsorships policy', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Code of Business conduct and ethics', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Compliance program', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Conflicts of interest policy', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Politically exposed person standard operating procedure', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Reporting and non-retaliation policy', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Supplier code of conduct', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Third-party due diligence procedure', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Third-party travel, gifts and entertainment policy', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Anti-money laundering procedure', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: "choose2",
+          data: [
+            ['Privacy policy (Macao personal data protection Act)', '2', 'bold'],
+            ['Y', '2', 'bold'],
+          ]
+        },
+        {
+          type: 'add',
+          data: [
+            ['add', '2', 'bold']
+          ]
+        },
+        {
+          type: "dash",
+          data: []
+        },
+      ],
+      s: {
+        type: "choose2",
+        data: [
+          ['Macau Penal Code', '2', 'bold'],
+          ['Y', '2', 'bold'],
+        ]
+      },
+    },
+    {
+      q: [{
+          type: "title",
+          data: [
+            ['Dimensions', '2', 'bold'],
+            ['Details', '2', 'bold'],
+          ]
+        },
+        {
+          type: "text",
+          data: [
+            ['Team member training', '2', 'bold'],
+            ['', '2', 'bold'],
+          ]
+        },
+        {
+          type: "text",
+          data: [
+            ['Ambassador assistance', '2', 'bold'],
+            ['', '2', 'bold'],
+          ]
+        },
+        {
+          type: "text",
+          data: [
+            ['Prominent signage for resources', '2', 'bold'],
+            ['', '2', 'bold'],
+          ]
+        },
+        {
+          type: "text",
+          data: [
+            ['Partnering with local organizations', '2', 'bold'],
+            ['', '2', 'bold'],
+          ]
+        },
+        {
+          type: "text",
+          data: [
+            ['Others', '2', 'bold'],
+            ['', '2', 'bold'],
+          ]
+        },
+
+        {
+          type: 'add',
+          data: [
+            ['add', '2', 'bold']
+          ]
+        },
+        {
+          type: "dash",
+          data: []
+        },
+      ],
+      s: {
+        type: "text",
+        data: [
+          ['Team member training', '2', 'bold'],
+          ['', '2', 'bold'],
+        ]
+      },
     },
   ]
 };
