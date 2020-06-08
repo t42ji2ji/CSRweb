@@ -631,9 +631,8 @@ p {
     box-sizing: border-box;
     display: block;
     position: relative;
-    border: 1px solid rgb(187, 187, 187);
-    background-image: linear-gradient(rgb(187, 187, 187) 2px, transparent 2px);
-    background-size: 1px 1118px;
+    background-image: linear-gradient(rgb(255, 26, 26) 3px, transparent 0px);
+    background-size: 2px 1118px;
     background-position: -2px -2px;
   }
   .nobgi {
