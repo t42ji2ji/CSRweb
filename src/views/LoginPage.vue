@@ -2,7 +2,7 @@
   .Login(v-if="!isLogin")
     .Cover
       img(src="https://s.w.org/style/images/about/WordPress-logotype-alternative.png", alt="")
-    form(@submit="Loggin")
+    form(v-on:submit.prevent="Loggin")
       .testfiled Account：
         input(v-model="username")
       .testfiled Password：
@@ -106,16 +106,16 @@
 </template>
 
 <script>
-import axios from "axios";
-import Alert from "../components/Alert";
-import { mapActions } from "vuex";
-import { mapState } from "vuex";
-import Table from "../components/Table";
+import axios from 'axios';
+import Alert from '../components/Alert';
+import { mapActions } from 'vuex';
+import { mapState } from 'vuex';
+import Table from '../components/Table';
 
 export default {
   components: {
     Alert,
-    Table
+    Table,
   },
   data() {
     return {
@@ -123,33 +123,33 @@ export default {
       userList: [],
       isBtnDisable: { lastPage: false, nextPage: false, reg: false },
       showVisible: false,
-      Visible_id: "",
-      search_username: "",
-      isSearchError: "",
-      username: "",
-      password: "",
+      Visible_id: '',
+      search_username: '',
+      isSearchError: '',
+      username: '',
+      password: '',
       isLogError: false,
       isRegError: false,
       isDelError: false,
-      LoggMessage: "",
-      reg_username: "",
-      reg_password: "",
-      reg_premision: "",
-      reg_password_confirm: "",
-      reg_realname: "",
-      del_username: "",
-      alertMsg: "",
+      LoggMessage: '',
+      reg_username: '',
+      reg_password: '',
+      reg_premision: '',
+      reg_password_confirm: '',
+      reg_realname: '',
+      del_username: '',
+      alertMsg: '',
       alertShow: false,
-      alertState: "",
+      alertState: '',
       showcancel: true,
       formVisible: [],
       response: {},
       searchResult: [],
-      nowpage: 1
+      nowpage: 1,
     };
   },
   beforeRouteEnter(to, from, next) {
-    next(vm => {
+    next((vm) => {
       if (vm.userData.level > 0 && vm.isLogin) {
         vm.getAccount();
       }
@@ -157,53 +157,53 @@ export default {
   },
   computed: {
     ...mapState({
-      isLogin: "isLogin",
-      userData: "userData"
+      isLogin: 'isLogin',
+      userData: 'userData',
     }),
     alertAlt() {
       var validate;
-      var validateMsg = "";
+      var validateMsg = '';
       switch (this.alertState) {
-        case "register":
+        case 'register':
           if (
-            this.reg_username == "" ||
-            this.reg_password == "" ||
-            this.reg_premision == "" ||
-            this.reg_realname == ""
+            this.reg_username == '' ||
+            this.reg_password == '' ||
+            this.reg_premision == '' ||
+            this.reg_realname == ''
           ) {
             validate = false;
-            validateMsg = "empty";
+            validateMsg = 'empty';
           }
           return {
             msg: `Confirm to register "${this.reg_username}" ?`,
             validate: validate,
-            validateMsg: validateMsg
+            validateMsg: validateMsg,
           };
-        case "delete":
+        case 'delete':
           if (
-            this.reg_username == "" ||
-            this.reg_password == "" ||
-            this.reg_premision == ""
+            this.reg_username == '' ||
+            this.reg_password == '' ||
+            this.reg_premision == ''
           ) {
             validate = false;
-            validateMsg = "empty";
+            validateMsg = 'empty';
           }
           return {
             msg: `Confirm to delete "${this.del_username}" ?`,
-            validate: validate
+            validate: validate,
           };
         default:
-          return "";
+          return '';
       }
-    }
+    },
   },
   methods: {
     ...mapActions({
-      editUserdata: "editUserdata",
-      chnageLoginState: "chnageLoginState"
+      editUserdata: 'editUserdata',
+      changeLoginState: 'changeLoginState',
     }),
     test() {
-      console.log("test");
+      console.log('test');
     },
     updateForm(index) {
       this.Visible_id = this.response.users[index];
@@ -212,19 +212,19 @@ export default {
     async updateVisible() {
       this.isUpdateError = false;
       axios.defaults.headers.common[
-        "Authorization"
+        'Authorization'
       ] = `Bearer ${this.userData.token}`;
       var vm = this;
       try {
         const response = await axios.post(
           `https://csrweb.ahkui.com/api/admin/user/${this.Visible_id.username}/formVisible`,
           {
-            formVisible: this.formVisible
+            formVisible: this.formVisible,
           }
         );
         if (response.data.status) {
           this.isUpdateError = true;
-          this.notLoggin("Update Success");
+          this.notLoggin('Update Success');
           this.getAccount();
           this.clearInput();
           setTimeout(function() {
@@ -245,26 +245,26 @@ export default {
     altLevel(data) {
       var level = data.toString();
       switch (level) {
-        case "0":
-          return "Member";
-        case "1":
-          return "Manager";
-        case "2":
-          return "Super Manager";
+        case '0':
+          return 'Member';
+        case '1':
+          return 'Manager';
+        case '2':
+          return 'Super Manager';
       }
-      return "123";
+      return '123';
     },
     handleAlert(payload) {
       this.alertShow = false;
       if (payload) {
         switch (this.alertState) {
-          case "register":
+          case 'register':
             this.registerAccount();
             break;
-          case "delete":
+          case 'delete':
             this.deleteAccount();
             break;
-          case "search":
+          case 'search':
             this.getAccount();
             break;
           default:
@@ -287,15 +287,15 @@ export default {
     altUserList(data) {
       var vm = this;
       var output = data.users.map((val, index) => {
-        var visible = "";
-        val.formVisible.forEach(val => {
-          visible = visible.toUpperCase() + val + " ";
+        var visible = '';
+        val.formVisible.forEach((val) => {
+          visible = visible.toUpperCase() + val + ' ';
         });
         return [
-          [index, "1", "normal"],
-          [vm.altLevel(val.level), "2", "normal"],
-          [val.username, "4", "normal"],
-          [visible, "6", "normal"]
+          [index, '1', 'normal'],
+          [vm.altLevel(val.level), '2', 'normal'],
+          [val.username, '4', 'normal'],
+          [visible, '6', 'normal'],
         ];
       });
       this.userList = output;
@@ -303,23 +303,23 @@ export default {
     async registerAccount() {
       this.isRegError = false;
       axios.defaults.headers.common[
-        "Authorization"
+        'Authorization'
       ] = `Bearer ${this.userData.token}`;
       try {
         const response = await axios.post(
-          "https://csrweb.ahkui.com/api/admin/user/new",
+          'https://csrweb.ahkui.com/api/admin/user/new',
           {
             username: this.reg_username,
             password: this.reg_password,
-            "password-confirm": this.reg_password_confirm,
+            'password-confirm': this.reg_password_confirm,
             realname: this.reg_realname,
             level: this.reg_premision,
-            formVisible: this.formVisible
+            formVisible: this.formVisible,
           }
         );
         if (response.data.status) {
           this.isRegError = true;
-          this.notLoggin("Success");
+          this.notLoggin('Success');
           this.clearInput();
           this.getAccount();
         } else {
@@ -333,7 +333,7 @@ export default {
     async deleteAccount() {
       this.isDelError = false;
       axios.defaults.headers.common[
-        "Authorization"
+        'Authorization'
       ] = `Bearer ${this.userData.token}`;
       try {
         const response = await axios.delete(
@@ -341,7 +341,7 @@ export default {
         );
         if (response.data.status) {
           this.isDelError = true;
-          this.notLoggin("成功刪除 " + this.del_username);
+          this.notLoggin('成功刪除 ' + this.del_username);
           this.clearInput();
           this.getAccount();
         } else {
@@ -351,7 +351,7 @@ export default {
       } catch (error) {
         console.error(error);
         this.isDelError = true;
-        this.notLoggin("找不到帳號 " + this.del_username);
+        this.notLoggin('找不到帳號 ' + this.del_username);
       }
     },
     pageChange(isNext) {
@@ -378,7 +378,7 @@ export default {
       this.btnClear(false);
       var limit = 10;
 
-      var url = "";
+      var url = '';
       if (isSearch) {
         url = `https://csrweb.ahkui.com/api/admin/user?limit=${limit}&page=${page}&q=${this.search_username}`;
       } else {
@@ -387,7 +387,7 @@ export default {
 
       this.isSearchError = false;
       axios.defaults.headers.common[
-        "Authorization"
+        'Authorization'
       ] = `Bearer ${this.userData.token}`;
       try {
         const response = await axios.get(url);
@@ -410,54 +410,53 @@ export default {
       } catch (error) {
         console.error(error);
         this.isSearchError = true;
-        this.notLoggin("找不到帳號 " + this.search_username);
+        this.notLoggin('找不到帳號 ' + this.search_username);
       }
     },
 
     async Logout() {
       axios.defaults.headers.common[
-        "Authorization"
+        'Authorization'
       ] = `Bearer ${this.userData.token}`;
       try {
         const response = await axios.post(
-          "https://csrweb.ahkui.com/api/user/logout"
+          'https://csrweb.ahkui.com/api/user/logout'
         );
         if (response.data.status) {
-          this.chnageLoginState();
+          this.changeLoginState();
           this.editUserdata(response.data);
           this.clearState();
         } else {
-          this.notLoggin("Logout Fail");
+          this.notLoggin('Logout Fail');
         }
       } catch (error) {
         console.error(error);
       }
     },
     async Loggin() {
-      console.log("Login");
+      // eslint-disable-next-line no-unreachable
       if (this.loginLock) {
         return;
       }
       this.loginLock = true;
       try {
         const response = await axios.post(
-          "https://csrweb.ahkui.com/api/user/login",
+          'https://csrweb.ahkui.com/api/user/login',
           {
             username: this.username,
-            password: this.password
+            password: this.password,
           }
         );
         if (response.data.status) {
           this.isLogError = false;
           this.loginLock = false;
-          this.chnageLoginState();
+          this.changeLoginState();
           this.editUserdata(response.data);
           this.getAccount();
         } else {
           this.isLogError = true;
           this.loginLock = false;
-
-          this.notLoggin("Account or password not correct");
+          this.notLoggin('Account or password not correct');
         }
       } catch (error) {
         this.loginLock = false;
@@ -470,16 +469,16 @@ export default {
       this.isLogError = false;
     },
     clearInput() {
-      this.reg_username = "";
+      this.reg_username = '';
       this.formVisible = [];
-      this.reg_password = "";
-      this.reg_premision = "";
-      this.reg_password_confirm = "";
-      this.reg_realname = "";
-      this.del_username = "";
-      this.alertMsg = "";
-    }
-  }
+      this.reg_password = '';
+      this.reg_premision = '';
+      this.reg_password_confirm = '';
+      this.reg_realname = '';
+      this.del_username = '';
+      this.alertMsg = '';
+    },
+  },
 };
 </script>
 
@@ -536,9 +535,9 @@ form {
   grid-template-columns: auto 20px 1fr;
   grid-template-rows: auto 20px 1fr;
   grid-template-areas:
-    "reg  gap account"
-    "no gap account"
-    "delete gap account";
+    'reg  gap account'
+    'no gap account'
+    'delete gap account';
 }
 .account_grid {
   grid-area: account;

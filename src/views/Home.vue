@@ -9,15 +9,15 @@
 </template>
 
 <script>
-import Table from "../components/Table.vue";
-import GotoLogin from "../components/GotoLogin.vue";
-import { mapActions } from "vuex";
-import { mapState } from "vuex";
-import axios from "axios";
-import lodash from "lodash";
+import Table from '../components/Table.vue';
+import GotoLogin from '../components/GotoLogin.vue';
+import { mapActions } from 'vuex';
+import { mapState } from 'vuex';
+import axios from 'axios';
+import lodash from 'lodash';
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
     Table,
     GotoLogin,
@@ -27,44 +27,44 @@ export default {
     return {
       isTitle: false,
       csrTitle: [
-        ["Department", "1", "bold"],
-        ["Data Input & Approval", "1", "normal"],
-        ["Last Update", "1", "normal"],
+        ['Department', '1', 'bold'],
+        ['Data Input & Approval', '1', 'normal'],
+        ['Last Update', '1', 'normal'],
       ],
       csrData: [
         [
-          ["Human Resources", "1", "bold"],
-          ["MoMo Chan approved", "1", "normal"],
-          ["2019/04/01", "1", "normal"],
+          ['Human Resources', '1', 'bold'],
+          ['MoMo Chan approved', '1', 'normal'],
+          ['2019/04/01', '1', 'normal'],
         ],
         [
-          ["Engineering & Maintenance", "1", "bold"],
-          ["Albert Leung input", "1", "normal"],
-          ["2019/04/01", "1", "normal"],
+          ['Engineering & Maintenance', '1', 'bold'],
+          ['Albert Leung input', '1', 'normal'],
+          ['2019/04/01', '1', 'normal'],
         ],
         [
-          ["Customer Services & Relationship", "1", "bold"],
-          ["Jose Ng input", "1", "normal"],
-          ["2019/04/01", "1", "normal"],
+          ['Customer Services & Relationship', '1', 'bold'],
+          ['Jose Ng input', '1', 'normal'],
+          ['2019/04/01', '1', 'normal'],
         ],
         [
-          ["Community & Public Relations", "1", "bold"],
-          ["Apple Wong approved", "1", "normal"],
-          ["2019/04/01", "1", "normal"],
+          ['Community & Public Relations', '1', 'bold'],
+          ['Apple Wong approved', '1', 'normal'],
+          ['2019/04/01', '1', 'normal'],
         ],
       ],
     };
   },
   computed: {
     ...mapState({
-      isLogin: "isLogin",
-      userData: "userData",
+      isLogin: 'isLogin',
+      userData: 'userData',
     }),
     mapFormAuth() {
       if (this.userData.level > 0) {
         return [true, true, true, true];
       }
-      const compareTable = ["hr", "ENG&MAIN", "CumSer", "PubRel"];
+      const compareTable = ['hr', 'ENG&MAIN', 'CumSer', 'PubRel'];
       var output = compareTable.map((val) => {
         if (this.userData.formVisible.includes(val)) {
           return true;
@@ -77,26 +77,26 @@ export default {
   },
   methods: {
     ...mapActions({
-      openBlackBg: "isShowBlackBg",
-      ChangeFileData: "ChangeFileData",
-      changeFormState: "changeFormState",
+      openBlackBg: 'isShowBlackBg',
+      ChangeFileData: 'ChangeFileData',
+      changeFormState: 'changeFormState',
     }),
     async testUpload() {
       axios.defaults.headers.common[
-        "Authorization"
+        'Authorization'
       ] = `Bearer ${this.userData.token}`;
       try {
         const response = await axios.post(
           `https://csrweb.ahkui.com/api/form/hr`,
           {
             data: {
-              test: "123hr",
+              test: '123hr',
             },
           }
         );
         console.log(response);
         // if (response.data.status) {
-        //   this.chnageLoginState();
+        //   this.changeLoginState();
         //   this.editUserdata(response.data);
         //   this.clearState();
         // } else {
@@ -116,18 +116,18 @@ export default {
     mapData(str) {
       var data = {};
       switch (str) {
-        case "Human Resources":
+        case 'Human Resources':
           // data = require("../assets/questionData/hr");
-          data = lodash.cloneDeep(require("../assets/questionData/hr"));
+          data = lodash.cloneDeep(require('../assets/questionData/hr'));
           break;
-        case "Engineering & Maintenance":
-          data = lodash.cloneDeep(require("../assets/questionData/eng&main"));
+        case 'Engineering & Maintenance':
+          data = lodash.cloneDeep(require('../assets/questionData/eng&main'));
           break;
-        case "Customer Services & Relationship":
-          data = lodash.cloneDeep(require("../assets/questionData/cumser"));
+        case 'Customer Services & Relationship':
+          data = lodash.cloneDeep(require('../assets/questionData/cumser'));
           break;
-        case "Community & Public Relations":
-          data = lodash.cloneDeep(require("../assets/questionData/pubrel"));
+        case 'Community & Public Relations':
+          data = lodash.cloneDeep(require('../assets/questionData/pubrel'));
           break;
         default:
           break;

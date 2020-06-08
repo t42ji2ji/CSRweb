@@ -53,7 +53,7 @@ export default new Vuex.Store({
     changeFormState(context, index) {
       context.commit('nowFormState', index);
     },
-    chnageLoginState(context) {
+    changeLoginState(context) {
       context.commit('loginState');
     },
     editUserdata(context, data) {
